@@ -1,0 +1,332 @@
+ 
+echo "- - -" >> /sys/class/scsi_host/host0/scan
+echo "- - -" >> /sys/class/scsi_host/host1/scan
+echo "- - -" >> /sys/class/scsi_host/host2/scan
+echo "- - -" >> /sys/class/scsi_host/host3/scan
+
+lsblk
+
+how to delete disk from vm
+===================
+
+step 1 : 
+	disable the disk
+	echo offline > /sys/block/sdd/device/state
+step 2 : 
+	delete disk from server
+	echo 1 > /sys/block/sdd/device/delete
+Step 3 : 
+	right click on vm and select settings here click on right disk and delete it
+
+------------------------------------
+
+
+mount partition with uuid
+=====================
+get the uuid of partiton
+blkid
+or
+blkid -o list
+
+mount UUID=" dljflsakfjl"  /b27
+
+vi /etc/fstab
+
+UUID="dljflsakfjl"   /b27   xfs defaults 1 1
+
+==> one with UUID,
+==> /dev/vgname/lvname
+==> /dev/mapper/vgname-lvname 
+
+===================
+
+File Management
+User Management
+Disk management
+
+---------------------------------------------------
+Software management / Package Management
+
+set of statements ==> program
+set of programs ==> software/package
+
+			
+			1. Install ==>whenever you install package,, /etc, /lib, /usr/bin, /usr/sbin.......
+			2. Uninstall ==> removing the package... /etc, /lib, /usr/bin, /usr/sbin.......
+			3. Upgrade ==> it will overwrite with the existing package , once you upgrade, you can NOT downgrade..
+			4. Update ==> It will update on top of old package, once you update a package, you can downgrade 
+ 			5  Query about package ==> package info, .............
+
+REDHAT	
+        1. RPM (redhat package manager)
+	2. YUM(Yellowdog update modifier ) (advanced)
+SUSE    1. RPM
+	2. zypper (Advanced)
+
+	rpm will across all linux flavours
+	yum : redhat,centos,fedora
+
+	rpm  : suse,Redhat,ubuntu,debian,centos
+		rpm -i pkgname
+		rpm -e pkgname
+		rpm -U pkgname
+	i = install
+	e = errase
+	U = upgrade		
+
+	suse : zypper ( zypper install packagename,zypper remove packagename, zypper update packagename )
+	ubuntu/debian = apt or aptitude (apt get packagename, apt install packagename, apt remove packagename)
+	redhat/centos : yum ( yum install pkgname, yum remove pkgname, yum update pkgname, yum upgrade pkgname)
+
+
+RPM = Redhat package manager
+YUM = yollowdog update modified
+----------------------------
+you require packages to install..
+where to get the packages?
+there are 2 ways to get the rpm packages...
+ ==> CD/DVD ==> ISO image file
+ ==> Redhat satellite server ==> https://redhat.com/repo..........................
+==> you can download 
+
+zip-3.0-11.el7.x86_64.rpm
+zlib-1.2.7-18.el7.i686.rpm
+zlib-1.2.7-18.el7.x86_64.rpm
+zlib-devel-1.2.7-18.el7.i686.rpm
+zlib-devel-1.2.7-18.el7.x86_64.rpm
+zsh-5.0.2-31.el7.x86_64.rpm
+zziplib-0.13.62-9.el7.i686.rpm
+zziplib-0.13.62-9.el7.x86_64.rpm
+
+bigdata-3.0-123.x86_64.rpm
+
+vsftpd-3.0.2-27.el7.x86_64.rpm
+
+RHEL
+Redhat Enterprise Linux
+el7
+
+<Name>-<version>-<update>.<OS version>.<arch>.rpm
+<Name>-<version>-<update>.<arch>.rpm
+----------------------------------
+internally redhat uses brekly database for package storing...
+-----------------------------------------
+install a rpm package
+rpm -ivh packagePath
+	rpm -ivh packagePath
+	i=install
+	v=verbose
+	h=hashing progress
+
+uninstall a rpm package
+rpm -evh packagename
+	e=erase
+	v=verbose
+	h= hashing progress
+
+rpm -Uvh packagePath
+	U=updating a package
+	v=verbose
+	h= hashing progress
+
+it will downgrade the package..
+rpm -Uvh packagePath --oldpackage packagename
+
+how to reinstalll a package using rpm?
+	rpm -ivh packagePath --force
+
+how to get all the installed packages 
+rpm -qa
+
+***how to get all the installed package along with dateand time?
+rpm -qa --last | more
+
+how to check installed packages ..?
+rpm -qa | wc -l 
+***************************************************************************
+												after install
+
+rpm -qi <installed pkgname>  information
+rpm -qf <installed pkgname>  ==> to get the packagename from a file..
+rpm -qd <installed pkgname> ==> query documents
+rpm -qc <installed pkgname> ==> query configuration files
+rpm -qa <installed pkgname> ==> query all
+rpm -qR <installed pkgname> ==> query libraries or depencies.
+**********************************************************************************
+													before install
+rpm -qip <obsolute pkgname>.rpm
+rpm -qfp <obsolute pkgname>.rpm
+rpm -qdp <obsolute pkgname>.rpm
+rpm -qcp <obsolute pkgname>.rpm
+rpm -qap <obsolrute pkgname>.rpm
+rpm -qRp <obsolute pkgname>.rpm
+
+****************************************************************************************
+how to intsall a package using rpm?
+how to reinstall a package using rpm?
+how to remove/uninstall a package using rpm?
+how to update a package?
+how to check whether package is installled or not?
+how to get the installed package information?
+how to check all the configuration files of a installed package using rpm?
+how to check all the documents of a installed package?
+for example, root user itself unable to run a command due to some permissiong missing what you do? (chmod)
+
+
+--------------------------------------------
+
+rpm and yum commonly using one db, the Database name is berkly.
+    the database will be there in /var/lib/rpm/
+
+rpm -qa vsftpd
+rpm -ivh pkgname
+
+rpm -qi vsftpd
+
+i : information about installed pkg
+
+rpm -qd vsftpd
+documents about this software(vsftpd)
+
+the below command is for list recently installed softwares.
+
+rpm -qa --last | more
+
+
+	/boot
+	/root
+	/etc
+	/var
+	/usr/bin
+	/usr/sbin
+	/lib
+	 			
+
+* openssh package we are installing. once we install software or rpm in which directory place will be occupied?
+	configuration files will store in /etc
+	libraries related to that rpm /lib
+	commands related to that rpm /usr/bin or /usr/sbin
+
+
+	
+* How to listout related configuration files of rpm?
+	rpm -qc pkgname
+ 	
+	rpm -qf filename
+the above command will list out the package of filename. 
+	eg: /etc/fstab
+	this file is generated by which rpm/software.
+
+	
+* unfortunatly permissions has been set like 000 for chmod command? how you can rectify this issue?
+
+	chmod 000 /usr
+
+	step 1: we identified which rpm generated this /usr/bin/chmod file
+		rpm -qf /usr/bin/chmod
+			coreutils is the one generated /usr/bin/chmod
+	step 2: I reinstalled coreutils package.it solved the issue
+		rpm -ivh coreutils-*******.rpm --force
+		rpm -ivh /media/Packages/coreutils-8.22-21.el7.x86_64.rpm --force
+
+* unfortunatly yum command has been removed.how you can rectify this issue?
+* unfortunatly we have deleted chmod command? how we can resolve this issue?
+step 1: login to other machine & identified which rpm generated this /usr/bin/chmod file
+		rpm -qf /usr/bin/chmod
+		coreutils is the one generated /usr/bin/chmod
+step 2: I reinstalled coreutils package.it solved the issue
+		rpm -ivh coreutils-*******.rpm --force
+after install
+rpm -qi <installed pkgname>  information
+rpm -qf <installed pkgname>  
+rpm -qd <installed pkgname>
+rpm -qc <installed pkgname>
+rpm -qa <installed pkgname>
+rpm -qR <installed pkgname>
+
+before install
+rpm -qip <obsolute pkgname>.rpm
+rpm -qfp <obsolute pkgname>.rpm
+rpm -qdp <obsolute pkgname>.rpm
+rpm -qcp <obsolute pkgname>.rpm
+rpm -qap <obsolute pkgname>.rpm
+rpm -qRp <obsolute pkgname>.rpm
+
+* How to identify dependencies of one of the rpm
+rpm -qRp /media/Packages/createrepo-0.9.9-28.el7.noarch.rpm
+
+
+		install
+		remove
+		query
+		update
+		upgrade
+
+rpm -Uvh pkgname 
+to upgrade the pkg.
+rpm -Uvh /root/vsftpd-3.0.2-27.el7.x86_64.rpm
+* downgrade
+rpm -Uvh --oldpackage /media/Packages/vsftpd-3.0.2-22.el7.x86_64.rpm
+ Note : make sure old package is exist in your machine.
+
+
+
+How to reinstall pkg?
+rpm -ivh pkgname --force
+
+How to maintain old and latest version pkgs?
+
+rpm -ivh pkg.rpm --force
+how to reinstall the rpm
+rpm -ivh pkg.rpm --force
+
+-----------------------------------------------------------------------------------------------------------------------
+  958 yum repolist
+  959  lsblk
+  960  mount /dev/sr0 /media/
+  961  lsblk
+  962  rpm -ivh /media/Packages/tree-1.6.0-10.el7.x86_64.rpm
+  963  cd /media/Packages/
+  964  cd /media/
+  965   ls
+  966  clear
+  967tree
+  966  mkdir -p india/{ap/{kostha,rayalaseema/{kadapa,kurnool,chithoor,ananthapur}},telangana}
+  967  cd
+  968  mkdir -p india/{ap/{kostha,rayalaseema/{kadapa,kurnool,chithoor,ananthapur}},telangana}
+  969  clear
+  970  ls -R india/
+  971  rpm -ivh  /media/Packages/tree-1.6.0-10.el7.x86_64.rpm 
+  972  tree india/
+  973  rpm -ivh /media/Packages/tree-1.6.0-10.el7.x86_64.rpm 
+  974  rpm -evh tree
+  975  tree
+  976  rpm -ivh /media/Packages/vsftpd-3.0.2-25.el7.x86_64.rpm 
+  977  rpm -qi tree
+  978  rpm -qi vsftpd
+  979  rpm -qd vsftpd
+  980  rpm -qc vsftpd
+  981  rpm -qa tree
+  982  rpm -qa vsftpd
+  983  rpm -qa abcd
+  984  rpm -qR vsftpd
+  985  rpm -qf /etc/fstab
+  986  rpm -qf /bin/chmod 
+  987  rpm -qf /bin/date
+  988  rpm -qf /bin/cal
+  989  rpm -qf /sbin/useradd
+  990  rm -rf /bin/date
+  991  clear
+  992  date
+  993  rpm -ivh /media/Packages/coreutils-8.22-23.el7.x86_64.rpm 
+  994  date
+  995  rpm -ivh /media/Packages/coreutils-8.22-23.el7.x86_64.rpm --force
+  996  date
+  997  rpm -Uvh /media/Packages/coreutils-8.22-23.el7.x86_64.rpm 
+  998  rpm -qip /media/Packages/vsftpd-3.0.2-25.el7.x86_64.rpm 
+  999  rpm -qa
+ 1000  rpm -qa | wc -l
+ 1001  rpm -qa --last
+ 1002  rpm -qa --last | more
+ 1003  rpm -qa --last | grep vsftpd
+ 1004  history

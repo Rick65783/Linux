@@ -1,0 +1,804 @@
+                                                        Basic commands, File managment
+
+User Management/ Administration:-
+---------------------------------
+		1. Local user management ==> if you create any user inside a system is called a local user..
+		2. Centralized user management ==> Active Directory (windows) / Open Ldap (Linux) ==> ldap protocol (this will be maintained by the AD team)
+ 			Honda ==> Dev, Testing systems, prod systems
+					5000+ systems 
+						sai ==> I need to create the user in these 5000+ servers
+						mohith ==>
+
+			we link up AD server with all these 5000+ servers...
+					sai ==> create a user in the AD then he will be able to login in all these 5000+ serrver 
+						whenever you delete the user in the AD the user will not be able to login in these servers..
+
+create user, modify user, delete user, set password, etc....
+
+
+       servers: why we will build servers?
+
+		to develop application, to supply data from application, to maintain data in the server
+
+ICICI net banking applicatio, HDFC net banking appllication, amazon.com, flipkart.com, sbi net banking
+
+
+   application devel , application support team, DB team, infra team ( OS,network,backup,Storage, Dc team).
+
+      Infra team support:  server build(OS installation), disk management, User management, network setup in OS.
+
+	 20 Members team, for 20 memebers we have to create individual account.
+	also to run application we need to create common user
+	      to run db need one local/common user
+
+-----------------------------------------------------------------
+    Local user management:
+
+    	user name : Max 32 char
+	uid : 
+		0 = root
+		1 - 99 = OS users(system users)lib,bin,.....
+		100 - 999 = id are reserved for third party application/tool users(tomcat,apache,nfs,.....)
+		1000 - 60000 = local users or general users
+
+database : postgres, mysql, oracle, db2, ...........
+applicaitons ==> jboss, galssfish, jetty, websphere, weblogic........
+
+
+sai : 99
+
+
+linuxgroup ==> seconday group 
+sai ===> sai (primary group)
+  group:
+	1. Primary group
+	2. secondary group
+  home directory : /home/narasimha  /home/venu
+  shells : /bin/sh ,/bin/bash, /bin/dash,/bin/csh , /bin/tcsh & /bin/nologin, /sbin/nologin
+
+cat /etc/shells
+
+/bin/sh
+/bin/bash
+/usr/bin/sh
+/usr/bin/bash
+/bin/tcsh
+/bin/csh
+--------------------
+what is user name?
+what is shell
+what is home directory
+what is userid
+
+
+-------------------------------------------
+
+ simple command: 
+	useradd venu
+
+=------------------------------
+what are the files will get modified when you create a new user?
+
+/etc/passwd ==> all users information 
+	
+ghouse:x:1003:1003:linux user:/home/ghouse:/bin/bash
+gangulaiah:x:1004:1004:devops user:/home/gangulaiah:/bin/bash
+
+1: username
+2: pointing to /etc/shadow file for password informaton
+3: Uid
+4: primary group id
+5: comment
+6: home directory
+7: shell 
+
+
+/etc/shadow ==> this will have all the password information..
+
+ghouse:$6$GmBLLtfm$0OPrsJPWWx.99w/kNlxGdJRiBkHyr7ParCMvQ9IlZV4pkg28i4oPGlf1YdjZLdpQIxPZ2ryfqRzwAgmpDgrQX/:19384:0:90:7:::
+
+84rd day
+
+gangulaiah:!!:19384:0:99999:7:::
+
+1. Username
+2. encrypted password
+3. password changes days count from jan-1-1970
+4. min age of password  0 days
+5. max age of password  . password is going to expair
+6. warning age of password : war 10 exp 30 from 20 days onwards it will give warning message on screen while login . 
+         user your password is going to expair in 10
+``
+		next 
+7. inactive days for password after password expaires   10 days. 30 but still password will be in active for another 10.
+				30 + 10 40 he can't change password after 40 days.
+			
+		
+8. account expairy days
+
+/etc/group ==> this will have groups information including primary group and secondary group 
+/etc/gshadow ==> this will have group passwords information..
+
+And it will create the home directory
+	/home/ghouse
+	/home/gangulaiah 
+
+And it will create environment files in the home directory. These files are user specific files, for each user in the system these files willbe present..
+these are local variable envornment files for a specific user...
+	.bash_profile ==> local variables we can put here, it will get loaded at the time of login ==> su - username 
+				here "-" means, the .bash_profile file will get loaded...
+	.bashrc => local variables we can put here, this will be called automatically by .bash_profile
+	.bash_logout ==> it's the place where can we can put the commands to be run at the time of logout..		
+		at the time of logout of a user, if you want to perform something, you can put commands here....	
+	.bash_history ==> it will store history of commands ran by the user..
+
+where can we see the global environment variables/ system variable means common for all users in the system?
+	/etc/profile
+----------------------------------------
+without using useradd/adduser command, how to create a user?
+you need to create an entry in 
+	/etc/passwd
+	/etc/shadow
+	/etc/group
+	/etc/gshadow
+	create home directory or you can make home directory using usermod command...
+---------------------------------------
+how to login to a user?
+	su - username
+how to exit from a user login?
+	exit
+	logout
+	ctrl+d
+
+
+-------------------------------------------------------------------
+how to set or reset the password for a user ?
+	passwd username
+
+how to set or re set the password for a user group?
+	gshadow groupname
+
+----------------------
+password locked  ==> we can unlock
+password expired ==> we can reset the passowrd using passwd command 
+account locked ==> we can unlock the account
+account expired ==> it can not be access, if require, we may need to create a new user or we can extend the account expiry days..
+-----------------------------------------
+
+Creating user with specifications:
+	useradd -u 2000 -G 0 -d /opt/venugopal -m -c "Venu G" -s /bin/bash venu
+
+
+	u = UID
+	g = Primary group
+	G = Secondary group
+	d = Home directory path
+	m = Make home directory
+	c = comment
+	s = shell for user
+
+-----------------------------------------
+for example if you want to create 10 users and assign those users with /bin/csh shell 
+	useradd -s /bin/csh testuser1
+
+but there is way to specify home directory and shell..
+
+default homedirectory and shell will be in the 
+/etc/default/useradd file
+
+
+-----------------------------------------
+
+How to know is the user exist in server?
+	id venu
+how to set password for user?
+	passwd username
+	passwd venu
+
+How to get all users informaton?
+   	cat /etc/passwd 
+	grep venu /etc/passwd
+
+last 10 users
+	tail /etc/passwd
+which is the default shell in RHEL?
+	/bin/bash
+-----------------------------------------------------
+how to make changes to a user?
+	usermod
+
+I want to change the shell?
+	usermod 
+	u = UID
+	g = Primary group
+	G = Secondary group
+	d = Home directory path
+	m = Make home directory
+	c = comment
+	s = shell for user
+
+usermod -s /bin/bash username
+usermod -s /bin/bash prasad
+----------------------------------------------------------------
+how to create the group?
+	groupadd groupname
+how to create a user and add to a usergroup at the same time?
+	useradd -G groupname username
+how to create an existing user to a group?
+	usermod -G groupname username
+how to check what are all the users present in the group?
+	lid -g groupname
+how to set or reset the password to a group?
+	gpasswd groupname
+
+---------------------------------------------------
+how to lock the password?
+	passwd -l username
+how to unlock the password?
+	passwd -u username
+how to check the status of password?
+	passwd -S username
+how to reset the password?
+	passwd username
+
+how to change password life time?
+miN
+maX
+Wan
+  -x, --maximum=DAYS      maximum password lifetime (root only)
+  -n, --minimum=DAYS      minimum password lifetime (root only)
+  -w, --warning=DAYS      number of days warning users receives before password expiration (root only)
+
+how to check whether password is locked, or user account is locked or password is not set?
+	passwd -S username
+in /etc/shadow
+	!! <encrypted password>  =======> passsword locked
+	! <encrypted password> ==========> account locked
+	!!  ==========> no password is set..
+
+
+how to lock the user account?
+	usermod -L username
+how to unlock the user account?
+	usermod -U username
+how to set min,max, warn age of password?
+	passwd -n 4 -x 90 -w 10 username
+
+how to check all password related info?
+	chage -l username
+
+how to change the min and max age of password using chage command?
+	chage -m 2 -M 95 username
+
+----------------------------------------------------------
+how to create group
+	groupadd unixgrp
+
+
+     useradd prasad2
+
+   each and every user will have one primary group and the users can be member into n number of groups
+  1 primary and he can member into n number of groups
+
+
+
+ group will create along with user
+	useradd appuser
+	   there will app group also
+
+  	for appuser primary group is appuser
+
+	useradd -g appuser -G root appuser1
+		username = appuser1
+		pr gr = appuser
+		se gr = root
+   	        appuser group is shared between appuser and appuser1
+
+	useradd sai
+		primary group = sai
+		login name = sai
+		are you member into any of the group ? no
+
+	useradd -g sai -G root,prasad sai1
+		primary group : sai
+		sec group     : root and prasad
+
+rwxrwx---
+
+	users information will update in the /etc/passwd
+	password information will update in the /etc/shadow
+	group information will update in the /etc/group
+
+id username
+lid -g groupname
+
+
+* what are fields of /etc/passwd
+  there will be 7 fields, each field will be seperated with :
+	prasad:x:2001:2001:prasad s:/home/prasad:/bin/bash
+
+1: username
+2: pointing to /etc/shadow file for password informaton
+3: Uid
+4: primary group id
+5: comment
+6: home directory
+7: shell 
+
+
+/etc/default/useradd 
+this file is going feed the missing informtion to useradd command
+
+/etc/default/useradd file will feed the specification if we haven't specified in useradd command.
+
+
+
+how to specify /bin/dash shell for all upcoming users?
+useradd -s /bin/dash username
+ans : in this case we can update default shell in /etc/default/useradd
+
+already 100 users created with /bin/bash by mistake , here how we can change /bin/bash to /bin/dash shell for these 100 users?
+
+in this case /etc/default/useradd file will not help to change default shell information for existing users.
+
+
+
+useradd -u 5000 -G unixgrp -d /usr/local/apache -m -c "apache user" -s /bin/sh apachetomcat
+
+
+
+password information will be there in /etc/shadow
+
+narasimha:encrypted password:18949:2:99:7:10:300
+
+
+there will be 8 fields
+1. Username
+2. encrypted password
+3. password changes days count from jan-1-1970
+4. min age of password  2 days
+5. max age of password  . password is going to expair
+6. warning age of password : war 10 exp 30 from 20 days onwards it will give warning message on screen while login . 
+         user your password is going to expair in 10
+		your password is going to expair in 9 days
+		next 
+7. inactive days for password after password expaires   10 days. 30 but still password will be in active for another 10.
+				30 + 10 40 he can't change password after 40 days.
+			
+		
+8. account expairy days
+
+
+
+
+date aug 20 2020
+  if i say today your contract will expair after one year. what is this mean today aug 20 2021
+
+tomorrow also if i say your   
+
+
+    max 60
+
+for narasimha we changed password today.    oct 20
+
+usermod -g existinggroup username
+
+
+expairy is 30
+  18494  
+   21-08-2020 today we changed password
+
+passwd -S narasimha
+
+how we can change password age
+   passwd -n 3 -x 90 -w 10 narasimha
+
+	-n : min age of password
+	-x : max age of your password
+	-w : warning days of password expairy
+
+lock the password of specified user:    passwd -l narasimha
+unlock the password of specified user : passwd -u narasimha
+
+  passwd -x 100 narasimha
+  passwd -x -1 narasimha  : password shoud never expair
+
+   min : n
+   max : x
+   war : w
+
+
+   chage -l narasimha
+	chage -M 200 narasimha
+	-M : uper case M is for set Maximum age of password
+	-m : small is for set min age of password  passwd -n 3 username but in chage . chage -m 4 narasimha
+
+	chage -M -1 narasimha
+	or
+	passwd -x -1 narasimha
+password should not expair
+
+
+how to lock the account?
+	usermod -L sai
+how to unlock the account?
+	usermod -U sai
+passord lock 
+	passwd -l sai
+	passwd -u sai
+
+
+how we can identify is the password is locked?
+	/etc/shadow in this file second field if we can see !! before encryption password means password is locked
+	/etc/shadow in this file second field if we can see ! before encryption password means account is locked
+	/etc/shadow in this file second field if we can see only !! without any encryption data means no password set
+
+
+create group
+	groupadd appteam
+	groupadd oraclegrp
+with the specifications creating group
+	groupadd -g 5000 oraclegrp
+
+How to delete user only not home directory?
+	userdel username
+How to delete user with home directory?
+	userdel -r username
+
+How to delete group?
+	groupdel oragrp
+
+which are files will get updated once account creates?
+	1. /etc/passwd
+	2. /etc/shadow
+	3. /etc/group
+
+
+awk command is for print the data in colum vise from output/file.
+
+How to print Only normal users not system users?
+
+How to change password max age to 90 days to users which are having password age more than 90 days
+
+awk -F: '{if ($5 > 90) print $1}' /etc/shadow > /tmp/narasimhafile
+ 
+suppose there are 1000 users which are having password age is more than 90
+
+chage -M 90 user1
+chage -m 90 user2
+
+for i in `cat /tmp/narasimhafile`
+do
+chage -M 90 $i
+done
+
+
+
+if [ condition1 && condition2 ];
+
+
+   create user
+	mod user
+	delete user
+	what is group
+	1. Primary
+	2. secondary
+	create group
+	modify group
+	adding members into group
+
+what is variable?
+ there are 2 types variables
+	1. System variables 
+	2.User defined variables
+
+
+system variables are predefined variables. functionality or values already stored by operating system developer.
+
+user defined variables: end user will define or store the values in variable.
+
+for system variables you can't change the functionality but we can control the variable with help of options.
+ 
+
+How to list out System variables?
+	env
+
+How to change system variable value temp?
+
+     export SYSTEMVARIABLENAME=
+	export HISTSIZE=3000
+how to set system varaable value perm?
+	step1:update the new value in /etc/profile
+		HISTSIZE=3000
+	step 2: manually refresh the environment configuration file.
+		source /etc/profile
+
+
+How to set variable temp?
+
+		  udf :    a=10
+	    	  system : export HISTSIZE=4000
+		unset a
+		unset HISTSIZE
+
+ 
+
+difference between 3 quotes
+	"  "
+	'  '
+	`  `  you can fine below of esc key
+
+
+" "  is for print the value what we defining
+
+
+
+   Global environment configuration files    : /etc/profile, /etc/bashrc
+   Individual environment configuration files: .bash_profile,.bashrc,.bash_logout .
+	 individual env files we can find in home directories of individual users home directory.
+
+
+By default 3 files will be copied to your user as soon as creates user.
+	1. .bash_profile
+	2. .bashrc
+	3. .bash_logout
+next login onwards one more file will create in his home directory
+	4. .bash_history
+
+by default above 4 files will present in home directory of all the users, include root.
+   skeliton
+
+global variables we will set in /etc/profile or /etc/bashrcles 
+
+individual variables we will set in his own files /home/username/.bashrc and .bash_profile
+
+========================================================================================
+
+
+How to create multiple users at a time.
+step 1 : create a file with usernames
+	vi /tmp/users
+		user1
+		user2
+		user3
+		user4
+		user5
+step 2 : run below for loop to create users
+	for i in `cat /tmp/users`
+		do
+		useradd $i
+		done
+
+How to set password for multiple users?
+step 1 : create a file with usernames
+	vi /tmp/users
+		user1
+		user2
+		user3
+		user4
+		user5
+step 2 : run below for loop to set same password for all users?
+	for i in `cat/tmp/users`
+		do
+		echo "$i:test12345"|chpasswd
+		done
+
+how to set password in single time without retype same password?
+
+  actually when we try passwd username
+	it expects two times same password to set password
+
+echo "username:test1234567"|chpasswd
+-----------------------------------------------
+[root@ip-172-31-12-196 ~]# last | grep ec2-user
+ec2-user pts/0        157.48.237.31    Wed Feb 16 09:21   still logged in
+ec2-user pts/1        157.48.237.31    Tue Feb 15 18:22 - 20:37  (02:14)
+ec2-user pts/0        157.48.237.31    Tue Feb 15 16:57 - 19:10  (02:13)
+ec2-user pts/1        157.48.237.31    Tue Feb 15 10:42 - 12:58  (02:16)
+ec2-user pts/0        157.48.237.31    Tue Feb 15 10:17 - 12:32  (02:15)
+ec2-user pts/1        106.217.229.202  Tue Feb 15 05:36 - 07:58  (02:22)
+ec2-user pts/0        106.217.229.202  Tue Feb 15 05:15 - 07:43  (02:27)
+ec2-user pts/0        106.217.229.202  Tue Feb 15 05:00 - 05:15  (00:15)
+ec2-user pts/1        208.127.31.110   Fri Feb 11 18:23 - 20:39  (02:15)
+ec2-user pts/0        223.196.168.31   Fri Feb 11 16:53 - 19:46  (02:53)
+ec2-user pts/2        223.196.172.62   Tue Feb  8 18:45 - 21:04  (02:18)
+ec2-user pts/1        223.196.172.62   Tue Feb  8 17:32 - 19:56  (02:23)
+ec2-user pts/0        223.196.172.62   Tue Feb  8 16:58 - 19:58  (03:00)
+ec2-user pts/4        157.48.206.127   Tue Feb  8 13:28 - 15:41  (02:12)
+ec2-user pts/3        157.48.206.127   Tue Feb  8 13:08 - 15:25  (02:16)
+ec2-user pts/3        157.48.206.127   Tue Feb  8 13:08 - 13:08  (00:00)
+ec2-user pts/2        157.48.206.127   Tue Feb  8 12:57 - 15:13  (02:15)
+ec2-user pts/1        157.48.206.127   Tue Feb  8 12:49 - 15:03  (02:13)
+ec2-user pts/0        157.48.206.127   Tue Feb  8 12:27 - 14:50  (02:22)
+ec2-user pts/0        223.196.168.31   Tue Feb  8 04:44 - 08:06  (03:21)
+ec2-user pts/0        208.127.31.110   Mon Feb  7 19:05 - 20:23  (01:18)
+
+[root@ip-172-31-12-196 ~]# lastb | grep ec2-user
+ec2-user pts/0                         Wed Feb 16 09:25 - 09:25  (00:00)
+ec2-user pts/0                         Wed Feb 16 09:23 - 09:23  (00:00)
+
+------------------------------------------------------------------
+
+#!/bin/bash
+
+for s in `cat servers`
+do
+        SCRIPT="echo '$i:test12345'|chpasswd"
+        sshpass -p "ROOTUSERPASSWORD" ssh -o ConnectTimeout=15 $s "${SCRIPT}")
+done
+_______________________________________________________________________________
+313  ll
+  314  ln data datalinkfile
+  315  ll
+  316  ls -li
+  317  ln -s data1 softlinkfile
+  318  ll
+  319  ls -li
+  320  cat >> data
+  321  cat data
+  322  cat datalinkfile 
+  323  cat >> datalinkfile 
+  324  cat datalinkfile 
+  325  cat data
+  326  rm -rf data
+  327  ll
+  328  cat datalinkfile 
+  329  rm -rf data1
+  330  ll
+  331  cat softlinkfile 
+  332  date
+  333  date -s "Thu Jan 26 11:41:16 IST 2023"
+  334  date -s "Thu Jan 26 11:40:16 IST 2023"
+  335  date
+  336  rm -rf /etc/localtime 
+  337  date
+  338  ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
+  339  date
+  340  rm -rf /etc/localtime
+  341  date
+  342  ln -s /usr/share/zoneinfo/Singapore /etc/localtime
+  343  date
+  344  rm -rf /etc/localtime
+  345  ln -s /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
+  346  ll
+  347  date
+  348  history 
+  349  ip a
+  350  whoami
+  351  is
+  352  ls
+  353  ll
+  354  top
+  355  date
+  356  rm -rf/etc/localtime
+  357  rm --help
+  358  date
+  359  rm -rf /etc/localtime
+  360  ln -s/usr/share/zoneinfo/asia
+  361  ln -s/usr/share/zoneinfo/america/
+  362  ln -s/usr/share/zoneinfo
+  363  l
+  364  cleae
+  365  clear
+  366  ln -s/usr/share/zoneinfo
+  367  in --help
+  368  ln --help
+  369  ln -s/usr/share/zoneinfo
+  370  ln -s/usr/share/zoneinfo/Aisa/Calcutta/etc/localtime
+  371  date
+  372  ll
+  373  date
+  374  in --helpll
+  375  clear
+  376  ll
+  377  ls
+  378  ll
+  379  cat azher
+  380  cd azher
+  381  cd ..
+  382  cd azher
+  383  pwd
+  384  cd ..
+  385  pwd
+  386  date
+  387  time
+  388  date
+  389  ip a
+  390  root
+  391  cat /etc/passwd
+  392  cat /etc/shells
+  393  cal
+  394  useradd jagadeesh
+  395  uuseradd ghouse
+  396  useradd ghouse
+  397  adduser gangulaiah
+  398  cat /etc/passwd
+  399  clear
+  400  cd /home/
+  401  ll
+  402  cat /etc/shadow
+  403  passwd ghouse
+  404  cat /etc/shadow
+  405  cat /etc/group
+  406  cat /etc/gshadow
+  407  ll
+  408  cd ghouse/
+  409  ll
+  410  ls -la
+  411  clear
+  412  cd
+  413  clear
+  414  pwd
+  415  whoami
+  416  su - ghouse
+  417  su - ghouse 
+  418  clear
+  419  su - ghouse 
+  420  su - ghouse
+  421  useradd -u 2000 -G 0 -d /opt/venugopal -m -c "Venu G" -s /bin/bash venu
+  422  cat /etc/passwd | grep venu
+  423  cd /home/
+  424  ll
+  425  cd /opt/
+  426  ll
+  427  cat /etc/default/useradd 
+  428  vim /etc/default/useradd 
+  429  useradd sai
+  430  useradd prasad
+  431  cat /etc/passwd
+  432  pwd
+  433  ll
+  434  cd prasad/
+  435  ls -la
+  436  id sai
+  437  id gangulaiah
+  438  cat /etc/passwd
+  439  usermod -s /bin/bash prasad
+  440  cat /etc/passwd | grep prasad
+  441  groupadd linuxgroup
+  442  useradd -G linuxgroup user1
+  443  id user1
+  444  cat /etc/passwd
+  445  cat /etc/shadow
+  446  cat /etc/group
+  447  useradd -G linuxgroup user2
+  448  cat /etc/group
+  449  usermod -G linuxgroup gangulaiah
+  450  cat /etc/group
+  451  id user1
+  452  lid -g linuxgroup
+  453  gpasswd linuxgroup
+  454  passwd --help
+  455  cat /etc/shadow ghouse
+  456  cd
+  457  clear
+  458  passwd -l ghouse
+  459  passwd -S ghouse
+  460  cat /etc/shadow
+  461  passwd -u ghouse
+  462  passwd -S ghouse
+  463  cat /etc/shadow
+  464  usermod -L ghouse
+  465  cat /etc/shadow
+  466  passwd -S ghouse
+  467  usermod -U ghouse
+  468  cat /etc/shadow
+  469  passwd -n 4 -x 90 -w 10 ghouse
+  470  cat /etc/shadow
+  471  chage -l ghouse
+  472  passwd -x 91 ghouse
+  473  chage -l ghouse
+  474  chage -m 2 -M 95 ghouse
+  475  chage -l ghouse
+  476  clear
+  477  env
+  478  echo $SHELL
+  479  echo $HOME
+  480  cat /etc/profile 
+  481  for i in {1..10}; do echo $i; done
+  482  cat > userlist
+  483  for user in `cat userlist`; do useradd $user; echo "$user is successfully created"; done
+  484  cat /etc/passwd
+  485  last
+  486  history
+

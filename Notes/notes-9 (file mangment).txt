@@ -1,0 +1,298 @@
+Tomorrow - Monday ==> Sankranthi
+Tue - 1 online session..
+Monday 
+
+
+head and tail commands
+head command is for print starting 10 lines of the file
+head <filename>
+head -20 <filename> 
+head -50 <filename>
+
+tail command is for print last 10 lines of the file
+tail <filename>
+tail -5 <filename>
+tail -100 <filename>
+---------------------------------------------------------------------
+Filter  options:
+
+; && |
+---------------------
+
+
+head filename | cat -n
+
+| it can store the previous command output and pass it to next command as a input
+
+cmd1 | cmd2 | cmd3 | cmd4 
+
+               wc(word count)
+   
+
+		wc -w filename
+		wc -l filename
+		wc -c filename
+
+   -w count the words in file
+   -l count the line numbers from the file
+   -c count the char in the file
+
+
+   more old method
+  less advanced . It a copy of vi command.
+  are for read file content page by page
+
+cat /batch4
+  more /var/log/messages
+  more /batch4
+  less /batch4
+
+space key for move on to next page
+b is for back to the previous page
+enter key is for move cursor line by line
+above three options will work in both less and more.
+
+q = quit from the more or less command
+
+in less command to move cursor arrow keys will work but in more command arrow keys will not work 
+
+h = is for to get the help on options
+
+ls -l | more
+read the ls -l output page by page.
+
+    ls options
+ls -l : print the data in long list
+
+
+-rw-r--r--. 1 root root  2022 Jan  4 11:50 initial-setup-ks.cfg
+drwxr-xr-x. 2 root root     6 Jan  4 11:51 Music
+
+U	G	O
+rwx	r-x	r-x
+U = rwx
+
+data ==> r
+	 ==> w
+	==> x
+
+if and olny if you have read permission then you can have write or execute. But You can have execute permission without write permission..
+
+rwx
+r-x
+rw-
+r--
+
+-------------------------------------------------------------
+
+
+field 1 : file type
+  - = regular file
+  d = directory
+  l = linked file or shortcut file from different place
+  b = block device files which can understand end user
+  c = chart device files which can understand OS
+  p = Pip (OS purpose)
+  S = Socket( OS purpose)
+
+Field 2: Permissions
+field 3: Hard link counts  
+field 4 : owner
+field 5 : group
+field 6 : size in bytes
+field 7 : creation/modify date and time of the file/directory
+field 8 : name of file/directory
+
+  ls -lt sort output with date and time
+
+latest will go up
+old will show down
+  ls -ltr 
+ -l long list
+ -t sort out output with date and time
+ -r reverse the output
+
+
+ls -alrthi
+
+a = all including hidden files
+l = long list
+r = reverse the output
+t = time (sorting based on time, by default it will sort by alphabets but if you use t then it will  be sorted based on time)
+h = human readable format
+i = inode number
+
+inode number:
+	This is system defined number to identify each file in the system uniquely... and also it holds all the metadata information of that file like type of the file, who created it, last modification date and time, filename, size of the file, who is owner, who is the group, what are the permissions....
+
+
+
+
+
+ls -a prints normal and hidden files/directories
+
+
+     touch .file1
+     mkdir .testdir
+    
+
+vi .tfile22
+
+  date +"%F"
+
+     GREP
+    -----
+
+grep is for search string/word from file or files in one depth of directory.
+
+to search file or directory is exist or not there we will use find command not grep.
+
+1. Grep : To search string in file
+2. find : to search file or directory in system.
+
+      grep <word> file name
+      grep <word> *
+      grep -w narasimha batch4
+      grep -wc narasimha batch4
+ 	grep -wn narasimha batch4
+	grep -l narasimha *
+	grep -A 5 narasimha /logfile
+
+w = word search
+c = count how many times it exist file
+n = print the line numbers where and all finds the word
+l = list out the filename where and all string exists. it can look only one depth of directory
+A = print 5 lines after string found ==>grep -A 5 'test' file
+B = print 5 lines before string found
+
+how to search multiple strings
+   grep -w "word1\|word2\|word3\|word4" /filename
+-------------------------------------------
+1 more session for basic commands 
+User management ==> 1 day
+Disk management ==> 1 day (2 days)
+software management ==> 2 days
+permissions ==> 1 day
+Booting procedure & Troubleshooting ==>1 day
+Services ==> 3 days
+Performance Analysis ==> 1 day
+Shell scripting & Crontab  ==> 4 days
+AWS ==> 3 days
+ITIL  ==> 1 day
+----------------------------------------------------------------
+150  ll
+  151  cat file1
+  152  cat > file1
+  153  cat > file2
+  154  cat > file3
+  155  cat > file4
+  156  cat > file10
+  157  cat file1
+  158  cat file10
+  159  cat file1 file10
+  160  cat file1 file10 >> file1000
+  161  cat file1000 
+  162  cat > file1000 
+  163  cal
+  164  date
+  165  vim
+  166  clear
+  167  exit
+  168  cal
+  169  date
+  170  cal
+  171  sdfjaksjflkasdfjalksdjflkadfa
+  172  cat > data
+  173  clear
+  174  cat data
+  175  cat -n data
+  176  head data
+  177  cat -n data
+  178  tail data
+  179  head -2 data
+  180  tail -2 data
+  181  wc data
+  182  ll
+  183  wc -l data
+  184  wc -w data
+  185  wc -c data
+  186  wc -lw data
+  187  wc -l -w data
+  188  wc -cl data
+  189  wc data
+  190  uname -r
+  191  uname -a
+  192  uname -r ; ip a ; date; cal; free 
+  193  echo "what are you doing?
+"
+  194  echo hey there
+  195  echo kajsfljldasfjlsajdfadsf
+  196  echo "kernel version"; echo "==================="; uname -r ; echo" IP ADDRESS DETAILS"; echo "========================";  ip a ; echo "SYSTEM DATE AND TIME"; echo "========================"; date; echo "CURRENT MONTH CAL" ; echo "==================="; cal; echo " SYSTEM MEMORY "; echo "===================== free 
+"; free
+  197  echo "kernel version"; echo "==================="; uname -r ; echo" IP ADDRESS DETAILS"; echo "========================";  ip a ; echo "SYSTEM DATE AND TIME"; echo "========================"; date; echo "CURRENT MONTH CAL" ; echo "==================="; cal; echo " SYSTEM MEMORY "; echo "===================== free 
+"; free
+  198  clear
+  199  cal ; date ; uname -r
+  200  cal && date && uname -r
+  201  cal && dateeee && uname -r
+  202  cal ; dateeee ; uname -r
+  203  cal ; dateeee ; uname -r ; kdsfljds ;lkasjl; cal
+  204  date; free -h 
+  205  cat data
+  206  cat > data
+  207  clear
+  208  cat data
+  209  cat -n data
+  210  cat -n data 
+  211  cat -n data | head -14
+  212  cat -n data | head -14 | tail -4
+  213  head -14 data | tail -4
+  214  head -14 data | tail -4 | cat -n
+  215  cat -n data | head -12 | tail -1
+  216  head -12 data | tail -1
+  217  cat > notes
+  218  wc data
+  219  wc notes
+  220  cat notes
+  221  more notes
+  222  ll
+  223  touch file{1..100}
+  224  ll
+  225  ll | more
+  226  less notes
+  227  ll
+  228  cd /dev
+  229  ll
+  230  cd /
+  231  ll
+  232  cd /dev
+  233  ll
+  234  cd /
+  235  clear
+  236  ll
+  237  cd 
+  238  clear
+  239  ll
+  240  ls
+  241  ls -l
+  242  ls -lr
+  243  ls -lt
+  244  ls -ltr
+  245  touch abc
+  246  ls -ltr
+  247  ls -a
+  248  ls
+  249  ls -a
+  250  cat > .batch22
+  251  ls 
+  252  ls -a
+  253  ls -alrt
+  254  ls -lrt
+  255  ls -lrta
+  256  mv .batch22 batch22
+  257  ls -alrt
+  258  ls -lrt
+  259  ls -alrth
+  260  ls -alrthi
+  261  history
+________________________________________

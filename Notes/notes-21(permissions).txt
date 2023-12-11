@@ -1,0 +1,59 @@
+=========================================================Permissions=================================================
+		1. Normal permissions
+		2. Special permissions
+-----------------------------------
+/bin/passwd ==> /etc/shadow
+
+normal permissions:
+
+r  = read = 4
+w = write = 2
+x = execute = 1
+
+drwxr-xr-x.   2 root root    6 Dec 14  2017 media
+
+(user)U = rwx
+(group)G = r-x
+(others)O = r-x
+
+r = we can have only read permission means you can not write or edit or execute..
+w = you can modify the file means, definitely you should have read permission
+x = execute = .java, .py, .sh, date, cal, useradd
+
+
+w ==> you can not have write permission without read permission
+x ==> you can not have execute permission without read permission, but you can have execute permission without write permission.
+
+Changing the permissions;
+
+chmod <permissions> file/dir
+ + ==> add
+- ===> remove
+= ===> assign
+u=user/owner
+g=group
+o=others
+
+
+Binary mode:
+
+r = read =4
+w = write = 2
+x = execute = 1
+
+chmod UGO file/dir
+
+chmod 764 filename
+
+
+---------------------------------------c---------------------
+chown ==> changing the ownership of the file..
+chown username file/dir
+chgrp ==> Changing the group of the file
+chgrp username file/dir
+
+chown username:groupname file/dir ==> to change the owner and group at a time..
+
+chown -R username:groupname file/dir
+chmod -R permissions file/dir
+-------------------------------------------------------

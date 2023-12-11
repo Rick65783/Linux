@@ -1,0 +1,51 @@
+-------------
+;
+&&
+|
+
+----------------
+
+SAI
+Sai
+SaI
+saI
+sai
+
+This is sentense case.
+tHIS iS tOGGLE cASE
+THIS IS UPPER CASE
+this is lower case 
+
+     GREP (global regular expression)
+ ----------------------------------------------------------------------------------------------------
+
+grep is for search string/word from file or files in one depth of directory.
+
+to search file or directory is exist or not there we will use find command not grep.
+
+1. Grep : To search string in file
+2. find : to search file or directory in system.
+
+      grep <word> file name
+      grep <word> *
+      grep -w narasimha batch4
+      grep -wc narasimha batch4
+ 	grep -wn narasimha batch4
+	grep -l narasimha *
+	grep -A 5 narasimha /logfile
+
+w = word search
+c = count how many times it exist file
+n = print the line numbers where and all finds the word
+l = list out the filename where and all string exists. it can look only one depth of directory
+A = print 5 lines after string found ==>grep -A 5 'test' file
+B = print 5 lines before string found
+v = inverse selection.
+
+how to search multiple strings
+   grep -w "word1\|word2\|word3\|word4" /filename
+   
+--------------
+awk -F ":" '{print $1}' /etc/passwd
+
+awk -F "," '{print $1}' empdetails

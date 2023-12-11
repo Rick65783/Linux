@@ -1,0 +1,24 @@
+----------------------------------
+VPC
+
+College ==> 4 labs 
+	2 labs internet connection is avaiable 
+  2 labs no internet connection
+
+Quotient company
+	2000 servers mainitaining in AWS
+		50 servers application servers ==> internet facing
+			30 servers database servers ==> private..
+
+1. Create VPC(Virtual Private Cloud)
+		10.0.0.0/16 ==> JawaVPC
+2. Create a Subnets
+		10.0.0.0/24 ==> Subnet1
+		10.0.1.0/24 ==> subnet2
+		10.0.2.0/24 ==> Subnet3
+		10.0.3.0/24 ==> subnet4
+
+3. Create a Route table
+4. create an Internet Gateway and attach to VPC
+5. Associate subnets
+6. If you allow the route for Internet gateway in route table what are all subnets associated with that... those subnets will be called as Public subnets, without IG, we call them as private subnets

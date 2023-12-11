@@ -1,0 +1,314 @@
+SElinux
+Secured enhanced Linux
+
+FTP ==> 10 users in the sytesm
+only 2 users should use this FTP service
+or 
+only few options should be enabled..
+
+firewall is a service. It does the packet filtering. in and out packets filtering.
+
+firewall ==> physical  = It will be under network team control. Network team will write in/out rules.
+firewall ==> OS service = is a individual machine security service.
+
+ 90 % organizations will not maintain os level firewall.
+
+
+firewall will do the packet filtering which port is trying to connect? is that port is accepted or not? this part will be take care by firewall.
+
+selnux: 
+
+suse = by default doen't have the selinux
+red hat = it has selinux by default.
+
+ftp: /var/ftp and user home directory.
+
+
+			SElinux modes
+			1. enforcing : is recommended
+			2. permissive
+			3. disable
+
+configuration file: /etc/selinux/config
+	How to change SElinux mode permanetly?
+	step 1 : update mode in configuration file
+		vi /etc/selinux/config
+			SELINUX=permissive
+	step 2 : reboot the server
+		shutdown -r now
+
+how to change selinux mode temp?
+	setenforce 1
+		enforcing
+	setenforce 0
+	permissive
+1= enforcing
+0= permissive
+
+how to switch on particular selinux rule?
+	setsebool -P samba_enable_home_dirs on
+how to list out all the selinux rules
+	getsebool -a 
+how to list out only samba service selinux rules?
+	getsebool -a | grep samba
+
+
+setsebool -P ftpd_use_cifs on
+
+		firewall
+
+firewall is a service. It does the packet filtering. in and out packets filtering.
+
+firewall ==> physical  = It will be under network team control. Network team will write in/out rules.
+firewall ==> OS service = is a individual machine security service.
+
+ 90 % organizations will not maintain os level firewall.
+
+
+firewall will do the packet filtering which port is trying to connect? is that port is accepted or not? this part will be take care by firewall.
+-----------------------------------------
+Service starting/stopping/restarting/enable/disable/status
+
+systemctl in RHEL7
+
+systemctl start servicename ==> to start the service
+systemctl stop servicename ==> stopping the service
+systemctl restart servicename ==> to restart the service which is already in started state
+systemctl status servicename => just to check the service status to know whether started or not..
+
+systemctl start servicename
+systemctl enable servicename => even after restarting the machine, the service will get started automatically..
+
+systemctl stop serviceame 
+systemctl disable servicename ==> it will be  disabled and will not activate again after restart..
+
+
+service in RHEL6
+
+service servicename start/stop/status/disable/enable/restart
+
+
+
+
+-------------------------------------------
+So, you can add the specific service or  port to the firewall to make them allowed by peers logging in from outside...
+
+firewall-cmd --zone=public --remove-service=nfs --permanent
+
+ firewall-cmd --list-services
+ firewall-cmd --zone=public --add-service=nfs --permanent
+ firewall-cmd --list-services
+ firewall-cmd --reload
+ firewall-cmd --list-services
+ firewall-cmd --zone=public --add-port=21/tcp --permanent
+ firewall-cmd --zone=public --add-port=21/udp --permanent
+ firewall-cmd --zone=public --add-port=20/udp --permanent
+ firewall-cmd --zone=public --add-port=20/tcp --permanent
+ firewall-cmd --reload
+ firewall-cmd --list-services
+ firewall-cmd --list-ports
+ firewall-cmd --zone=public --delete-service=nfs --permanent
+ firewall-cmd --zone=public --del-service=nfs --permanent
+ firewall-cmd --help
+ firewall-cmd --zone=public --remove-service=nfs --permanent
+ firewall-cmd --list-services
+ firewall-cmd --reload
+ firewall-cmd --list-services
+ -----------
+
+ftp we use to transfer the data..
+
+21 ==> connection
+20 ==> to transfer the data
+---------------------------------
+		ping
+		telnet
+		nc
+		traceroute
+		netstat or ss
+
+
+ping <destinationIP>
+ping -c 5 <destinationIP>
+
+* which protocol will work when we use ping?
+	ICMP (internet control message protocol)
+   ping command use the ICMP protocol
+
+   TCP
+   UDP
+   ICMP  ==> PING
+
+
+SERVICES
+------------
+TO trasfer the data
+ 20, 21	===> File Transfer Protocol (FTP)==> TCP  ==> SFTP(SSH FTP)
+to login from remove servers
+ 22	 ==>Secure Shell (SSH)	==> TCP and UDP
+just to check whether service is running in the remote server or not..
+ 23	==> Telnet	==> TCP
+to do an emails
+ 25	 ==>Simple Mail Transfer Protocol (SMTP) ==> TCP
+ 50, 51	==> IPSec	 
+
+to define the domains
+ 53	 ==>Domain Name System (DNS)	===> TCP and UDP
+	public DNS ==> google.com, facebook.com, .........etc
+	Private DNS ==> 2000+ servers
+				 ==> 500 servers for PROD
+					lenovo-app-server1
+				==> 500 servers for DEV
+				==> 500 servers for QA
+				==> 400 servers for Devops
+				==>100 servers for PrePROD
+
+ 67, 68	 ===>Dynamic Host Configuration Protocol (DHCP)	===> UDP
+ 69	 ===>Trivial File Transfer Protocol (TFTP)	===> UDP
+ 80	 ===>HyperText Transfer Protocol (HTTP)	===> TCP
+ 110	===> Post Office Protocol (POP3)	===> TCP
+ 119	===> Network News Transport Protocol (NNTP)	===> TCP
+ 123	===> Network Time Protocol (NTP)	===> UDP
+ 135-139	===> NetBIOS	===> TCP and UDP
+ 143	===> Internet Message Access Protocol (IMAP4)	===> TCP and UDP
+ 161, 162	===> Simple Network Management Protocol (SNMP)	===> TCP and UDP
+ 389	===> Lightweight Directory Access Protocol	===> TCP and UDP
+ 443	===> HTTP with Secure Sockets Layer (SSL)	===> TCP and UDP
+ 989, 990	===> FTP over SSL/TLS (implicit mode)	===> TCP
+ 3389	===> Remote Desktop Protocol	===> TCP and UDP
+ 
+ 
+	1. ftp (20/21)  TCP
+	2. SSH/SFTP (22) TCP
+	3. NFS (2049) TCP
+	4. SAMBA (137/138/139) TCP
+	5. NTP (123) UDP
+	6. DHCP (67/68) TCP
+	7. DNS (53) UDP
+	8. HTTP/HTTPS (80/443) TCP
+	9. Rsync (22) TCP
+
+Protocols:
+	1. TCP : Transmission control protocol
+	2. UDP : User datagram protocol
+
+all are for transffer data from one to other machine.
+
+
+route test : ping
+service test in destination machine : telnet or nc
+
+yum install nc
+
+=================================
+  172  yum list installed 
+  173  yum list install vsftpd
+  174  lsblk
+  175  mount /dev/sr0 /media/
+  176  lsblk
+  177  rpm -ivh /media/Packages/vsftpd-3.0.2-25.el7.x86_64.rpm 
+  178  yum list installed vsftpd
+  179  yum install /media/Packages/tree-1.6.0-10.el7.x86_64.rpm 
+  180  yum install /media/Packages/zip-3.0-11.el7.x86_64.rpm 
+  181  yum list installed zip
+  182  rpm -evh zip
+  183  rpm -evh file-roller
+  184  rpm -evh file-roller-nautilus
+  185  rpm -evh file-roller
+  186  rpm -evh zip
+  187  rpm -ivh /media/Packages/zip-3.0-11.el7.x86_64.rpm 
+  188  yum remove zip
+  189  uname -r
+  190  cat /etc/os-release 
+  191  cat /etc/*release 
+  192  clear
+  193  lsblk
+  194  umount /media/
+  195  lsblk
+  196  clear
+  197  lsblk
+  198  echo "- - -" >>/sys/class/scsi_host/host0/scan
+  199  echo "- - -" >>/sys/class/scsi_host/host1/scan
+  200  echo "- - -" >>/sys/class/scsi_host/host2/scan
+  201  echo "- - -" >>/sys/class/scsi_host/host3\/scan
+  202  echo "- - -" >>/sys/class/scsi_host/host3/scan
+  203  lsblk
+  204  reboot
+  205  lsblk
+  206  mount /dev/sr0 /media/
+  207  clear
+  208  lsblk
+  209  rpm -ivh /media/Packages/deltarpm-3.6-3.el7.x86_64.rpm 
+  210  rpm -ivh /media/Packages/python-deltarpm-3.6-3.el7.x86_64.rpm 
+  211  rpm -ivh /media/Packages/createrepo-0.9.9-28.el7.noarch.rpm 
+  212  rpm -ivh /media/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm 
+  213  yum install /media/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm 
+  214  clear
+  215  cd /var/ftp/pub/
+  216  ll
+  217  mkdir RHEL79
+  218  cd RHEL79/
+  219  clear
+  220  l
+  221  ll
+  222  pwd
+  223  cd /media/Packages/
+  224  pw
+  225  pwd
+  226  cp -rv /media/Packages/* /var/ftp/pub/RHEL79/
+  227  pwd
+  228  cd /var/ftp/pub/RHEL79/
+  229  ls -l | wc -l
+  230  createrepo -v /var/ftp/pub/RHEL79/
+  231  yum clean all
+  232  yum repolist
+  233  yum install zip
+  234  yum install vsftpd
+  235  yum install tree
+  236  rpm -ivh tree
+  237  systemctl stop firewalld.service 
+  238  systemctl disable firewalld.service 
+  239  setenforce 0
+  240  systemctl start vsftpd
+  241  systemctl enable vsftpd
+  242  ip a
+  243  ping 192.168.92.132
+  244  ip a
+  245  uname -r;uname -a;cat /etc/os-release;df -h;cat /etc/fstab;pvs;vgs;lvs
+  246  cd
+  247  clear
+  248  yum update
+  249  cat /etc/os-release 
+  250  reboot
+  251  cd /etc/yum.repos.d/
+  252  ll
+  253  cat redhat.repo 
+  254  vim RHEL79local.repo
+  255  date
+  256  ip a
+  257  cat /etc/selinux/config 
+  258  getsebool -a
+  259  systemctl status vsftpd
+  260  firewall-cmd --list-services 
+  261  systemctl start firewalld
+  262  systemctl status firewalld.service 
+  263  firewall-cmd --list-services 
+  264  systemctl status firewalld.service 
+  265  firewall-cmd -- --remove-service=ssh --permanent
+  266  firewall-cmd --zone=public --remove-service=ssh --permanent
+  267  firewall-cmd --reload 
+  268  firewall-cmd --list-services 
+  269  ip a
+  270  firewall-cmd --zone=public --add-service=ssh --permanent
+  271  firewall-cmd --reload 
+  272  firewall-cmd --list-services 
+  273  firewall-cmd --zone=public --remove-service=ssh --permanent 
+  274  firewall-cmd --reload
+  275  firewall-cmd --list-services 
+  276  firewall-cmd --zone=public --add-port=22/tcp --permanent 
+  277  firewall-cmd --reload 
+  278  firewall-cmd --list-services 
+  279  firewall-cmd --list-ports 
+  280  nslookup google.com
+  281  history
+[root@rayban-app-server ~]# 

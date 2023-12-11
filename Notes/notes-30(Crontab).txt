@@ -1,0 +1,242 @@
+	JObs
+	===================	
+
+cron jobs
+
+crontabs are user specific...
+we can block specific users to not to run any of the cron jobs..
+we can allow only few users if you want..
+crontab configuration file ==> /etc/crontab
+
+CRON EXPRESSSION 
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of a month (1 - 31)
+# |  |  |  .------- month in a year (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+how to list the cron jobs?
+	crontab -l
+how to edit the cron jobs?
+	crontab -e
+how to list specific user cron jobs?
+	crontab -l -u username
+how to edit specific user cron jobs? 
+	crontab -e -u username
+
+how you schedule the jobs ?
+	crontab -l
+	crontab -e
+
+* how fields are there in crontab?
+	ans : 6 fields
+what those?
+ 1. Min
+ 2. Hours
+ 3. Days in month
+ 4. Months in Year
+ 5. Days in week
+ 6. Task or script or job
+
+eg : * * * * * sh /test.sh
+
+every day every min the above script will execute.
+
+
+min = 0 - 59
+hours = 0 - 23
+Days in month = 1 - 31
+Months in year = 1 - 12
+Day in week = 0 sun 1 mon ....... 0 - 6
+
+
+how to run one script every 5 min?
+*/5 * * * * sh /test.sh
+how to run every 2 hours onece?
+0 */2 * * * sh /test.sh
+
+how to run below script every sunday between 9 AM to 6 PM  only once in hour?
+
+0 9-18 * * sun sh /test.sh
+
+- between
+, is next
+/ every
+6 - 18 between 6 am to 6PM 
+6, 8,10,15 at 6 AM at 8 am at 10 am and at 3 PM 
+
+0,15,30,50 * * * 0 sh /test.sh
+
+
+1 first min 
+15th min
+30th min
+50 min in hour only on sunday following script will execute /test.sh
+
+* where to get cronjob status? or where cron job logs will store?
+   /var/log/cron
+
+how to list out scheduled jobs in cron?
+  crontab -l
+how to schedule cron job?
+crontab -e
+
+-e edit
+-l listout scheduled jobs
+
+/etc/cron.deny => this is default file and it is a high priority
+/etc/cron.allow  ==> by default, won't be there, you need to create manually...
+
+100 users ==> if you want to 10 users to run cron job ==> instead of adding rest 90 users in the /etc/cron.deny file, you can just add these 10 users in /etc/cron.allow file 
+
+100 users ==> if you want to deny 10 users to run cron jobs ==> instead of adding 90 users in the /etc/cron.allow file, you can just add those 10 users in the /etc/cron.deny file..
+
+cron.allow
+cron.deny ==> it will take only cron.deny file if both files in the /etc
+	so make sure, if you want to allow cron.allow file just delete cron.deny file
+
+for example I want to deny "azher" users to not to run cronjob on Mondays
+
+#! /bin/bash
+
+echo "azher" >> /etc/cron.deny 
+
+schedule the above script  to run every monday night 12 AM
+
+
+#! /bin/bash
+
+sed -i 's/azher//' /etc/cron.deny 
+
+schedule the above script to run every Tuesday night 12 AM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* how to provide crontab access to particular user?
+add username in /etc/cron.allow
+
+first time we have to create cron.allow
+vi /etc/cron.allow
+narasimha
+
+how to allow all the users?
+just remove /etc/cron.allow file
+if this file is not there mean every one allowed
+
+modify or list out other users jobs
+crontab -u raja1 -l
+crontab -u raja1 -e
+
+
+only root permitted to perform above tasks.
+==================================
+
+Let's understand the above syntax with some examples
+
+1. Schedule a cron to execute at 5 AM daily
+
+0 5 * * * /scripts/job.sh
+
+2. Schedule a cron to execute twice a day at 6 AM and 6 PM
+
+0 6,18 * * * /scripts/job.sh
+
+3. Schedule a cron to execute on every minute
+
+* * * * * /scripts/job.sh
+
+4. Schedule a cron to execute on every Monday at 7 PM.
+
+0 19 * * mon /scripts/job.sh
+
+5. Schedule a cron to execute every 15 minutes.
+
+*/15 * * * * /scripts/job.sh
+
+6. Schedule a cron to execute on selected months
+
+* * * feb,jun,oct * /script/job.sh
+
+7. Run the shell script /home/script/backup.sh on March 4 at 7:25 A.M
+
+25 7 4 3 * /home/script/backup.sh
+
+8. Schedule a cron to execute every 30 Seconds
+
+Since we do not have control over seconds in the Crontab, but we can achieve it through the below two-step process.
+
+Let's first schedule a task that runs every minute.
+* * * * * /home/scripts/script.sh
+Now let's use sleep command to pause the execution for 30 seconds.
+* * * * * sleep 30; /home/scripts/script.sh
+The above task will stop the execution for 30 seconds, and it will resume again.
+
+1 min ==> job
+1:30 min => job
+30 ==> job
+30 ==> job
+30 ==> job
+
+We can list out all the Cron jobs without opening the crontab configuration file using below command
+
+crontab -l
+
+
+List Cron for Particular user:
+
+To list scheduled jobs of another user, use option as -u (User) and -l (List).
+
+crontab -u another_username -l
+
+Example: crontab -u test -l
+
+crontab -r ==>to remove.
+
+crontab -r -u username ==> to delete user specific..
+
+crontab -i -r =>if you want confirmation before removing
+
+
+
+
+Crontab Special String
+Other than the above syntax we discussed, we can also use eight special strings provided by Crontab. It will not only save our time but it will also improve readability.
+
+@reboot	    Run once, after startup.
+@yearly	    Run once a year, i.e., 0 0 1 1 *
+@annually	Same as @yearly
+@monthly	Run once a month i.e., 0 0 1 * *
+@weekly	    Run once a week i.e., 0 0 * * 0
+@daily	    Run once a day i.e., 0 0 * * *
+@midnight	Same as @daily
+@hourly	    Run once an hour i.e., 0 * * * *
+
+@hourly scriptpath
+
+==>Delete empty files and directory
+45 0 * * * testuser find /tmp -type f -empty -delete
+
+Above cron expression will find the empty files and directory from /tmp directory and it will delete them. This job will run at 12.45 AM on a daily basis. We need to mention the user name to perform this job. In the above example, testuser user is performing cron job operation.
+
+==>Execute multiple tasks using a single cron
+* * * * * /home/scripts/backup.sh; /home/scripts/scritp.sh
+
+Multiple tasks/jobs can be separated using a semicolon(;) and can be assigned to a single cron expression.
+
+Generator for CronJob
+https://www.generateit.net/cron-job/
+

@@ -1,0 +1,1277 @@
+SElinux
+Secured enhanced Linux
+
+FTP ==> 10 users in the sytesm
+only 2 users should use this FTP service
+or 
+only few options should be enabled..
+
+firewall is a service. It does the packet filtering. in and out packets filtering.
+
+firewall ==> physical  = It will be under network team control. Network team will write in/out rules.
+firewall ==> OS service = is a individual machine security service.
+
+ 90 % organizations will not maintain os level firewall.
+
+
+firewall will do the packet filtering which port is trying to connect? is that port is accepted or not? this part will be take care by firewall.
+
+selnux: 
+
+suse = by default doen't have the selinux
+red hat = it has selinux by default.
+
+ftp: /var/ftp and user home directory.
+
+
+			SElinux modes
+			1. enforcing : is recommended
+			2. permissive
+			3. disable
+
+configuration file: /etc/selinux/config
+	How to change SElinux mode permanetly?
+	step 1 : update mode in configuration file
+		vi /etc/selinux/config
+			SELINUX=permissive
+	step 2 : reboot the server
+		shutdown -r now
+
+how to change selinux mode temp?
+	setenforce 1
+		enforcing
+	setenforce 0
+	permissive
+1= enforcing
+0= permissive
+
+how to switch on particular selinux rule?
+	setsebool -P samba_enable_home_dirs on
+how to list out all the selinux rules
+	getsebool -a 
+how to list out only samba service selinux rules?
+	getsebool -a | grep samba
+
+
+setsebool -P ftpd_use_cifs on
+
+		firewall
+
+firewall is a service. It does the packet filtering. in and out packets filtering.
+
+firewall ==> physical  = It will be under network team control. Network team will write in/out rules.
+firewall ==> OS service = is a individual machine security service.
+
+ 90 % organizations will not maintain os level firewall.
+
+
+firewall will do the packet filtering which port is trying to connect? is that port is accepted or not? this part will be take care by firewall.
+-----------------------------------------
+Service starting/stopping/restarting/enable/disable/status
+
+systemctl in RHEL7
+
+systemctl start servicename ==> to start the service
+systemctl stop servicename ==> stopping the service
+systemctl restart servicename ==> to restart the service which is already in started state
+systemctl status servicename => just to check the service status to know whether started or not..
+
+systemctl start servicename
+systemctl enable servicename => even after restarting the machine, the service will get started automatically..
+
+systemctl stop serviceame 
+systemctl disable servicename ==> it will be  disabled and will not activate again after restart..
+
+
+service in RHEL6
+
+service servicename start/stop/status/disable/enable/restart
+
+
+
+
+-------------------------------------------
+So, you can add the specific service or  port to the firewall to make them allowed by peers logging in from outside...
+
+firewall-cmd --zone=public --remove-service=nfs --permanent
+
+ firewall-cmd --list-services
+ firewall-cmd --zone=public --add-service=nfs --permanent
+ firewall-cmd --list-services
+ firewall-cmd --reload
+ firewall-cmd --list-services
+ firewall-cmd --zone=public --add-port=21/tcp --permanent
+ firewall-cmd --zone=public --add-port=21/udp --permanent
+ firewall-cmd --zone=public --add-port=20/udp --permanent
+ firewall-cmd --zone=public --add-port=20/tcp --permanent
+ firewall-cmd --reload
+ firewall-cmd --list-services
+ firewall-cmd --list-ports
+ firewall-cmd --zone=public --delete-service=nfs --permanent
+ firewall-cmd --zone=public --del-service=nfs --permanent
+ firewall-cmd --help
+ firewall-cmd --zone=public --remove-service=nfs --permanent
+ firewall-cmd --list-services
+ firewall-cmd --reload
+ firewall-cmd --list-services
+ -----------
+
+ftp we use to transfer the data..
+
+21 ==> connection
+20 ==> to transfer the data
+---------------------------------
+		ping
+		telnet
+		nc
+		traceroute
+		netstat or ss
+
+
+ping <destinationIP>
+ping -c 5 <destinationIP>
+
+* which protocol will work when we use ping?
+	ICMP (internet control message protocol)
+   ping command use the ICMP protocol
+
+   TCP
+   UDP
+   ICMP  ==> PING
+
+
+SERVICES
+------------
+TO trasfer the data
+ 20, 21	===> File Transfer Protocol (FTP)==> TCP  ==> SFTP(SSH FTP)
+to login from remove servers
+ 22	 ==>Secure Shell (SSH)	==> TCP and UDP
+just to check whether service is running in the remote server or not..
+ 23	==> Telnet	==> TCP
+to do an emails
+ 25	 ==>Simple Mail Transfer Protocol (SMTP) ==> TCP
+ 50, 51	==> IPSec	 
+
+to define the domains
+ 53	 ==>Domain Name System (DNS)	===> TCP and UDP
+	public DNS ==> google.com, facebook.com, .........etc
+	Private DNS ==> 2000+ servers
+				 ==> 500 servers for PROD
+					lenovo-app-server1
+				==> 500 servers for DEV
+				==> 500 servers for QA
+				==> 400 servers for Devops
+				==>100 servers for PrePROD
+
+ 67, 68	 ===>Dynamic Host Configuration Protocol (DHCP)	===> UDP
+ 69	 ===>Trivial File Transfer Protocol (TFTP)	===> UDP
+ 80	 ===>HyperText Transfer Protocol (HTTP)	===> TCP
+ 110	===> Post Office Protocol (POP3)	===> TCP
+ 119	===> Network News Transport Protocol (NNTP)	===> TCP
+ 123	===> Network Time Protocol (NTP)	===> UDP
+ 135-139	===> NetBIOS	===> TCP and UDP
+ 143	===> Internet Message Access Protocol (IMAP4)	===> TCP and UDP
+ 161, 162	===> Simple Network Management Protocol (SNMP)	===> TCP and UDP
+ 389	===> Lightweight Directory Access Protocol	===> TCP and UDP
+ 443	===> HTTP with Secure Sockets Layer (SSL)	===> TCP and UDP
+ 989, 990	===> FTP over SSL/TLS (implicit mode)	===> TCP
+ 3389	===> Remote Desktop Protocol	===> TCP and UDP
+ 
+ 
+	1. ftp (20/21)  TCP
+	2. SSH/SFTP (22) TCP
+	3. NFS (2049) TCP
+	4. SAMBA (137/138/139) TCP
+	5. NTP (123) UDP
+	6. DHCP (67/68) TCP
+	7. DNS (53) UDP
+	8. HTTP/HTTPS (80/443) TCP
+	9. Rsync (22) TCP
+
+Protocols:
+	1. TCP : Transmission control protocol
+	2. UDP : User datagram protocol
+
+all are for transffer data from one to other machine.
+
+
+route test : ping
+service test in destination machine : telnet or nc
+
+yum install nc
+
+
+
+* what is the difference between Telnet and NC?
+	Telnet : possible to send data through telnet
+	NC : not possible to send data through nc because it supports only 0 packets.
+	telnet : will not support for UDP protocol services. It can't test the UDP service status in destination machine.
+	nc : net cat can test both the services TCP/UDP.
+
+* which service recommended?
+	nc
+	because hackers can not transfer or inject any program to server.
+
+nc -vz <destinationip> <portnumber>
+	v = verbose
+	z = zero packets transfer
+nc -uvz <destinationIP> <portnumber>
+	U = UDP
+	v = verbose
+	z = zero packets
+
+nc -uvz 192.168.40.121 123
+
+   Traceroute:
+ 
+trace the route
+
+
+telnet or nc you may will connection refused ? how to trobleshoot where is the issue?
+ in destination machine we will check service status. in destination machine service is running but still source couldn't able to connect destination.
+
+traceroute to 142.250.67.238 (142.250.67.238), 30 hops max, 60 byte packets
+ 1  192.168.40.1
+ 2  10.1.1.20
+ 3  10.2.1.30
+ 4  * * *
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+ 9  * * *
+10  * * *
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  * * *
+21  * * *
+22  * * *
+23  * * *
+24  * * *
+25  * * *
+26  * * *
+27  * * *
+28  * * *
+29  * * *
+30  * * *
+[root@localhost ~]#
+
+
+
+    ss -a
+
+-a all ports
+  running services ports will list out
+
+if sshd service is running you can get status like LISTEN
+
+ss -nap | grep :21 | grep ESTAB |wc -l
+
+
+port will come listen state when service starts.
+
+	ss -a
+	-a all ports (listen,establish, timeout)
+	ss -l
+	only listening ports(TCP/UDP)
+	ss -lt
+	only tcp listening ports
+	ss -lu
+	only udp listening ports
+	ss -na
+	all network ports
+	ss -nap
+	 p means process id
+	
+
+ss : socket statics rhel 7 & 8
+netstat : network statics rhel 4,5,6
+---------------------------------------------------------------
+	
+--------------------------------------------------------------
+	1. ftp (20/21)  TCP   >/etc/vsftpd/users_list , /etc/vsftpd/ftpusers
+	2. SSH/SFTP (22) TCP 
+	3. NFS (2049) TCP
+	4. SAMBA (137/138/139) TCP
+	5. NTP (123) UDP
+	6. DHCP (67/68) TCP
+	7. DNS (53) UDP
+	8. HTTP/HTTPS (80/443) TCP
+	9. Rsync (22) TCP
+--------------------------------------------------------------------------------------------
+@FTP 
+File transfer protocol
+
+    1. pkg: vsftpd
+    2. Service: vsftpd
+    3. configuration file : /etc/vsftpd/vsftpd.conf
+    4. port number : 20/21
+    5. Daemon : vsftpd
+
+    back ground running service or process.
+    front end is service
+    back end is daemon
+    if you stop service even daemon will get stopped.
+    if you start service even daemon will run.
+
+
+       > FTP is for transfer files from one machine to other machine.
+       Adv:
+        1.  FTP is very fast,stable,efficient service.
+        2.  we can transfer data through internet.
+            we can access server through browser and command line
+     Draw back:
+        1. we can transfer only files not possible to transfer directories.
+        2. FTP use the Binary format to transfer data over network.
+            very easy hack data if data travelling in binary format, it's security bottleneck.
+
+
+sai ==> 
+97-122 ==> a-z ==>1100011
+65-90 ==> A-Z
+
+
+server side:
+step1 : install vsftpd pkg in server machine
+step2 : start the service
+	systemctl start vsftpd
+	systemctl enable vsftpd
+please disable selinux
+	setenforce 0
+please stop firewall
+	systemctl stop firewalld
+	systemctl disable firewalld
+
+client:
+	make sure to install ftp packge...
+	ftp serverip
+
+
+after connect
+ls remote
+!ls local ls
+pwd remote
+!pwd local
+cd remote
+lcd local
+
+get is download
+put is upload
+
+get filename
+put filename
+mget file1 file2 file3
+mput file5 file6 file7
+--------------------
+0-65535 ports
+ping IP/HOST
+telnet serverIP PORT
+
+how to see all the listening ports in the system?
+	netstat -ntulp
+	ss -  ntulp
+
+	specific port checking:
+		netstat -nap | grep :21
+		ss -nap | grep :21
+
+-----------------------------------------
+1. Local users
+2. anonymous user	
+
+How to disable anonymous users?
+	vi /etc/vsftpd/vsftpd.conf
+		Actual = anonymous_enable=YES
+		to     = anonymous_enable=NO
+	restart service to reflect this parameter
+	systemctl restart vsftpd
+
+in browser : ftp://192.168.40.100
+cmd : ftp 192.168.40.100
+
+By default all the users are allowed except root user for FTP service.
+
+how to provide ftp access to root user?
+remove root user name in the /etc/vsftpd/ftpusers file
+How to deny normal user?
+add username in /etc/vsftpd/ftpsers file
+
+
+useradd siva
+
+how to deny all the users and allow specific users?
+	vi /etc/vsftpd/vsftpd.conf
+		userlist_enable=YES
+		userlist_file=/etc/allowdftpusers
+		userlist_deny=NO
+
+	systemctl restart vsftpd
+
+
+how to allow usres?
+	add username in /etc/allowdftpusers
+	narasimha
+
+how to change the anonymous users path
+	vi /etc/vsftpd/vsftpd.conf
+	add the below parameter
+	anon_root=/opt/test
+
+	chcon -R -t /var/ftp /opt/test 
+
+default ftp path ==> /var/ftp/
+
+================================= @SSH ==========================
+SSH (Secure shell)
+	pkg = openssh
+	service = sshd
+	daemon= sshd
+	port = 22
+	configuration file : /etc/ssh/sshd_config
+
+data will travel in encryption format.
+
+Adv:
+1. Data travel in secure manner with help of encryption mechanisum.
+2. we can transfer files and directories through ssh service.
+3. using ssh full administration can possible in remote machine.
+
+	ssh 192.168.40.101
+	ssh -l narasimha 192.168.40.101
+	ssh narasimha@192.168.40.101
+
+cp -r file /tmp/
+i am in 100 machine and pushing /testdir directory to 101 machine.
+scp -r /testdir narasimha@192.168.40.101:/tmp/
+
+we can pull from 101 machine
+scp -r narasimha@192.168.40.100:/tdir /home/narasimha/
+
+rsync -avhz anaconda-ks.cfg root@192.168.92.131:/root/sai
+
+----------------------------------------------------------------------------------------------------------------------
+transferring /testdir directory data to 101 machine , it's copying by narasimha user in /tmp path.
+
+
+scenario 1:
+ Disable root login through ssh service.
+
+Unix team:15 every required root credentials are not?
+	      yes
+
+directly they will start login to server as a root
+lvremove applv
+
+	who deleted lv?
+	  root
+
+
+disable : ssh root@192.168.40.101 
+accepted : ssh narasimha@192.168.40.101
+	   su - root
+	in this case there will log in /var/log/secure file
+	narasimha opened session as a root
+
+	tail -50 /var/log/secure
+
+
+	vi /etc/ssh/sshd_config
+	# PermitRootLogin yes
+	change it to 
+	PermitRootLogin no
+restart the sshd service to reflect the recent changes
+	systemctl restart sshd
+
+	
+
+out of 15 users today 15 users logged in server but only 5 users switched to root.
+
+How to change ssh port number?
+
+22
+Step 1 : change port number in configuration file.
+	vi /etc/ssh/sshd_config
+	#Port 22
+	change to 
+	Port 2222
+step 2: update the new port number in /etc/services file
+	ssh             22/tcp                          # The Secure Shell (SSH) Protocol
+	ssh             22/udp                          # The Secure Shell (SSH) Protocol
+
+
+change it to 
+	ssh             2222/tcp                          # The Secure Shell (SSH) Protocol
+	ssh             2222/udp                          # The Secure Shell (SSH) Protocol
+
+step 3 : restart the ssh service
+	systemctl restar sshd
+
+
+step 4 : disable the firewall
+	 systemctl stop firewalld
+	systemctl disable firewalld
+
+How to deny normal users and groups through ssh service?
+
+add below parameter in following file /etc/ssh/sshd_config
+	
+	DenyUsers  narasimha test sai gangulaiah
+	DenyGroups groupname
+
+	AllowUsers
+	AllowGroups
+
+	restart the sshd service to reflect above change
+	systemctl restart sshd
+
+	OR
+	you can also set the shell 
+	/bin/nologin
+	/sbin/nologin
+
+eg : oracle will have common user that is oracle. 
+	this oracle user is for start and stop the database in this every database administrator required oracle user password.
+
+
+10 database servers
+in all 10 machines there will be oracle user and it required all db administartors.
+
+
+How to set Banner message for ssh login users?
+step1:update banner file path in /etc/ssh/sshd_config
+	vi /etc/ssh/sshd_config
+		#Banner none
+		change it to
+		# Banner /etc/mybanner
+step 2: create banner file	
+create /etc/mybanner
+	Welcome to server
+step 3: restart the service
+systemctl restart sshd
+
+
+machine1                 machine2
+
+username & password
+
+creating trust relation between 2 machines.
+
+
+machine1 [nfsserver]192.168.40.100
+client [clientm1] 192.168.40.101
+created user in both the machines
+	useradd bkpuser
+
+going to create trust relation from nfsserver to clientm1
+ bkpuser can login from nfsserver to clientm1 without password.
+
+nfsserver server user has to share public key with clientm1 then only client will trust and allow him without password.
+
+    for each and every user will have 2 keys 1. Private 2. public.
+	
+s1 to s2
+pub ==> in S2
+s2 to s1
+s2 pub ==> in S1
+
+PASSWORDLESS AUTHENTICATION
+------------------------------------------------
+
+step 1: generate keys 
+	ssh-keygen
+note: make sure you logged in as bkpuser or respective user and generate keys.
+
+step 2: share public key with clientm1 machine(192.168.40.101).
+	ssh-copy-id -i id_rsa.pub bkpuser@192.168.40.101
+  please be in keys located place and execute above command.
+	/home/bkpuser/.ssh/
+
+	make sure 700 permissions on .ssh folder
+	make sure 600 permissions on .ssh/authorized_keys file
+
+
+Usecase:there is one script in clientm1 and it should trigger every day at 11:30 PM. 
+	note: this script should be execute by nfsserver user.
+
+usecase: clientm1 data needs to copy in nfsserver everyday at 11:40 PM.
+  machine: nfsserver
+		scp -r bkpuser@192.168.40.101:/data /bkp/clientm1/
+ 	
+	40 23  * * * scp -r bkpuser@192.168.40.101:/data /bkp/clientm1/
+
+by default 10 ssh connections can possible. how to increase ssh connections?
+	/etc/ssh/sshd_config
+	#MaxSessions 10
+	change it to 
+	MaxSessions 100
+	systemctl restart sshd
+
+==============================================================================================
+		Difference between TCP/UDP
+	1. TCP (data)
+	2. UDP (data)
+	3. ICMP (ping)
+
+
+ftp in binary format ==> TCP
+ssh ==> TCP
+NTP ==> UDP
+DNS ==> UDP
+
+  TCP(Transmision control protocol)
+  UDP(User datagram protocol)
+
+
+ TCP								UDP
+It's connection oriented protocol			It's connection less protocol
+
+Header:								Sorce IP and port
+source IP& port
+Destination IP & port						destination ip & port
+	sequence number
+	acknowledgement number
+	flag
+	urgent pointer
+
+Header size is 20 Bytes						8 Bytes
+TCP is slow if we compare with UDP				Performance will be too good.
+delivery							no gauranty
+packet retry is possible					No retry facility
+packets are very secure						no security for packets
+it follows seq order						no seq order
+error segments							no error segment
+
+
+easy to hack
+	ftp data (20/21) 20= data 21 = connection
+	ssh data (22)
+	nfs  data (2049)
+	samba data (137,138,139)
+	http data (80)
+	rsync data (22)
+	ntp date and time (123)
+	dns hostname and IP (53)
+
+================================== @NFS ===============================================
+
+			NFS
+		Network File system
+
+File system will be in network for access remote machines.
+
+pkg: nfs-utils
+port: 2049
+service:nfs
+Daemon:nfsd,mountd,nfslogd,lockd,statd
+config file: /etc/nfsmount.conf
+
+Versions : 2,3,4
+current version is 4
+RHEL 5 & 6 the default version was 3
+RHEL 7 & 8 the default version is 4
+		sshd
+		vsftpd
+
+nfsd:this is the main daemon of nfs, responsible to export file system and make sure applyning permissions. 
+Mountd: responsible to take care mount requests from client machines.
+nfslogd: it captures nfs clients and server related activities and write in /var/log/messages.
+lockd:
+statd:
+
+
+	exporting file system in nfs server
+	step 1 : make sure nfs-utils package is installed
+	step 2 : identify the file system and grant full permissions to others
+		eg: /sharedata
+		chmod o+rwx /sharedata
+step 3 : export the file system
+		vi /etc/exports
+		/sharedata *(rw,sync)
+
+	step 4 : start or restart the service
+		systemctl restart nfs
+
+		systemctl enable nfs
+ disable firewalld
+	systemctl stop firewalld
+	systemctl disable firewalld
+
+how to list out exported file systems in server
+	exportfs
+
+client machine:
+	step 1 : make sure there is network between client machine and server
+		ping 192.168.40.100
+		telnet 192.168.40.100 2049
+	note: move ahead with next steps if there is network and connection through 2049 port.
+	step 2 : create local directory and mount network share.
+		mkdir /sharedata
+		mount 192.168.40.100:/sharedata /sharedata
+	echo "192.168.40.100:/sharedata  /sharedata   nfs     defaults        0 0 " >> /etc/fstab
+
+how to list out shared file systems/drives in remote machine?
+	showmount -e 192.168.40.100 
+	
+
+
+	/sharedata *(rw,sync)   ==> everyone
+ 	/sharedata 192.168.40.*(rw,sync)  ==> only to 192.168.40. network
+	/sharedata 192.168.*.*(rw,sync)  ==> granting access to all c class network
+	/sharedata 192.168.40.103(rw,sync) ==> only to one machine
+	/sharedata 192.168.40.104(ro,async)
+
+* what is the difference between sync and async?
+sync: writting data from client to server.
+4 GB data
+transferring from client to server
+after successful copy data to server then server will give confirmation to client machine like data recieved.
+sync is waiting to complete and give confirmation to client machine. 
+
+async : async will confirm imediatly to client machine data recieved .
+he will not wait until data copy. starting itself async will give confirmation to client.
+
+* sync or async which one will improve the nfs perfomance?
+	Async
+
+========================================================================	
+
+@SAMBA
+
+nfs: Unix to unix
+we can share file system between Unix platform to unix platform.
+
+unix to windows
+unix to unix
+
+
+		
+
+the unique future of samba is we can export file system across cross platforms(unix to windows and windows to Unix)
+		Pkg: Samba and cifs-utils
+		ports : Unix 137,138,139  ( Unix to windows)
+			windows : 445 ( windows to Unix)
+		service : smb
+		daemon : smbd
+		config file : /etc/samba/smb.conf
+
+
+Scenario 1 : export file system in windows and accessing it in Linux box.
+
+	exportfs 
+to know the exported file system in windows
+	\\localhost
+how to know the IP address in windows?
+	ipconfig /all
+
+
+step 1 : share the file system in windows
+	rc on directory and share with ==> specific people
+step 2 : login to Linux box and do the connectivity test.
+	  ping windowsIP
+	  telnet windowsIP 445
+step 3 : create Local directory and mount windows file system with local directory.
+		mkdir /soft
+		mount.cifs //192.168.40.1/Softwares /soft -o username=test,password=test123
+	vi /etc/fstab
+		
+		//192.168.40.1/Softwares   /soft  cifs  defaults,username=test,password=test123  0 0
+	
+Hidding credentials
+	vi /root/.cre
+	username=test
+	password=test123
+chmod 600 /root/.cre
+mount.cifs //192.168.40.1/Softwares /soft -o credentials=/root/.cre	
+in fstab
+//192.168.40.1/Softwares   /soft  cifs  defaults,credentials=/root/.cre  0 0
+
+
+
+Scenario 2 : export file system in Linux and access it in Windows box?
+
+step 1 : make sure samba and cifs-utils pakcages are installed
+	  yum install samba cifs-utils
+
+
+step 2 : Decide which file system we are going export and make sure other have full permissions on it
+		mkdir /winshare
+		chmod o+rwx /winshare
+step 3 : export it
+	vi /etc/samba/smb.conf
+	
+[narasimhashare]
+path = /winshare
+browseable = yes
+writable = yes
+write list = narasimha
+
+
+save and come out and then validate the syntax mistakes
+	testparm
+
+restart the smb service
+sytemctl restart smb
+systemctl enable smb
+systemctl stop firewalld
+systemctl disable firewalld
+
+
+cifs = common internet file system
+
+make sure narasimha id is present in server and added that user into smb list
+	id narasimha
+	smbpasswd -a narasimha
+	below command is for list out samba users
+	pdbedit -L
+	
+	remove user from samba list
+	smbpasswd -x sree
+	disable user temp
+	smbpasswd -d sree
+	enable user
+	smbpasswd -e sree
+	
+
+
+
+selinux  =======> with in system
+firewalld =====>outside
+
+
+below command is for disable se linux temp
+	setenforce 0
+
+
+how to mount it in windows?
+	open my computer
+	right click on free place ==> add a network location ==> \\192.168.40.100\narasimhashare
+
+temp : in run \\192.168.40.100
+		username : 192.168.40.100\narasimha
+		password : ******************
+
+
+
+
+
+integrating linux machine with AD(active directory)
+SSSD   this one
+Samba
+=====================================================================
+
+@NTP
+			Network time protocol
+
+NTP service is for supply date and time to client machines. 
+sessions will get expair if we maintain stand alone date and time to individual machine because development team sets the session expairy and time out for sessions.
+
+must and should we have to maintain seperate NTP server and make sure all clients are integrated with NTP server to sync up latest date & time.
+
+
+Task 1 : configure NTP server
+	pkg : ntp
+	service : ntpd
+	daemon  : ntpd
+	port    : 123/UDP
+	config file : /etc/ntp.conf
+
+step 1 : install latest ntp package
+step 2 : customize ntp settings
+	vi /etc/ntp.conf
+	# Hosts on local network are less restricted.
+change 1:	restrict 192.168.40.0 mask 255.255.255.0 nomodify notrap
+change 2: 	server 127.127.1.0
+		fudge 127.127.1.0 stratum 2
+step 3 : start the ntp service
+	systemctl restart ntpd
+	systemctl enable ntpd
+note: make sure firewalld service is stopped
+validate is ntp is working.
+ntpq -np
+
+client side:
+
+step 1 : install latest ntp package
+step 2 : customize configuration file
+	remove existng server lines and add our internal server ip
+		server 192.168.40.100 prefer
+
+step 3 : restart ntpd service
+	systemctl restart ntpd
+	systemctl enable ntpd
+
+ntpq -np
+
+
+
+offset is actual round trip difference between ntp server and client
+
+
+chrony:
+introduced from RHEL 7 onwards. it can recovery offset value automatically between client to ntp server.
+pkg : chrony
+service : chronyd
+daemon: chronyd
+port : 123/udp
+config file: /etc/chrony.conf
+
+
+to get the ntp status
+chronyc tracking  = ntpstat 
+how to get ntp server details?
+chronyc sources
+how to get latest date and time from the ntp server manually?
+chronyd -q "192.168.40.100"
+==================================================================================================
+
+				@DNS 
+			Domain name system
+
+1. Public DNS (google.com, facebook.com)
+2. Private DNS 
+	2000 servers
+
+google.com	10.4.5.6
+facebook.com	6.7.44.54
+.
+.
+.
+.
+
+10.4.5.6 ====> Load balancer ==> 10 systems , 100 systems
+                         ---------
+----------
+------------
+--------
+
+public DNS ==> google.com, facebook.com, .........etc
+	Private DNS ==> 2000+ servers
+				 ==> 500 servers for PROD
+					lenovo-app-server1,2,3,4...............
+				==> 500 servers for DEV
+				==> 500 servers for QA
+				==> 400 servers for Devops
+				==>100 servers for PrePROD
+
+ssh root@lenovo-app-server1
+
+---------------------------------------------------
+ftp = Transfer data
+ssh = Transfer data and remote machine administration
+nfs = Transfer data
+samba = Transfer data across cross platforms
+ntp  = date and time will transfer over the service
+
+DNS: It resolves name to IP address.
+as well it resolves IP to name
+
+  network will understand only IP format.
+
+   ssh 192.168.40.100
+   ssh machine2
+
+
+google.com  
+facebook.com ==> 12.1.2.100 
+amazon.com   ==> 11.1.2.100
+
+      	pkg : bind, bind-utils
+	service : named
+	daemon  : named
+	port    : 53/UDP
+	configuration file : /etc/named.conf
+along with configuration file we will maintain 2 more files
+1. forward lookup zone : here we will update name to IP address details. /var/named/
+2. Reverse lookup zone : here we will maintain IP to name details. /var/named/
+
+
+1. Global DNS server
+2. Internal DNS server
+
+       1. GTLD
+       2. CCTLD
+	GTLD(General Top level domains) 21
+	.com
+	.org
+	.corp
+	.info
+	.edu
+	.gov
+CCTLD ( Contry code top level domains)
+	.in
+	.pk
+	.sk
+	.nl
+	.us
+	.uk
+	.nl
+
+
+
+	DNS     server is reuqired to maintain all clients or web site name and IP details
+	Local DNS  here dedicated DNS server doen't required. we will maintain entries in /etc/hosts file
+
+    1000 machines.
+1000 * 1000
+
+999 = 1000
+998 = 1000
+   dns 1000
+
+10 = no need dns server recommneded is local entries
+
+
+   forward lookup zone file : /var/named/fwdnarasimha.com
+   reverse lookup zone file : /var/named/revnarasimha.com
+
+
+
+       DNS records types
+	1. SOA   (start of authority)        f/r
+	2. NS    ( Name server)              f/r
+	3. MX    ( Mail exchange server)     f/r
+	4. A     ( Address record for IPV4)  F
+	5. AAAA  ( Address record for IPV6)  F
+	6. PTR   ( Pointer)                  R   
+	7. CNAME ( conanical name or alias name) F
+	  eg: www.facebook	IN	A	10.31.2.1
+		fb		IN	CNAME	www.facebook
+
+
+ CNAME
+  A
+  NS
+
+
+* what is TTL?
+
+newly added records will get activated after expairing TTL time.
+eg: 17-11-2020 at 7:20 AM one new record has been added into forward lookup zone, suppose TTL time is 1 Day then this newly added record will activate after 24 hours. 
+  it will get activated at 18-11-2020 at 7:20 AM onwards.
+
+to reflect newly added records imediatly.
+    systemctl restart named
+      or
+    decrease TTL time  and restart named service to reflect this ttl time.
+	systemctl restart named
+
+
+  primary DNS server or master DNS server
+
+  Slave DNS sever
+
+SOA :  here we will maintain master dns server resources and slave replication details.
+
+
+
+
+domain name : b22.com
+server name : nfsserver
+FQDN : nfsserver.b22.com.
+fully qualified domain name
+
+  
+refresh: between DNS master server to slave server if slave is there.
+retry : 6 AM retry has happened, next retry will happen at 8 AM but failed at 8 AM.
+
+test.b22.com
+t.b22.com
+
+note: make sure we have assigned static IP for DNS server
+
+
+step 1 : create forward lookup zone and update entries 
+$TTL 600
+@       IN SOA  nfsserver.b22.com. root.b22.com. (
+                                2020111702      ; serial
+                                        2h    ; refresh
+                                        1h    ; retry
+                                        2d  ; expire
+                                        1d   ; minimum
+)
+@               IN      NS      nfsserver.b22.com.
+@               IN      A       192.168.40.100
+nfsserver       IN      A       192.168.40.100
+clientm1       IN      A       192.168.40.101
+clientm2       IN      A       192.168.40.102
+clientm3       IN      A       192.168.40.103
+www.narasimha      IN      CNAME   nfsserver
+clientm4        IN      A       192.168.40.104
+step 2: create main configuration file
+	vi /etc/named.conf
+options
+{
+        directory               "/var/named";           // "Working" directory
+        dump-file               "data/cache_dump.db";
+        statistics-file         "data/named_stats.txt";
+        memstatistics-file      "data/named_mem_stats.txt";
+
+        listen-on port 53       { 127.0.0.1; 192.168.40.100; };
+allow-query     { localhost; 192.168.40.0/24; };
+
+};
+
+        zone "b22.com" IN {
+                type master;
+                allow-query     {any; };
+                file "fwdb22";
+        };
+
+step 3 : verify syntax of config file and zone file
+	configuration file : named-checkconf /etc/named.conf
+	zone file : named-checkzone b22.com /var/named/fwdb22
+
+step 4 : restart the named service to reflect new dns server.
+	systemctl restart named
+	systemctl enable named
+ note : make sure firewall is disabled
+
+
+
+
+how to integrate client machine with DNS server?
+ in client machine just update dns server details in /etc/resolv.conf file
+	search b22.com
+	nameserver 192.168.40.100
+
+
+
+
+* how to find out your dns server details?
+nslookup 
+>server
+
+  ===============================================================================
+
+				@HTTP
+
+www.facebook.com
+http://facebook.com
+			Hyper text transfer protocol
+http service will serve the web pages.
+http can transfer the hyper text that is your html design.
+
+ftp,ssh,nfs,samba
+ntp = date and time synch
+dns = resolves the name to IP and IP address to name
+http: transfer data
+
+		pkg: httpd
+		port : 80
+		service : httpd
+		daemon : httpd
+		config file : /etc/httpd/conf/httpd.conf
+		default web pages location is : /var/www/html/
+
+	types of web hosting
+	1. Virtual hosting
+	2. Name based hosting
+	3. Port based hosting
+virtual hosting is nothing but one ip one web page
+named based hosting : one ip n number web pages with different name
+			www.web1.b22.com
+			www.web2.b22.com
+			www.web3.b22.com
+			www.web4.b22.com
+	all of the web pages we will get from single server
+port based hosting : single ip but n number web pages with different port numbers
+			www.web1.b22.com:8080
+			www.web1.b22.com:8089
+			www.web1.b22.com:9090
+
+
+make sure httpd package is installed ( yum install httpd)
+step 1 : copy the web page in /var/www/html
+	  mkdir /var/www/html/web1
+	 copied my webpage content to /var/www/html/web1
+	cp -r /root/frozenyogurtshop/* /var/www/html/web1/
+step 2 : remove default webpage
+		mv /etc/httpd/conf.d/welcome.conf /etc/httpd/
+step 3 : add below line in /etc/httpd/conf/httpd.conf
+	IncludeOptional webpages/*.conf
+Step 4 : create directory and create webpage
+	mkdir -p /etc/httpd/webpages
+	cd /etcd/httpd/webpages
+	 vi web1.conf
+<VirtualHost 192.168.40.101:80>
+ServerName www.site1.b22.com
+DocumentRoot /var/www/html/web1
+ErrorLog /var/log/httpd/web1.error.log
+CustomLog /var/log/httpd/web1.requests.log combined
+</VirtualHost>
+
+step 5: validate the syntax errors, if no errors then start httpd service
+	apachectl configtest
+        systemctl restart httpd
+	systemctl enable httpd
+    in case firewall is running, please stop the firewall
+	systemctl stop firewalld
+
+step 6 : update new webpage name details in forward lookup zone file in dns server.
+	vi /var/named/fwdb22
+	www.site1    IN  A  192.168.40.101
+
+
+
+
+
+2. name based web hosting 
+
+step 1 : copy the web page in /var/www/html
+	  mkdir /var/www/html/site2
+	 copied my webpage content to /var/www/html/site2
+	
+step 2: configure the webpage
+	cd /etc/httpd/webpages
+         vi mywebsites.conf
+<VirtualHost *:80>
+ServerName www.site2.b22.com
+DocumentRoot /var/www/html/site2
+ErrorLog /var/log/httpd/site2.error.log
+CustomLog /var/log/httpd/site2.requests.log combined
+</VirtualHost>
+
+restart httpd service
+systemctl restart httpd
+
+step 3 : update DNS entries in forward lookup zone
+
+
+3. port based hosting
+
+step 1 : copy the web page in /var/www/html
+	  mkdir /var/www/html/site4
+	 copied my webpage content to /var/www/html/site4
+	
+step 2: configure the webpage
+	cd /etc/httpd/webpages
+         vi mywebsites.conf
+<VirtualHost *:8080>
+ServerName www.site4.b22.com
+DocumentRoot /var/www/html/site4
+ErrorLog /var/log/httpd/site4.error.log
+CustomLog /var/log/httpd/site4.requests.log combined
+</VirtualHost>
+
+step 3 : update new port in config file
+vi /etc/httpd/conf/httpd.conf
+	Listen 8080
+
+restart httpd service
+systemctl restart httpd
+
+step 4 : update DNS entries in forward lookup zone
+
+in browser
+www.site4.b22.com:8080
+
+
+
+httpd related logs will store in /var/log/httpd

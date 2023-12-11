@@ -1,0 +1,104 @@
+Touch:
+
+it is for update curent date and time of existing file
+ touch is
+
+touch file2 file3 file4 file5 file6 file7
+if file is not exist then touch creates empty file. if file is exist then just update curent date & time to file.
+
+
+how to create 100 file with same format
+
+touch file{1..100}
+
+================================
+
+
+
+File system
+	OS
+Database system
+	mysql, postgres, 
+------------------------------
+
+> is used to redirect the output to a file
+>> is used to redirect the output to an existing file..
+
+
+            File Management
+	=================
+			
+	1. Cat (Concatenate)
+	2. VI / VIM /nano  (Virtual interface)
+	3. Touch
+
+HOW TO CREATE A FILE?
+cat > filename  ==> it is used create a file and if the file is already exists it will be overwritten..
+
+you can enter any data..
+ctrl+c or ctrl+d
+
+HOW TO APPEND THE DATA?
+cat >> filename ==> you can append/add the data to an existing file
+you can enter any data here and press ctrl+d or ctrl+c
+
+
+HOW TO SEE THE CONTENTS OF A FILE?
+	cat filename
+		OR
+	cat < filename
+
+how to make the file empty?
+	> filename
+
+-------------------------------------------------
+file size:
+
+0-255 characters
+ASCII values 
+
+a-z => 97-122 
+A-Z ==> 65-90
+0-9 ==> 47-56
+~!@#$%^&*()_+`=-{}[]\|;:"'<>,.?/
+♪Ԣ𠅗
+
+a = 97
+
+2 97
+   48 - 1
+   24 - 0
+   12 - 0
+     6 -0
+     3 - 0
+     1 - 1
+     0 - 1
+1 Byte = 8 bits
+01100001
+
+saiprasad
+------------------------------------------------
+windows: Notepad and ms word
+
+  files will be in black colour
+  directories will be in blue
+
+      cat > filename
+	ctrl + d
+==> to view the file content
+	
+cat filename 
+==> to view the file content with line numbers
+	cat -n filename
+
+
+==> how to append content to existing file
+	cat >> batch4
+
+the limitation in cat is we can't modify existing data.
+> create and overwrite  if file is not exists then it creates. If file is exists then it overwrites.
+>> append
+
+
+
+ for create empty files this is wrong. the actual functionality is change current timestamp to the existing file.

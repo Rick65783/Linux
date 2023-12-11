@@ -1,0 +1,241 @@
+----------------------------------SHELL Scripting-------------------------------------
+
+Alphabets ==> word ===> sentenses ==> paragraph ===> SA ==> lession ==> book
+
+variables
+constants  =====> statement ==> script/program ==> software ==> OS/application 
+operators
+functions
+.
+.
+
+statement:
+------------
+	sequential statements
+	conditional statements
+		if conditions
+	looping statements
+		statement ==>it will execute multiple times
+		for, while, do-while
+	case statements
+		case
+	
+
+	
+
+putting all the commands into one script to complete a task is called "shell script"
+
+script1.sh
+
+cal
+date
+uname -r
+uname -v
+df -hT
+pvs
+vgs
+lvs
+
+
+extension is .sh
+execute ==> chmod +x script1.sh
+
+how to execute a shell script?
+	
+	==>complete path of the script==> /root/script.sh
+	==>if you are in the same directory where script is located.. ==> ./script1.sh
+	==>sh script1.sh
+	==>bash script1.sh
+
+shebang line?
+
+	#! /bin/bash
+	#! /bin/sh
+how to check currently logged in shell?
+	echo $0
+		OR
+	echo $SHELL
+how to see what are the shells available?
+
+	cat /etc/shells
+
+how to comment a line?
+	# line
+
+what is difference between #! and # ?
+#! is something to specify the shell
+# is nothing but a comment
+
+-------------------------------
+
+
+cal ==> statement 
+date ==> statement
+mkdir dir123 ==> statement
+touch file123 ==> statement
+
+
+putting all commands in to one file that is called script
+ ==> putting all statements into a file that is called script..
+
+I have written a few shell scripts like :-
+1. server health check script to see mêmeory and cpu and swap utilization where we can pass command line arguments for the hostname so that it will pick provide the health.
+
+2. Also have written another script to get the
+    application logs
+    collecting the java thread dumps using jstack ==> jsack -l PID
+    collecting all the system logs and putting them into the SFTP location by zipping them with the ticket number.
+    
+3. And also installing a package into multiple servers by checking whether that is instaled or not.
+    
+    rpm -ivh packagePath
+    yum install packagepath
+    
+4. and also installing a user into multple servers.
+
+5. have written script to  migrate the files 
+    from Dev to QA
+    and QA to PROD systems using command line arguments and rsync command
+
+Dev ===> QA ==> PROD
+
+
+6. written script to take MYSQL Database Backup using mysqldump command
+
+7. if you want to patch mutiple servers at a time
+    for example 10 servers
+     ==> server1 ==> patch
+=============================================================================
+=> sequential statements
+    cal
+    date
+    scp -r testfile username@serverIP:dir/
+=> Conditional statements
+        based on the condition we can execute the statements
+        
+        if condition
+=> looping statements
+    we can execute one or more statements multiple times..
+
+=> case statements
+    we can execute one or more statements based on case or condition..
+=============================================================================
+how to know the shells?
+    cat /etc/shells
+
+1. what is shebang?
+        it is an interpretor to set to the script.
+    #! /bin/bash
+
+2. how to know the currently loggin shell?
+    echo $0
+    echo $SHELL
+
+3. what is starting line of a script?
+    we start the script with shebang line that is
+        #! /bin/bash
+
+4. if you don't mention shebang line what will happen, whether script runs or not?
+    it will run in the default currently loggedin shell.
+  
+5. how to run a shell script?
+    (Before running a script make sure you should have EXECUTABLE permission. And then running anyone of the following.)
+    
+  		 ./scriptpath
+        			OR
+    		sh scriptpath
+=================================================================================================================
+script1.sh, .java, .py, .xlsx, .docx, .mp3, .mp4.....
+
+what is shell script file extension?
+    .sh
+
+script1.sh
+
+    #! /bin/bash
+    
+==========================================================================================
+#! /bin/bash
+
+#A variable is a named memory location, where we can store a alue
+
+echo "Enter emp number"
+read EMPNUMBER
+
+echo "Enter emp name"
+read EMPNAME
+
+echo "Enter emp salary"
+read SALARY
+
+echo "################"
+echo "EMPLOYEE DETAIlS"
+echo "################"
+
+echo "EMPLOYEE NUMBER: "$EMPNUMBER
+echo "EMPLOYEE NAME:   "$EMPNAME
+echo "EMPLOYEE SALARY: "$SALARY
+--------------------------
+EMPNUMBER=1001
+
+how to get the command output into a variable?
+	
+	variablename=`command`
+
+
+=======================================================================================
+
+2. type variables
+
+#! /bin/bash
+echo $HOSTNAME    # this will be a global variable value
+HOSTNAME="myhost"
+echo $HOSTNAME    # this will be a local  variable value that is "myhost"
+
+========================================================================================
+3.Types of operators
+    1. Arithmetic operators
+        
+        + addition
+        - substraction
+        * multiplication
+        / division          ==> Quotient (bhagaphalam)
+        % modulo division   ==> Remainder(Shesham)
+
+        = =>this is a assignment operator used to assign a value..
+
+   2) 25 (12
+      24
+   ------
+     (1)
+
+a=25
+b=2
+c=a/b = 12
+c=a%b = 1 
+
+=============================================================================================      
+#! /bin/bash
+# arithmetic operations
+
+NUM1=10
+NUM2=20
+
+ADD=$((NUM1+NUM2))
+SUBS=$((NUM1-NUM2)) 
+MUL=$((NUM1*NUM2))
+DIV=$((NUM1/NUM2))
+         
+echo "Addition of $NUM1 and $NUM2 is "$ADD
+echo "Substraction of $NUM1 and $NUM2 is "$SUBS
+echo "Multiplication of $NUM1 and $NUM2 is "$MUL
+echo "Division of $NUM1 and $NUM2 is "$DIV
+
+=================================================================================================
+
+    2. boolean operators
+    3. comparison operators
+    
+
+4. Quotes
+    # we cam keep quotes, these lines won't be executed by script...

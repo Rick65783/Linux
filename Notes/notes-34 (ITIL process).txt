@@ -1,0 +1,519 @@
+ITIL
+	Change 
+	Incident
+	Problem 		
+		server is not responding to commands ==> restart machine.. ==> worked ==> after few days same issue ==> restart ==> work ==> same issue
+			memeory/cpu/swap increase
+				=> we will open a ticket with the OS vendor by getting sosreport...
+		application is not responding to users
+		
+what is priority?
+	P1, P2, P3
+		P1 ==> server is not reponding to command? =>S1
+				 I am unable to login to server abcd1234 =>S2
+what is severity?
+	S1, S2, S3
+
+what is levels of support?	
+	L1,......
+
+ticketing tools
+monitoring tools
+ssh tools
+scp tools
+editors
+
+
+Vsphere client ==> I do not have access to VMware directly we have separate VMware team..
+	how to add the disk
+	how to increase the memeory
+	how to increase the CPU
+	how to clone the system
+	how to create a template
+	how to create a snapshot
+	
+how to check memeory, cpu, disk utilizations in monitoring tool
+
+what is contract based?
+what is payroll?
+
+
+ITIL process
+--------------
+a few realtime tools:
+
+	putty
+		https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.78-installer.msi
+
+	Winscp ==> if you want to copy the files from windows to linux, you can go for winscp
+		https://cdn.winscp.net/files/WinSCP-5.21.7-Setup.exe?secure=yZKjf0oz_fHw2y2Ss40z1g==,1678687415
+
+	
+	Notepad++ ==>
+	https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5/npp.8.5.Installer.x64.exe
+
+
+	file zilla
+		https://download.filezilla-project.org/client/FileZilla_3.63.2.1_win64_sponsored2-setup.exe
+
+
+mobaxterm:
+	https://download.mobatek.net/2302023012231703/MobaXterm_Installer_v23.0.zip
+
+EDITORS
+------------
+	sublime
+	brackets
+	visual studio
+	
+		
+text expander
+
+
+ITIL 
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+ITIL 
+
+			Information technology infrastructure library
+
+
+infrastrucure:
+Hardware(servers): Mounting server in RACK,OS installation, network setup
+OS administration: OS administration
+Network: firewall, routes, switches and Load balancer.....
+Storage : storage management
+Backup : backup management
+OS level support
+------------------------------------
+I am unable to login to abcd0101 host
+	ITIL 
+		ticket
+------------------------------
+
+ITIL : it describes processes, prodcedures, tasks and checklists.
+we can deliver quality service.
+we can avoid downtime of customer application
+
+
+	IT companies
+	   ==> Development
+	   ==> Delivering IT services
+1. Development: product based companies
+	oracle, IBM, HP, rubrik, pega systems,redhat,suse,facebook,what'sup,google
+2. Delivering IT services:
+	they will deal with other companies and provide IT services
+	mainly provide infrastrucre services to client.
+
+	TCS,ACCENTURE,INFOSYS,HCL,IBM,Capgemini,CTS, DXC,myntri...............
+
+
+sevice provider/vendor: who is providing services to client
+client : who is giving work to service provider
+
+    campbell,DANA,IKEA,ADM,TKS  == product based companies
+   ACCENT:  Build, migrate servers, setup application and hand over servers to them.
+currently theair infrastrucure running in VMWARE or physical . they want to shift infrastructure to cloud
+
+durration : 1 Year
+amount : 
+aggrement : this aggrement happens between client and vendor. we call this aggrement as a SLA. 
+
+	SLA = service level aggrement
+
+Ticketing tools
+-----------------
+JIRA
+Zendesk
+Service NOW
+Salesforce
+BMCRemedy
+
+
+	Main components of ITIL
+	1. Change management ( ticketing tool)(CR) process is integrated inside Ticketing tool
+	2. Incident management(ticketing tool)
+			application is not responding 
+			system is not responding to commands
+			HIGH CPU
+			HIGH memeory usage
+
+	3. Problem management (ticketing tool)
+
+Redhat company
+ITIL process is integrated inside ticketing tool.
+
+
+
+monitoring tools
+----------------------
+Solar winds
+NagiOS
+appdynamics
+Dynatrace
+new relic
+Grafana
+Kibana
+Opsgeine (alerting system)
+.
+.
+.
+--------------------------------------
+
+Ghouse: Acert IT Solutions private Limited (Payroll)
+		==> Capgemini (Contract)
+			==> PUMA (client)
+
+Gangulaiah: 
+		==> Capgemini (Permanent)
+			==> PUMA (Client)
+					==> Bigdata application/ Data integration products
+						5000+ servers 
+
+		SLA ==> Service Level Agreement
+
+P Priority
+S Severity 
+			P1 ==> First response SLA (1 hour), follow up SLA (2 hours), Closing SLA
+			P2 ==> First response SLA (2 hours), follow up SLA (4 hours)
+			P3 ==> First response SLA (4 hours), follow up SLA (1 day)
+			
+------------------------------------------------
+
+ITSM: IT service management
+
+
+
+project : started by Reliaence - client
+development : HCL - service
+		application:
+		10 teams are working for single project
+		
+IT services : Accenture - service
+		OS operations team
+		platform team
+		Storage team
+		Backup team
+		Network team
+
+  	
+	operations : Os level support we will provide to clients
+	  it may be 24X7.
+	to provide 24/7 we will create 3 shifts. A shift , B shift and C shift
+					A shift  or morning shift- India 6 AM- 3 PM = 9 h
+					B shift or afternoon shift- UK  2 to 11 PM   =  9 h
+					C shift or night shift - US 10 PM to 7 AM     = 9 h
+									 ====
+
+transfering the tickets from one shift to another is called "Handover call"
+
+
+									 27 h
+							1 gap between first shift to second is for hand over first shift  things/tasks to second shift team.
+							if full team not in in place then they schedule 30 min meeting to have proper shift hand over.
+	
+shift allownance point also they will include in SLA
+in each shift how many engineers will be there to provide service and included in SLA.
+   night shift
+	2 L1
+	2 L2
+	1 L3
+  L1 Support = level 1 : < 3
+  L2 Support = level 2 : 3 to 6 years
+  L3 Support = level 3 :  6 to 9 Years
+	Vendor ==> OS Vendor
+
+   conference call: L1 and L2 along them client also will participate. 
+
+
+		1 . Change management
+		    there are 3 types of changes
+			1. Routine change management
+			2. Standard change management
+			3. emergency change management
+
+if we modify any thing on infrasture that change we will consider as a change management and follow the Change process to perform that change
+	 
+		scheduling job
+		creating partition
+		installing package
+		un-installing package
+		patching
+		user delete
+		upgrade any package
+		customizing kernel paramenters
+
+	routine : quarterly once we have to perform patching
+		1. patching
+		2. BIOS upgradation 
+		3. CMOS battery for servers - yearly once we will replace it
+	standard:
+	create new partiton
+	extending partition space
+	removing partition
+	installing/un-installing/upgrading packages
+	user creation/deletion
+	scheduling jobs in cron
+	providing sudo privilages
+	exporting nfs share
+	configure ftp server
+	upgrading RAM/CPU/HDD
+
+	emergency :
+	   routine and standard both changes any time considered as a emergency 
+
+standard and routine follows the change process.
+ change process time is 10 day
+
+
+
+      RFC ==> CEP ==> TAB ==> CAB ==> go or no go call ==> implement ==> validate ==>success ==> close CR
+								 ==> Faild ==> 
+
+
+everything should complete with in change window time only.
+
+RFC = request for change
+CEP = change execution plan
+TAB = technical advisory board
+CAB = Change advisory board : in cab meeting following teams will be involved delivery managers and implementor. Implementor will explain about CR and look for approval. delivery managers will review CR and give approval.
+
+sme  = subject matter expert
+L1,l2,l3, L4 or SME
+
+patching : infra team. OS administrator
+RAM :   app server = application team will request
+	db = db team will request
+  extend the cpu's  = if db team ask then here db team is a RFC team
+
+linux administrator
+
+extend ram. requested by application team
+change management team : these are guys are supervisors for change. 
+   CR =change request in ticketing tool
+   RFC : app team
+change manager will request to VMWARE team to prepare CEP . 
+
+
+CAB = every week thur at 9 PM
+
+for CR tab compleded on friday. for this CR when will be next CAB meeting.
+
+
+2. Incident management(ticketing tool)
+   sever is not responding to commands
+	server performance has been degraded
+	User or users unable to login to server
+	users unable to access nfs share drive
+	could not able to use any of partition
+	could not able to use file or directory
+	network connectivity issues.
+	application is not accessible
+	High CPU utiliztion
+	high memory utiliztion
+	partition is full
+
+
+ticketing tool: sm(service manager), remedy, Snow(service now), Jira, jabbix
+
+ticketing tool is nothing but tracking system, where we will track Changes,incidents,Service requests and problems.
+
+	 Incident
+	service request
+
+    2 Ways you will get incidents
+	1. user manually he will open incident
+	2. Monitoring tool will create incident
+	monitoring tool keep monitors your system, it opens ticket as soon as it noticed any obnormality.like high cpu usage, high memory usage, any service stopped, partition full
+       monitoring tool creates ticket in ticketing tool.
+
+
+     / partition is in warning stage 80  priority 3
+   production server is down P1
+  applicaiton is not working in production envronment P1
+
+Env:
+Production: which is the environment generating revenue for company.
+DR
+QA
+DEV  
+stagging/Lab 
+
+SLA
+
+P1: if there is bussiness/revenue impact then consider that incident as a P1.   we have to submit RCA ( root cause of analyze). here we have join in P1 call. we have to be call and fix the issue.
+   Incident manager: he open bridge/conference meeting will all respective team to fix the issue.
+	
+P2: doen't required RCA
+
+	
+P1 = if there is business impact then we will consider that incident as P1.
+
+P1/S1 = Critical
+P2/S2 = High priority
+P3/S3 = Mediam
+P4/S4 = Low
+
+Operations team or run team: 24/7 support
+
+incident manager: incident management DL
+change changer : changemanagement DL
+
+How to handle P1:   Acknowledge ticket ==> intimate to incident management team ==> join in incident management call
+
+Unix team /application/DB/Indident manager will be in call
+
+every 30 incident manager will take updates from you and send incident notification mail to all stakeholders.
+	issue : server is down 
+	impact : so so business is not accessible
+	owner of the incident  : unix team
+	what time incident started : 10:30 PM IST
+	progress description : unix team identified some issue with hardware and try disable one CPU and bring up the server. 
+
+production server is down : P1
+dev server is down : P2
+QA server is down : P2
+
+production server is down but still application is running: P2
+	Silo1   Silo2
+	Web1  web2
+	app1   app2
+	DB1     DB2
+
+
+SR : service request
+  CR
+  IC
+ SR = service requests
+	reset my password
+	provide sudo access
+	provide access to one of the file or directory
+	add me into group
+	extend the partition space
+	grant crontab access
+
+ticket Handle : new/open ==> ack and in-progress ==> pending for approval
+				               ==> resolve ==> close
+				               ==> resolve ==> In-progress
+
+problem management:
+
+where we don't have permanent solution for incidents that kind of incidents we will treat as problems.
+
+we can expect solution from SME or OS vendor.
+to fix one problem we may open or implement multiple CR.
+even vendor not sure on issue so they offer multiple solutions in this sitution we might execute multiple CRs.
+there 4 solution
+cr 1 solution 1 no luck
+then
+CR 2 solution 2 no luck
+then
+CR 3 Solution 3 fixed
+
+
+    CR
+    IC
+    PR
+
+How to open case with Redhat vendor?
+Support.redhat.com or access.redhat.com
+ user name: company email address
+ password: **********
+
+
+How to co-ordinate with hardware vendor for any part replacement.
+	HDD
+	RAM- DIMM(dual in-line memory module)
+	CMOS battery
+	processor
+	SMPS
+	HBA= Host bus adaptor
+
+
+  ILO  = HP servers
+  IDRAC = IBM
+  IBM = RSA (remote supervise adaptor)
+
+call ==> share the serial number of server
+they caller will verify the server is under warranty or not
+if server is in warranty then he open case for incident
+
+        caller will ask server location, DC, Address of DC and Gatepass
+
+
+to replace DIMM or HBA card is CR required?   yes
+based on CR approve and window time the hardware engineer will visit your DC and replace the part.
+   
+             backup
+            prechecks
+	disable alerts
+	stop the application
+	stop the server
+	request hardware engineer to replace the part
+	engineer will power on the server after part replacement
+	post validation
+	start the application
+	confirm
+
+
+DC request is mandatory to allow hardware engineer inside DC.
+
+below information is mandatory 
+	hardware engineer name
+	hardware engineer pan/any of the proof 
+	windows time 
+	rack number
+	sever name and tag
+
+along with hardware engineer one security will walk with him.
+
+==================================================================
+ITIL process
+--------------
+a few realtime tools:
+
+	putty
+		https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.78-installer.msi
+
+	Winscp ==> if you want to copy the files from windows to linux, you can go for winscp
+		https://cdn.winscp.net/files/WinSCP-5.21.7-Setup.exe?secure=yZKjf0oz_fHw2y2Ss40z1g==,1678687415
+
+	
+	Notepad++ ==>
+	https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5/npp.8.5.Installer.x64.exe
+
+
+	file zilla:
+		https://download.filezilla-project.org/client/FileZilla_3.63.2.1_win64_sponsored2-setup.exe
+
+mobaxterm:
+	https://download.mobatek.net/2302023012231703/MobaXterm_Installer_v23.0.zip
+
+mremoteNG
+	https://github.com/mRemoteNG/mRemoteNG/releases/download/v1.76.20/mRemoteNG-Installer-1.76.20.24615.msi
+
+command prompt / terminal (MAC/Linux)
+--------------------------------------
+	ssh IPaddress/HOSTNAME ==> it tries to login with the currently logged in username..
+	ssh username@IP/HOST
+	ssh -l username IP/host
+
+
+------------------------------------------------------
+EDITORS
+------------
+	sublime
+	brackets
+	visual studio
+	
+		
+text expander
+
+
+ITIL

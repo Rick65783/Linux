@@ -1,0 +1,630 @@
+Command Line Arguments:
+------------------------
+./scriptpath arg1 arg2 arg3.........
+
+./addition.sh 1 2 
+
+
+$1 … $n	Positional argument indicating from 1 .. n. If the argument is like 10, 11 onwards, it has to be indicated as ${10},${11
+$0	This is not taken into the argument list as this indicates the “name” of the shell program. In the above example, $0 is “displayPositionalArgument.sh”
+$@	(number of arguments)Values of the arguments that are passed in the program. This will be much helpful if we are not sure about the number of arguments that got passed.
+$#	Total number of arguments and it is a good approach for loop concepts.
+$*	In order to get all the arguments as double-quoted, we can follow this way
+$$	To know about the process id of the current shell
+$? and $!	Exit status id and Process id of the last command
+
+$0 => script name
+$1
+$2
+$3
+
+
+what are the command line arguments?
+	whatever you pass as part of the scriptname while running those are called command line arguments
+
+./test.sh 1 2 3 4
+
+#! /bin/bash
+
+#command line arguments
+
+echo $0
+echo $1
+echo $2
+echo $3
+
+echo $@
+echo $#
+echo $*
+echo $$
+dateeee
+echo $?
+--------------------------
+2000+ servers
+
+samsung-app-server-1 
+	abcd.xml
+	xyz.js
+    ||
+	copy
+    ||
+samsung-app-server-10
+
+-------------------------
+Copy the file from one system to another system using scirpt
+
+./script1.sh /var/log/message 192.168.1.143 /var
+
+#! /bin/bash
+
+scp -r $1 root@$2:$3
+
+if [ $? -eq 0 ]
+then
+	echo "file /var/log/messages copied successfully into the system 192.168.92.137 and path is /root"
+else
+	echo "copy is not successfull"
+	echo "run the script using the following syntax"
+	echo "$0 FILEPATH SERVERIP_OR_HOSTNAME PATH_IN_REMOTE_SYSTEM_WHERE_TO_COPY"
+fi
+
+------------------
+serverlist
+
+
+192.168.1.1
+192.168.1.2
+192.168.1.3
+192.168.1.4
+192.168.1.5
+192.168.1.6
+192.168.1.7
+
+---------------------------
+Copying file from one system to multiple systems
+
+./script.sh /opt/app/web.xml /opt/app
+
+#! /bin/bash
+
+for server in `cat serverlist`
+do
+	scp -r $1 root@$server:/root
+	if [ $? -eq 0 ]
+	then
+		echo "file  $1 copied successfully into the system $server and path is /root"
+	else
+		echo "copy is not successfull"
+		echo "run the script using the following syntax"
+		echo "$0 FILEPATH SERVERIP_OR_HOSTNAME"
+	fi	
+
+done
+
+
+
+------------------------------
+FILE TEST OPERATORS:
+b,d,c,p,....
+
+-b file	Checks if file is a block special file; if yes, then the condition becomes true.===>	[ -b $file ] is false.
+-c file	Checks if file is a character special file; if yes, then the condition becomes true.==>	[ -c $file ] is false.
+-d file	Checks if file is a directory; if yes, then the condition becomes true.		==>	[ -d $file ] is not true.
+-f file	Checks if file is an ordinary file as opposed to a directory or special file; if yes, then the condition becomes true.==>	[ -f $file ] is true.
+-g file	Checks if file has its set group ID (SGID) bit set; if yes, then the condition becomes true.			==>[ -g $file ] is false.
+-k file	Checks if file has its sticky bit set; if yes, then the condition becomes true.	 ==>[ -k $file ] is false.
+-p file	Checks if file is a named pipe; if yes, then the condition becomes true.		==>[ -p $file ] is false.
+-t file	Checks if file descriptor is open and associated with a terminal; if yes, then the condition becomes true.==>	[ -t $file ] is false.
+-u file	Checks if file has its Set User ID (SUID) bit set; if yes, then the condition becomes true.==>	[ -u $file ] is false.
+-r file	Checks if file is readable; if yes, then the condition becomes true.==>[ -r $file ] is true.
+-w file	Checks if file is writable; if yes, then the condition becomes true.==>[ -w $file ] is true.
+-x file	Checks if file is executable; if yes, then the condition becomes true. ==>	[ -x $file ] is true.
+-s file	Checks if file has size greater than 0; if yes, then condition becomes true.==>	[ -s $file ] is true.
+-e file	Checks if file exists; is true even if file is a directory but exists. ==>	[ -e $file ] is true.
+
+
+#!/bin/sh
+
+file="/var/www/tutorialspoint/unix/test.sh"
+
+if [ -r $file ]
+then
+   echo "File has read access"
+else
+   echo "File does not have read access"
+fi
+
+if [ -w $file ]
+then
+   echo "File has write permission"
+else
+   echo "File does not have write permission"
+fi
+
+if [ -x $file ]
+then
+   echo "File has execute permission"
+else
+   echo "File does not have execute permission"
+fi
+
+if [ -f $file ]
+then
+   echo "File is an ordinary file"
+else
+   echo "This is sepcial file"
+fi
+
+if [ -d $file ]
+then
+   echo "File is a directory"
+else
+   echo "This is not a directory"
+fi
+
+if [ -s $file ]
+then
+   echo "File size is not zero"
+else
+   echo "File size is zero"
+fi
+
+if [ -e $file ]
+then
+   echo "File exists"
+else
+   echo "File does not exist"
+fi
+
+----------------
+case "$1" in
+     a|A)
+			echo "Apple"
+     ;;
+
+     b|B) 
+			echo "Ball"
+		;;
+	  c|C) 
+			echo "Cat"
+     ;;
+		
+		*)
+			echo "invalid option"
+	  ;;
+esac
+===============================
+Variable
+operators
+	arithmetic operators
+	logical
+	COMPARISON
+	file test operators
+sequential statements
+conditional statements
+	if conditions
+LOOPing statements
+	for 
+	while
+	do-while
+case statements
+
+--------------------------------
+BC, which stands for Basic Calculator, is a command in Bash that is used to provide the functionality of a scientific calculator within a Bash script.
+
+#System Health Check script...
+------------------------------------
+
+sed 's/sai//'
+
+#!/bin/bash
+
+# Check system load
+load=$(uptime | awk '{print $10}' | sed 's/,//')
+#load=`uptime | awk '{print $10}' | sed 's/,//'`
+if (( $(echo "$load > 1.00" |bc -l) )); then
+  echo "WARNING: High system load: $load"
+else
+  echo "System load is normal: $load"
+fi
+===================================================================
+# Check disk usage
+------------------
+disk=$(df -h | grep -w "/"| awk '{print $5}' | sed 's/%//')
+if (( $disk > 80 )); then
+  echo "WARNING: Disk usage is high: $disk%"
+else
+  echo "Disk usage is normal: $disk%"
+fi
+===================================================================
+# Check memory usage
+----------------------
+
+memory=$(free | awk '/Mem/{printf("%.2f"), $3/$2*100}')
+if (( $(echo "$memory > 80" |bc -l) )); then
+  echo "WARNING: High memory usage: $memory%"
+else
+  echo "Memory usage is normal: $memory%"
+fi
+============================================================================
+# Check if a critical process is running
+----------------------------------------
+
+process=$(ps -ef | grep -i "process-name" | grep -v grep)
+if [ ! -z "$process" ]; then
+  echo "Process is running: $process"
+else
+  echo "WARNING: Process is not running"
+fi
+
+============================================
+
+#ClientAliveInterval 0
+#ClientAliveCountMax 3
+
+sed -i '/#ClientAliveInterval 0/a  ClientAliveInterval 10' /etc/ssh/sshd_config
+sed -i '/#ClientAliveCountMax 3/a ClientAliveCountMax 60' /etc/ssh/sshd_config
+
+
+=========================ssh ====================
+#! /bin/bash
+sed -i "s/^PermitRootLogin/# PermitRootLogin/g" /etc/ssh/sshd_config
+sed -i "/# PermitRootLogin/a PermitRootLogin no" /etc/ssh/sshd_config
+sed -i '/#ClientAliveInterval 0/a  ClientAliveInterval 10' /etc/ssh/sshd_config
+sed -i '/#ClientAliveCountMax 3/a ClientAliveCountMax 60' /etc/ssh/sshd_config
+systemctl restart sshd
+----------------------------------------------
+
+
+  How to configure password less authentication between multiple machines using script?
+
+step 1 : generate key pair in master server
+ssh-keygen
+step 2 : share public key with client machines.
+task 1 : create one file with server ip's
+vi /tmp/slist
+    192.168.145.100
+    192.168.145.102
+task 2: execute below for loop to share public key with client machines
+==========================
+#! /bin/bash
+
+for i in `cat /tmp/slist`
+do
+ssh-copy-id  -i id_rsa.pub root@$i
+done
+
+=========================
+
+
+" " :
+' ' :
+` ` : call the commands or execute any program
+
+
+How to get installed memory of all the machines?
+task 1 : create one file with server ip's
+vi /tmp/slist
+    192.168.145.100
+    192.168.145.102
+
+task 2: execute below for loop to execute command to remote machines.
++===========================
+#! /bin/bash
+
+for i in `cat /tmp/slist`
+do
+ssh  $i " hostname && free -m | grep Mem:" >> memeoryinfo.txt
+done
+=====================================
+
+or
+for i in `cat /tmp/slist`
+do
+ssh  $i " hostname && free -m | grep Mem:" >> /tmp/outputofclinents-installedmem.txt
+done
+
+How to install one particular package in multiple systems?
+for i in `cat /tmp/slist`
+do
+ssh  $i " yum install mariadb -y && hostname && rpm -qa mariadb"
+done
+
+
+
+harden the server using script
+
+Task1 : disable root login through ssh service.
+Task 2 : set the grub password
+Task 3 : apply password policies
+Task 4 : disable control-alt-delete key combination functionality.
+
+min = 2
+max =90
+war = 10
+
+PASS_MAX_DAYS   99999
+PASS_MIN_DAYS   0
+PASS_MIN_LEN    5
+PASS_WARN_AGE   7
+
+=============================Hardening script ===============================
+#! /bin/bash
+h=${hostname}
+d=`date +"%d-%m-%Y"`
+echo -e "Task 1 : Disable root login through ssh service"
+read -p "Do you want to disable root login through ssh? eg: yes/no:" ss
+if [ "$ss" == "yes" ];
+then
+sed -i "s/^PermitRootLogin/# PermitRootLogin/g" /etc/ssh/sshd_config
+sed -i "/# PermitRootLogin/a PermitRootLogin no" /etc/ssh/sshd_config
+# systemctl restart sshd
+fi
+echo -e "Task 2 : Setting up grub password in \n $h"
+read -p "Do you set grub password? eg: yes/no:" gp
+if [ "$gp" == "yes" ];
+then
+read -p " Please enter password for grub: " gp
+printf '%s\n' "$gp" "$gp" | script -qf -c 'grub2-setpassword' /dev/null
+fi
+echo -e "Task 3 : setting up password age \n $h"
+read -p "Please enter Max age for password : " max
+read -p "Please enter Min age for password: " min
+read -p "Plesae enter war age for password: " war
+sed -i "s/^PASS_MAX_DAYS/# PASS_MAX_DAYS/g" /etc/login.defs
+sed -i "/^# PASS_MAX_DAYS/a PASS_MAX_DAYS  $max" /etc/login.defs
+sed -i "s/^PASS_MIN_DAYS/# PASS_MIN_DAYS/g" /etc/login.defs
+sed -i "/^# PASS_MIN_DAYS/a PASS_MIN_DAYS  $min" /etc/login.defs
+sed -i "s/^PASS_WARN_AGE/# PASS_WARN_AGE/g" /etc/login.defs
+sed -i "/^# PASS_WARN_AGE/a PASS_WARN_AGE  $war" /etc/login.defs
+
+
+=====================================================================================
+
+==========================server Health checkup script ========================
+
+
+1. memory
+2. CPU
+3. root partition
+4. Quit
+
+
+below command is for get current memory usage
+sar -r 1 1 | tail -1 |awk '{print $4}' | awk -F"." '{print $1}'   < 80  memory usage is normal in hostname . the memory usage is : 50
+         > 80 critical : memory usage is high in hostname. the memory usage is : 90
+sar -u 1 1 | tail -1 | awk '{print $8}' |awk -F"." '{print $1}'  
+df -hP / |grep -v Filesystem |awk '{print $5}' | tr -d %
+
+
+m=`sar -r 1 1 | tail -1 |awk '{print $4}' | awk -F"." '{print $1}'`
+if [ $m -ge 80 ];
+then
+echo -e " Critical, The memory usage is high  in $h. Usage is \t:\t$m"
+else
+echo -e " Normal, The memory usage is normal in $h. Usage is \t:\t$m"
+fi
+------------------------------------------------------
+--------------------------------------------------------------------------
+
+scheduling script to send server health report through email notification
+
+#! /bin/bash
+h=`hostname`
+m=`sar -r 1 1 | tail -1 |awk '{print $4}' | awk -F"." '{print $1}'`
+c=`sar -u 1 1 | tail -1 | awk '{print $8}' |awk -F"." '{print $1}'`
+r=`df -hP / |grep -v Filesystem |awk '{print $5}' | tr -d %`
+if [ $m -ge 80 ];
+then
+echo -e " Critical, The memory usage is high  in $h. Usage is:$m" | mailx -s "Critical alert from $h, The memory usage is High" saisoft4@gmail.com
+else
+echo -e " Normal, The memory usage is normal in $h. Usage is : $m"| mailx -s "Critical alert from $h, The memory usage is Normal" narasimha@gmail.com
+fi
+if [ $c -le 20 ];
+then
+echo -e " Critical, The CPU usage is high  in $h. Usage is \t:\t$c" | mailx -s "Critical alert from $h, The CPU usage is High" narasimha@gmail.com
+else
+echo -e " Normal, The CPU usage is normal in $h. Usage is \t:\t$c" | mailx -s "Critical alert from $h, The CPU usage is Normal" narasimha@gmail.com
+fi
+if [ $r -le 80 ];
+then
+echo -e " Critical, The ROOT usage is high  in $h. Usage is \t:\t$r" | mailx -s "Critical alert from $h, The ROOT Partition usage is High" narasimha@gmail.com
+else
+echo -e " Normal, The ROOT usage is normal in $h. Usage is \t:\t$r" | mailx -s "Critical alert from $h, The ROOT partition usage is Normal" narasimha@gmail.com
+fi
+
+how to schedule this script to run background every 30 min
+
+crontab -e
+*/30 * * * *  sh /performance.sh
+
+* = every
+
+min  hours Days Month Dayinweek   Task
+========================================================================================================
+Dayinweek  = 0 sunday
+     1 monday
+
+
+
+========================== File validator ======================================
+use case : every day at 00:00 hours we use to get one report . the file format used to be in .pdf
+      serastatement-ICICIBANK-12-12-2020.pdf
+
+#! /bin/bash
+d=`date +"%d-%m-%Y"`
+if [ -f /opt/serastatement-ICICIBANK-12-12-2020.pdf ];
+then
+echo -e " Todays ICICI Bank Sera statement has been downloaded \n  serastatement-ICICIBANK-12-12-2020.pdf" | mailx -s " Success: Todays ICICI Bank Sera statement has been downloaded" saisoft4@gmail.com
+else
+echo -e " Todays ICICI Bank Sera statement not yet downloaded \n  serastatement-ICICIBANK-12-12-2020.pdf" | mailx -s " Failed: Todays ICICI Bank Sera statement Not yet  downloaded" saisoft4@gmail.com
+fi
+==========================================================================================
+
+
+$?  = it prints the previous command status or previous command error code
+0  = previous command was success
+127 = previous command not found
+130 = script is terminated by end user using ctrl +c
+
+==========================================
+#! /bin/bash
+yum install mariadb -y
+if [ $? = 0 ];
+then
+echo " Maria DB software has been installed successuflly"
+else
+echo " some issue with command maria db not installed"
+fi
+
+======================
+
+=============command line argument ===============
+./script.sh sai sai@123456
+
+
+#! /bin/bash
+useradd $1
+echo $1:$2 |chpasswd
+
+sh /c.sh raja1 test123456
+
+
+userlist
+user1
+user2
+user3
+.
+.
+.
+
+for user in `cat /opt/userlist`
+do
+	useradd $user
+	echo $user:test@12345|chpasswd
+done
+
+
+
+
+
+
+===============================================
+
+
+* how to run script in debug mode?
+normal : sh scriptname.sh
+debug : sh -x scriptname.sh
+
+* how to integrate debug mode inside script?
+eg:
+  #! /bin/bash
+set -x
+.......
+.........
+........
+set +x
+
+==============
+set -x is for start the debug mode
+set +x is for disable the debug mode
+
+-------------------------------------------------------------------
+=========================================
+
+#!/bin/bash
+
+# Install Apache web server
+yum update
+yum install -y apache2
+if [ $? -eq 0 ]
+then
+	echo "apache2 is successfully installed"
+else
+	echo "apache2 is not successfully installed"
+fi
+
+
+
+# Install MySQL database server
+yum install -y mysql-server
+
+# Install PHP programming language
+yum install -y php php-mysql
+===============================================
+***********************************************
+
+In shell script, parameter expansion is a way to manipulate and expand variables. Here are some of the most commonly used parameter expansions:
+
+${variable} - Returns the value of the variable.
+${variable:-default} - Returns the value of the variable if it is set; otherwise, returns the default value.
+${variable:=default} - Sets the variable to the default value if it is not set, and returns the value of the variable.
+${variable:+alternative} - Returns the alternative value if the variable is set; otherwise, returns null.
+${variable:?message} - Displays an error message and exits if the variable is not set or is null.
+${variable%pattern} - Removes the shortest suffix that matches the pattern from the variable.
+${variable%%pattern} - Removes the longest suffix that matches the pattern from the variable.
+${variable#pattern} - Removes the shortest prefix that matches the pattern from the variable.
+${variable##pattern} - Removes the longest prefix that matches the pattern from the variable.
+${variable:offset:length} - Returns a substring of the variable, starting from the specified offset and with the specified length.
+Here are some examples of how to use these parameter expansions:
+
+# In shell script, ${flames[$((total % ${#flames[@]}))]} is an array parameter expansion that retrieves an element from the flames array based # on the result of a modulo operation.
+
+# Here's how it works:
+
+# ${#flames[@]} returns the number of elements in the flames array.
+
+# $((total % ${#flames[@]})) calculates the remainder when total is divided by the number of elements in the flames array. This result is used as an index to retrieve an element from the flames array.
+
+# ${flames[...]} returns the element at the specified index in the flames array.
+# So, ${flames[$((total % ${#flames[@]}))]} is used to select an element from the flames array based on the value of total.
+
+
+#!/bin/bash
+set -x
+echo "Enter the first name:"
+read name1
+
+echo "Enter the second name:"
+read name2
+
+# azer moith
+
+# Remove common letters
+for (( i=0; i<${#name1}; i++ )); do
+    char=${name1:$i:1}
+    if [[ $name2 == *"$char"* ]]; then
+        name11=${name1//$char/}
+        name22=${name2//$char/}
+    fi
+done
+
+# Calculate the remaining letters
+total=${#name11}${#name22}
+
+# Determine the relationship
+flames=("Friends" "Lovers" "Affectionate" "Marriage" "Enemies" "Siblings")
+
+result=${flames[$((total % ${#flames[@]}))]}
+
+echo "The relationship between $name1 and $name2 is: $result"
+set +x
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

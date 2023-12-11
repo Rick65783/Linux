@@ -1,0 +1,133 @@
+--------------------------------------------------------------------------------------------------
+	1. ftp (20/21)  TCP   >/etc/vsftpd/users_list , /etc/vsftpd/ftpusers
+	2. SSH/SFTP (22) TCP 
+	3. NFS (2049) TCP
+	4. SAMBA (137/138/139) TCP
+	5. NTP (123) UDP
+	6. DHCP (67/68) TCP
+	7. DNS (53) UDP
+	8. HTTP/HTTPS (80/443) TCP
+	9. Rsync (22) TCP
+--------------------------------------------------------------------------------------------
+@FTP 
+File transfer protocol
+
+    1. pkg: vsftpd
+    2. Service: vsftpd
+    3. configuration file : /etc/vsftpd/vsftpd.conf
+    4. port number : 20/21
+    5. Daemon : vsftpd
+
+    back ground running service or process.
+    front end is service
+    back end is daemon
+    if you stop service even daemon will get stopped.
+    if you start service even daemon will run.
+
+
+       > FTP is for transfer files from one machine to other machine.
+       Adv:
+        1.  FTP is very fast,stable,efficient service.
+        2.  we can transfer data through internet.
+            we can access server through browser and command line
+     Draw back:
+        1. we can transfer only files not possible to transfer directories.
+        2. FTP use the Binary format to transfer data over network.
+            very easy hack data if data travelling in binary format, it's security bottleneck.
+
+
+sai ==> 
+97-122 ==> a-z ==>1100011
+65-90 ==> A-Z
+
+
+server side:
+step1 : install vsftpd pkg in server machine
+step2 : start the service
+	systemctl start vsftpd
+	systemctl enable vsftpd
+please disable selinux
+	setenforce 0
+please stop firewall
+	systemctl stop firewalld
+	systemctl disable firewalld
+
+client:
+	make sure to install ftp packge...
+	ftp serverip
+
+
+after connect
+ls remote
+!ls local ls
+pwd remote
+!pwd local
+cd remote
+lcd local
+
+get is download
+put is upload
+
+get filename
+put filename
+mget file1 file2 file3
+mput file5 file6 file7
+--------------------
+0-65535 ports
+ping IP/HOST
+telnet serverIP PORT
+
+how to see all the listening ports in the system?
+	netstat -ntulp
+	ss -  ntulp
+
+	specific port checking:
+		netstat -nap | grep :21
+		ss -nap | grep :21
+
+-----------------------------------------
+1. Local users
+2. anonymous user	
+
+How to disable anonymous users?
+	vi /etc/vsftpd/vsftpd.conf
+		Actual = anonymous_enable=YES
+		to     = anonymous_enable=NO
+	restart service to reflect this parameter
+	systemctl restart vsftpd
+
+in browser : ftp://192.168.40.100
+cmd : ftp 192.168.40.100
+
+By default all the users are allowed except root user for FTP service.
+
+how to provide ftp access to root user?
+remove root user name in the /etc/vsftpd/ftpusers file
+How to deny normal user?
+add username in /etc/vsftpd/ftpsers file
+
+
+useradd siva
+
+how to deny all the users and allow specific users?
+	vi /etc/vsftpd/vsftpd.conf
+		userlist_enable=YES
+		userlist_file=/etc/allowdftpusers
+		userlist_deny=NO
+
+	systemctl restart vsftpd
+
+
+how to allow usres?
+	add username in /etc/allowdftpusers
+	narasimha
+
+how to change the anonymous users path
+	vi /etc/vsftpd/vsftpd.conf
+	add the below parameter
+	anon_root=/opt/test
+
+	chcon -R -t /var/ftp /opt/test 
+
+default ftp path ==> /var/ftp/
+

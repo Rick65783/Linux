@@ -1,0 +1,311 @@
+================================= @SSH ==========================
+SSH (Secure shell)
+	pkg = openssh
+	service = sshd
+	daemon= sshd
+	port = 22
+	configuration file : /etc/ssh/sshd_config
+
+data will travel in encryption format.
+
+Adv:
+1. Data travel in secure manner with help of encryption mechanisum.
+2. we can transfer files and directories through ssh service.
+3. using ssh full administration can possible in remote machine.
+
+	ssh 192.168.40.101
+	ssh -l narasimha 192.168.40.101
+	ssh narasimha@192.168.40.101
+
+cp -r file /tmp/
+i am in 100 machine and pushing /testdir directory to 101 machine.
+scp -r /testdir narasimha@192.168.40.101:/tmp/
+
+we can pull from 101 machine
+scp -r narasimha@192.168.40.100:/tdir /home/narasimha/
+
+rsync -avhz anaconda-ks.cfg root@192.168.92.131:/root/sai
+
+----------------------------------------------------------------------------------------------------------------------
+transferring /testdir directory data to 101 machine , it's copying by narasimha user in /tmp path.
+
+
+scenario 1:
+ Disable root login through ssh service.
+
+Unix team:15 every required root credentials are not?
+	      yes
+
+directly they will start login to server as a root
+lvremove applv
+
+	who deleted lv?
+	  root
+
+
+disable : ssh root@192.168.40.101 
+accepted : ssh narasimha@192.168.40.101
+	   su - root
+	in this case there will log in /var/log/secure file
+	narasimha opened session as a root
+
+	tail -50 /var/log/secure
+
+
+	vi /etc/ssh/sshd_config
+	# PermitRootLogin yes
+	change it to 
+	PermitRootLogin no
+restart the sshd service to reflect the recent changes
+	systemctl restart sshd
+
+	
+
+out of 15 users today 15 users logged in server but only 5 users switched to root.
+
+How to change ssh port number?
+
+22
+Step 1 : change port number in configuration file.
+	vi /etc/ssh/sshd_config
+	#Port 22
+	change to 
+	Port 2222
+step 2: update the new port number in /etc/services file
+	ssh             22/tcp                          # The Secure Shell (SSH) Protocol
+	ssh             22/udp                          # The Secure Shell (SSH) Protocol
+
+
+change it to 
+	ssh             2222/tcp                          # The Secure Shell (SSH) Protocol
+	ssh             2222/udp                          # The Secure Shell (SSH) Protocol
+
+step 3 : restart the ssh service
+	systemctl restar sshd
+
+
+step 4 : disable the firewall
+	 systemctl stop firewalld
+	systemctl disable firewalld
+
+How to deny normal users and groups through ssh service?
+
+add below parameter in following file /etc/ssh/sshd_config
+	
+	DenyUsers  narasimha test sai gangulaiah
+	DenyGroups groupname
+
+	AllowUsers
+	AllowGroups
+
+	restart the sshd service to reflect above change
+	systemctl restart sshd
+
+	OR
+	you can also set the shell 
+	/bin/nologin
+	/sbin/nologin
+
+eg : oracle will have common user that is oracle. 
+	this oracle user is for start and stop the database in this every database administrator required oracle user password.
+
+
+10 database servers
+in all 10 machines there will be oracle user and it required all db administartors.
+
+
+How to set Banner message for ssh login users?
+step1:update banner file path in /etc/ssh/sshd_config
+	vi /etc/ssh/sshd_config
+		#Banner none
+		change it to
+		# Banner /etc/mybanner
+step 2: create banner file	
+create /etc/mybanner
+	Welcome to server
+step 3: restart the service
+systemctl restart sshd
+
+
+machine1                 machine2
+
+username & password
+
+creating trust relation between 2 machines.
+
+
+machine1 [nfsserver]192.168.40.100
+client [clientm1] 192.168.40.101
+created user in both the machines
+	useradd bkpuser
+
+going to create trust relation from nfsserver to clientm1
+ bkpuser can login from nfsserver to clientm1 without password.
+
+nfsserver server user has to share public key with clientm1 then only client will trust and allow him without password.
+
+    for each and every user will have 2 keys 1. Private 2. public.
+	
+s1 to s2
+pub ==> in S2
+s2 to s1
+s2 pub ==> in S1
+
+PASSWORDLESS AUTHENTICATION
+------------------------------------------------
+
+step 1: generate keys 
+	ssh-keygen
+note: make sure you logged in as bkpuser or respective user and generate keys.
+
+step 2: share public key with clientm1 machine(192.168.40.101).
+	ssh-copy-id -i id_rsa.pub bkpuser@192.168.40.101
+  please be in keys located place and execute above command.
+	/home/bkpuser/.ssh/
+
+	make sure 700 permissions on .ssh folder
+	make sure 600 permissions on .ssh/authorized_keys file
+
+
+Usecase:there is one script in clientm1 and it should trigger every day at 11:30 PM. 
+	note: this script should be execute by nfsserver user.
+
+usecase: clientm1 data needs to copy in nfsserver everyday at 11:40 PM.
+  machine: nfsserver
+		scp -r bkpuser@192.168.40.101:/data /bkp/clientm1/
+ 	
+	40 23  * * * scp -r bkpuser@192.168.40.101:/data /bkp/clientm1/
+
+by default 10 ssh connections can possible. how to increase ssh connections?
+	/etc/ssh/sshd_config
+	#MaxSessions 10
+	change it to 
+	MaxSessions 100
+	systemctl restart sshd
+
+==============================================================================================
+		Difference between TCP/UDP
+	1. TCP (data)
+	2. UDP (data)
+	3. ICMP (ping)
+
+
+ftp in binary format ==> TCP
+ssh ==> TCP
+NTP ==> UDP
+DNS ==> UDP
+
+  TCP(Transmision control protocol)
+  UDP(User datagram protocol)
+
+
+ TCP								UDP
+It's connection oriented protocol			It's connection less protocol
+
+Header:								Sorce IP and port
+source IP& port
+Destination IP & port						destination ip & port
+	sequence number
+	acknowledgement number
+	flag
+	urgent pointer
+
+Header size is 20 Bytes						8 Bytes
+TCP is slow if we compare with UDP				Performance will be too good.
+delivery							no gauranty
+packet retry is possible					No retry facility
+packets are very secure						no security for packets
+it follows seq order						no seq order
+error segments							no error segment
+
+
+easy to hack
+	ftp data (20/21) 20= data 21 = connection
+	ssh data (22)
+	nfs  data (2049)
+	samba data (137,138,139)
+	http data (80)
+	rsync data (22)
+	ntp date and time (123)
+	dns hostname and IP (53)
+
+================================== @NFS ===============================================
+
+			NFS
+		Network File system
+
+File system will be in network for access remote machines.
+
+pkg: nfs-utils
+port: 2049
+service:nfs
+Daemon:nfsd,mountd,nfslogd,lockd,statd
+config file: /etc/nfsmount.conf
+
+Versions : 2,3,4
+current version is 4
+RHEL 5 & 6 the default version was 3
+RHEL 7 & 8 the default version is 4
+		sshd
+		vsftpd
+
+nfsd:this is the main daemon of nfs, responsible to export file system and make sure applyning permissions. 
+Mountd: responsible to take care mount requests from client machines.
+nfslogd: it captures nfs clients and server related activities and write in /var/log/messages.
+lockd:
+statd:
+
+
+	exporting file system in nfs server
+	step 1 : make sure nfs-utils package is installed
+	step 2 : identify the file system and grant full permissions to others
+		eg: /sharedata
+		chmod o+rwx /sharedata
+step 3 : export the file system
+		vi /etc/exports
+		/sharedata *(rw,sync)
+
+	step 4 : start or restart the service
+		systemctl restart nfs
+
+		systemctl enable nfs
+ disable firewalld
+	systemctl stop firewalld
+	systemctl disable firewalld
+
+how to list out exported file systems in server
+	exportfs
+
+client machine:
+	step 1 : make sure there is network between client machine and server
+		ping 192.168.40.100
+		telnet 192.168.40.100 2049
+	note: move ahead with next steps if there is network and connection through 2049 port.
+	step 2 : create local directory and mount network share.
+		mkdir /sharedata
+		mount 192.168.40.100:/sharedata /sharedata
+	echo "192.168.40.100:/sharedata  /sharedata   nfs     defaults        0 0 " >> /etc/fstab
+
+how to list out shared file systems/drives in remote machine?
+	showmount -e 192.168.40.100 
+	
+
+
+	/sharedata *(rw,sync)   ==> everyone
+ 	/sharedata 192.168.40.*(rw,sync)  ==> only to 192.168.40. network
+	/sharedata 192.168.*.*(rw,sync)  ==> granting access to all c class network
+	/sharedata 192.168.40.103(rw,sync) ==> only to one machine
+	/sharedata 192.168.40.104(ro,async)
+
+* what is the difference between sync and async?
+sync: writting data from client to server.
+4 GB data
+transferring from client to server
+after successful copy data to server then server will give confirmation to client machine like data recieved.
+sync is waiting to complete and give confirmation to client machine. 
+
+async : async will confirm imediatly to client machine data recieved .
+he will not wait until data copy. starting itself async will give confirmation to client.
+
+* sync or async which one will improve the nfs perfomance?
+	Async

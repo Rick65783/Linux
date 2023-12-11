@@ -1,0 +1,178 @@
+========================================================================================
+Special Permissions 
+				1. ACL (access control list)
+                    Think of a scenario in which a particular user is not a member of group created by you but still you want to give some read or write access, how can you do it without making user a member of group, here comes in picture Access Control Lists, ACL helps us to do this trick.
+				2. Sticky Bit
+                3. SetUID
+                    This bit is present for files which have executable permissions. The setuid bit simply indicates that when running the executable, it will set its permissions to that of the user who created it (owner), instead of setting it to the user who launched it. Similarly, there is a setgid bit which does the same for the gid.
+                4. SetGID
+	               
+
+
+		normal permission
+		chmod and chown
+		
+ls -ld file1
+	-rwxrwxr-x 2 narasimha   narasimha  4096  oct 10 file1
+
+	owner  : narasimha
+	group  : narasimha
+	others : other than narasimha and narasimha group members comes under others category.
+
+	raja ==> secondary group is narasimha
+	sree ==> secondary group is unix
+	venkat ===> secondary group is narasimha
+
+teja for we want to provide full permissions,how we can fullfill this requirement?
+	chmod 777 file1
+		u= owner
+		g= group
+		o=others
+		there is not individual username option
+	we can provide permissions to individual users.
+
+	setfacl -R -m u:teja:rwx /HRdata/finance
+
+	mkdir -p /HRdata/finance
+	chmoe 700 /HRdata/finance
+	useradd rahul
+	groupadd hrteam
+	chown -R rahul:hrteam /HRdata/finance
+	useradd sree
+	useradd narasimha
+	gpasswd -M narasimha,sree unix
+how to provide read and execution permissions to unix group.
+	setfacl -R -m g:unix:r-x /HRdata/finance
+how to list out acl permissions
+	getfacl /HRdata/finance
+how to provide full access to raja
+	setfacl -R -m u:raja:rwx /HRdata/finance
+How to exclude permissions to one paticular user?
+	setfacl -R -x u:teja /HRdata/finance
+how to remove all acl permissions?
+	setfacl -b /HRdata/finance
+
+
+how to grant rwx permissions to ramu and provide r-x permissions to hr group
+	setfacl -R -m u:ramu:rwx,g:hr:r-x /HRdata/finance
+
+==============================================================================================
+	2. Sticky bit
+
+	/data
+requirement is every one has to use this /data directory but each other should not delete other users data.
+	narasimha
+	sree
+	raja
+
+dir ==> sticky bit permission
+ 
+/tmp is the default directory where sticky bit applied.. this directroy used for back up purpose66
+	narasimha ==> copy, create,.. he become as a owner and primary group of that file others will have only read access
+	sree
+	raja
+	
+	mkdir /data
+	chmod -R 777 /data
+	chmod +t /data
+	or
+	chmod -R 1777 /data
+how to remove sticky bit
+	chmod -t /data
+	or
+	chmod -R 0777 /data
+
+		0 = no special permissions
+		chmod 0777 /data
+by default on which directory sticky bit applied?
+	/tmp
+
+		1 = sticky bit
+		chmod 1777 /data
+
+drwxr-x--- 2  rahul hrteam  4096  aug 20 /HRdata
+setfacl -R -m u:teja:rwx /HRdata
+
+	getfacl /HRdata
+setfacl -m u:raja:rwx /testfile
+setfacl -R -m u:ramu:r-- /dir
+
+
+==================================================================
+sudo
+
+	root
+		user administration
+		disk management
+		OS installation
+		software management
+		exporting file system through nfs/samba
+		any services configuration
+
+
+database users
+	systemctl
+application
+	systemctl start/stop/restart/disable/enable servicename
+
+
+normal user can not run /usr/sbin command by default.. in this case, if you want to allow specific binaries/commans OR full permissin for the normal user, we should go for Sudoers permissions..
+
+oracle team: during installing oracle software in Linux they need administartor access.
+   		we will share root password with them.
+		this policy volution.
+
+   Passwd@12345698
+
+only in that particular machine set simple passswrod and share with oracle team with proper approval.
+      root@123
+
+using sudo we can grant sudper user commands(sbin) access to the normal users.
+
+		vi /etc/sudoers
+		or
+		visudo
+
+root    ALL=(ALL)       ALL
+narasimha  ALL=NOPASSWD:   ALL
+
+username  hostname= effective user   commands
+
+narasimha,sree,raja   testmachine=narasimha  /usr/sbin/useradd, /usr/sbin/usermod
+
+how to list out sudo privilages of normal user?
+	sudo -l
+
+
+root    ALL=(ALL)       ALL
+sree,narasimha  ALL=NOPASSWD:   /usr/sbin/useradd, /usr/sbin/userdel, /usr/sbin/u
+sermod
+oracle ALL=NOPASSWD:   ALL
+narasimha ALL=NOPASSWD: /bin/su - oracle
+sree ALL=NOPASSWD: /bin/su - root
+
+
+how to provide sudo privilages to 100 users?
+  create group and add 100 users into group and provide sudo privilages to group.
+
+
+ %groupname   ALL=(ALL)  /bin/su - oracle
+ %unixgrp     ALL=(ALL)  /bin/su - oracle
+
+what is command alias and user alias?
+
+
+Cmnd_Alias MYADMINCOMMANDS = command1, command2, command3, command4, command5, command6,command7, command8, command9
+Cmnd_Alias APPCOMMANDS = command1, command2, command3, command4, command5, command6,command7, command8
+
+provide above commands set to 3 users
+
+narasimha  ALL=NOPASSWD:  MYADMINCOMMANDS
+sree    ALL=NOPASSWD:  MYADMINCOMMANDS,APPCOMMANDS 
+%unixgrp ALL=NOPASSWD: MYADMINCOMMANDS,APPCOMMANDS
+
+
+User_Alias ADMINS = narasimha, raja, sree, test, venu, gangulaiah 
+
+ADMINS  ALL=NOPASSWD: MYADMINCOMMANDS,APPCOMMANDS
+==================================================================

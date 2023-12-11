@@ -1,0 +1,330 @@
+YUM (yellowdog update modifier)
+
+yum list installed = rpm -qa
+
+yum list install vsftpd = rpm -qa vsftpd
+
+yum install pkgPath= rpm -ivh packagePath
+
+yum remove pkgname   = rpm -evh pkgname
+yum info pkgname     = rpm -qi pkgname
+yum reinstall pkgname.rpm  = rpm -ivh pkgname.rpm --force
+yum upgrade pkgname.rpm = rpm -Uvh pkgname
+yum downgrade pkgname.rpm = rpm -Uvh --oldpackage pkgname
+
+yum update ==> to update complete system..
+
+root or if you have sudo privilages then also normal can install softwares but default only root can install/unistall
+
+
+
+the main difference between rpm and YUM is repository. we can create repository usng YUM.
+-------------------------------------------------------------------------------------
+1. ISO image file
+2. satellite server https url 
+
+
+---------------
+file:///C:/Users/Syed%20Azheruddin/OneDrive/Desktop/New%20Text%20Document.txt
+------------------
+How to create local repository?
+	step1: Mount the dvd and install pre-requisite packages
+		mount /dev/sr0 /media
+		rpm -ivh /media/Packages/deltarpm
+		rpm -ivh /media/Packages/python-deltarpm
+		rpm -ivh /media/Packages/createrepo
+		rpm -ivh /media/Packages/vsftpd
+	step 2: create local directory to store all packages
+		mkdir /var/ftp/pub/rhel7.5
+	step 3: copy packages from dvd to newly created directory in step 2.
+		cp -r /media/Packages/* /var/ftp/pub/rhel7.5/
+	step 4: create repository
+		createrepo -v /var/ftp/pub/rhel7.5
+	step 5: configure the local repository
+		cd /etc/yum.repos.d
+		vi local.repo
+		  [rhel75.repo]
+		  name=rhel75.repo
+		  baseurl=file:///var/ftp/pub/rhel7.5
+		  gpgcheck=0
+		  enabled=1
+	step 6:	refresh the repositories
+		yum clean all
+	now repository is read with 7.5 packages.
+how to list out configured repositories
+	yum repolist
+
+------------------------------------------------------------------
+SERVER SIDE:
+systemctl stop firewalld
+systemctl disable firewalld
+setenforce 0
+systemctl start vsftpd
+systemctl enable vsftpd
+
+make sure IP address is there in yum repo server
+
+CLIENT SIDE:
+	How to integrate client machine with yum repo server
+
+Step 1:make sure there is network connectivity between client machine to yum repository server
+	ping yumserverip
+	ping 192.168.40.101
+    with the ping command we are able to confirm there is route to destination or target machine.
+
+	server side we have enabled vsftpd service to transffer data or supply data to client machines.
+	 make sure client machine is connecting to yum server through 21 port number.
+		telnet 192.168.40.101 21
+
+	ftp  selected ftp
+	http 80
+	ssh 22
+to comeout from the telnet command
+ctrl + }
+quit
+
+step 2: configure the local repository 
+	cd /etc/yum.repos.d
+		vi local.repo
+		  [rhel75.repo]
+		  name=rhel75.repo
+		  baseurl=ftp://192.168.40.101/pub/rhel7.5
+		  gpgcheck=0
+		  enabled=1
+
+step 3: refresh the repositories
+	yum clean all
+step 4: list out the repositories
+	yum repolist
+
+------------------------------------------
+
+YUM server creation
+Yum client creation...
+
+7.6 ==> 7.9 ==> copy all the packages and create repository... you can update the system to 7.9
+--------------------------
+
+       rhel 7.5 == or > your current version
+repository 7.2? there will any use of this repository
+
+we should have subscription to update the RHEL system..
+
+
+yum local server and client
+
+org
+
+satelite server and client
+
+  *  How to integrate client machine with satelite server
+	step 1: make sure katello-agent package is installed
+	step 2: register server
+	client: subscription-manager register --username narasimha --password test12345
+           subscription-manager register --org="test" --activationkey="key"
+ * How to check client machine status with satelite server.
+
+		in client machine execute below command to get client status
+
+			subscription-manager status
+		or
+		http://satelitehostname.test.com
+			username:
+			password:
+		Dashboard ==> Hosts ==> content hosts  here you should find your servername with green.
+
+
+* Scenario 1: How to perform patching
+
+	every 6 months redhat will release new kernel with minor changes.
+note: make sure scheduled server is integrated with satelite server.
+
+   process : change co-ordinatator will follow up with client for appoval.
+*********************************************************************************************************************
+step 1 : we have change management team who will get approval from client for patching servers. we will procced further with patching activities once approval in place.
+	step 2 : create snapshot before patching activity.(Vmware team)
+	step 3 : collect prechecks from server  (uname -r;uname -a;cat /etc/os-release;df -hT;cat /etc/fstab;pvs;vgs;lvs)
+	step 4 : disable alerts for scheduled servers. (Monitoring tool)
+	step 5 : request server owner to stop the application to procced with patching.
+	step 6 : perform sanity reboot before patching.
+	step 7 : perform patching if server is up
+			yum update    ==> full patch
+			yum update kernel ==> only kernel update
+            yum update --exclude=kernel*
+                How do I exclude kernel or other packages from getting updated in Red Hat Enterprise Linux while updating system via yum?
+                    https://access.redhat.com/solutions/10185
+			yum update --security  ==> update only security patches
+		how to check are there any security updates
+		yum list-security
+		  or
+		yum --security check-update
+	step 8 : reboot server
+			shutdown -r now
+	step 9 :  we will do post checks and hand over server to owner of the server.
+	step 10 : enable the alerts once app team confirms application is working fine.
+
+
+Roll back: Any one of these
+	solution 1:  merge the snapshot patching activity.
+	solution 2:  Boot with old kernel   grub2-set-default 2
+	solution 3:  undo the patching activity
+
+		
+		change: main change who is the owner of main change( change co-ordinator)
+			task: 1 Unix team for patching (Unix team)
+			task: 2 application team (application team)
+			task: 3 vmware team to take snapshot if you don't have access to take snapshot ( vmware)
+			task: 4 backup team for backup the full machine (backup team)
+  
+*********************************************************************
+
+how to change default kernel?
+  the following command is for list out installed kernels:  
+	awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
+Want to set default kernel as 2 or previous one.
+	grub2-set-default 2
+	shutdown -r now
+
+
+how to list out yum related activities?
+	yum history
+how to get information about yum activity?
+	yum history info 3
+how to revert the yum activity?
+	yum history undo 3
+
+
+       roll back
+
+
+step 1 : make sure repository is ready with old packages in yum server. eg: 7.6
+step 2 : client should point out to 7.6 repository.
+step 3 : client should boot with old kernel
+		awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
+		grub2-set-default 2
+		shutdown -r now
+step 4 : rename the protect command
+	mv /etc/yum/protected.d/systemd.conf /etc/yum/protected.d/systemd.conf.bkp
+step 5 : revert the patch
+	  yum history undo 2 
+
+
+     physical machine pre-requisites:
+	console credentials
+	make sure we are able to login to console
+	virtual machine:
+	make sure you have vcentre access
+
+	disk info(lsblk)
+	lsblk;df -hP; cat /etc/fstab; uname -a;pvs;vgs;lvs
+
+
+* what is the difference between yum update and yum upgrade?
+	yum update : preserves the old data
+	yum upgrade : it upgrades(over writes) the old data
+	which is default functionality if we execute yum update
+	   the default is update
+yum configuraton file is /etc/yum.conf
+
+* How to install packages from specific repository?
+ 
+	server side: 7.5   192.168.40.101 /var/ftp/pub/rhel7.5
+		     7.0   192.168.40.101 /var/ftp/pub/rhel7.0
+
+	client side: 7.5
+		     7.0
+
+			ping looks fine
+			telnet looks fine
+		vi /etc/yum.repos.d/local.repo
+			[rhel70.repo]
+			name=rhel70.repo
+			baseurl=ftp://192.168.40.101/pub/rhel7.0
+			gpgcheck=0
+			enabled=1
+			[rhel75.repo]
+			name=rhel75.repo
+			baseurl=ftp://192.168.40.101/pub/rhel7.5
+			gpgcheck=0
+			enabled=1
+
+yum --disablerepo="*" --enablerepo="rhel70.repo" install vsftpd
+
+yum install vsftpd
+
+
+
+
+while roll back which one should be enable?
+
+	client side: 7.5
+		     7.0
+
+			ping looks fine
+			telnet looks fine
+		vi /etc/yum.repos.d/local.repo
+			[rhel76.repo]
+			name=rhel76.repo
+			baseurl=ftp://192.168.40.101/pub/rhel7.6
+			gpgcheck=0
+			enabled=1
+			[rhel79.repo]
+			name=rhel79.repo
+			baseurl=ftp://192.168.40.101/pub/rhel7.9
+			gpgcheck=0
+			enabled=0
+	
+
+* How to enable specified repository if you have satelite server?
+	subscription-manager repos --list
+    subscription-manager status
+	subscription-manager --enable=repository id  
+		repository id is nothing but old repository(7.0)
+
+How to update new packages in yum repository?
+	eg: 4000
+	along with that i want to add few more
+	cp ah-stepstone-1.11-1.el6.x86_64.rpm /var/ftp/pub/rhel7.5/
+	createrepo --update /var/ftp/pub/rhel7.5/
+
+
+ 
+* what is the difference between rpm and yum?
+
+==> both are inbuilt package management tools for redhat servers.
+==> the difference is repository. the repository can possible through the yum.
+	the advantages of yum is
+		it automatically consider dependancies.
+		easy to perform patching(update from one version to other version)
+
+
+
+install one of the package in 100 servers?
+	step 1 : create file with 100 servers IP
+		vi /tmp/servers
+			192.168.40.10
+			192.168.40.11
+			192.168.40.12
+
+	step 2: for i in `cat /tmp/severs`
+		do
+		ssh $i "yum install pkgname -y"
+		done
+
+actual command:	ssh 192.168.40.10 "yum intall pkgname -y"
+----------------------------------------------------------------------------------------------------
+  143  rpm -ivh /media/Packages/deltarpm-3.6-3.el7.x86_64.rpm
+  144  ll
+  145  rpm -ivh /media/Packages/deltarpm-3.6-3.el7.x86_64.rpm 
+  146  rpm -ivh /media/Packages/python-deltarpm-3.6-3.el7.x86_64.rpm 
+  147  rpm -ivh /media/Packages/createrepo-0.9.9-28.el7.noarch.rpm 
+  148  rpm -ivh /media/Packages/vsftpd-3.0.2-25.el7.x86_64.rpm 
+  149  mkdir /var/ftp/pub/RHEL76
+  150  cd /var/ftp/pub/
+  151  ll
+  152  cp -rv /media/Packages/* /var/ftp/pub/RHEL76/
+  153  createrepo -v /var/ftp/pub/RHEL76/
+  154  yum clean all
+  155  yum repolist
+  156  yum reinstall tree
+  157  history

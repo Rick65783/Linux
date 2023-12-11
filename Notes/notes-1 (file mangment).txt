@@ -1,0 +1,1235 @@
+Try installing VMWare + Redhat OS
+
+Installation steps for VMWare and Redhat:
+Download VMWARE for Windows from below link(if old laps you might need to download lower versions):
+
+https://www.vmware.com/in/products/workstation-pro/workstation-pro-evaluation.html
+
+Serial keys for VMWare: Use anyone of these keys if it asks for key after VMWare installation installation.
+
+1) ZF3R0-FHED2-M80TY-8QYGC-NPKYF
+2) YF390-0HF8P-M81RQ-2DXQE-M2UT6
+3) ZF71R-DMX85-08DQY-8YMNC-4) PPHV8
+5) AZ3E8-DCD8J-0842Z-N6NZE-XPKYF
+6) FC11K-00DE0-0800Z-04Z5E-MC8T6
+
+And download RHEL(Redhat) OS from following link:
+
+    https://archive.org/download/rhel-server-7.6-x86_64-dvd/rhel-server-7.6-x86_64-dvd.iso
+
+==>4.2 GB
+==>I will share the docs to install VMWARE, OS installation..
+
+----------------------------
+
+Linux: Redhat(RHEL),CENTOS,Fedora,SuSE,ubuntu,pupy linux,kaly linux
+
+OS = is nothing but collection of programs, with help of these programs only we are able to intaract with hardware.
+os is nothing interpreter between end user and hardware.
+
+Unix OS released in 1969. It's purly C based operating system. operating system developed in C language.
+ 
+
+unix is a open source operating system.
+
+code is open to modify 
+
+linux is purly open sorce operating system.
+
+  RHEL (red hat enterprise linux)
+  RHEL 4, 5, 6, 7, 8
+
+ 60-70 machines are running with RHEL 7
+  25 %  machines are running with RHEL 6
+   5 %  machines  are running with RHEL 8
+
+ 
+ RHEL 7 is the major version
+   7.0, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 7.10
+
+
+major 7
+minor 7.1,7.2.....
+
+
+steps to get ip address and connect through the putty
+   step 1 : open below file and modify onboot=yes
+  ip a
+  here you can find ethernet card name
+   in my system i can see ens33 is my ethernet card name
+  vi /etc/sysconfig/network-scripts/ifcfg-ens33
+    onboot=yes
+step 2: restart the network service
+  systemctl restart network
+
+now you could able to see the IP address
+  ip a
+
+Hardware requirement for RHEL 7
+
+RAM = 2 GB
+Disk = 6 GB
+processor = any
+      			/
+
+/ is a parent directory
+ inside this parent directory we will have 13 default important directories.
+
+Windows 
+    C: ==> windows, programs files, program files(X86), ....
+    
+   1. /boot ==> All bootable files 
+    booting ==> start ====>login prompt
+   2. /root ==> Root user home directory 
+    root user itself an administrator user
+        windows ==> Administrator user
+   3. /home ==> ALl normal user home directories by default
+        jagadeesh ==> /home/jagadeesh
+        ghouse    ==> /home/ghouse
+        gangulaiah ==> /home/gangulaiah
+        aparna     ==> /home/aparna
+        mohit       ==> /home/mohit
+        
+   4. /etc   ==> All system configuration files
+        /etc/passwd ==> all users information
+        /etc/shadow => all users password information..
+        /etc/group  ==> all user groups information...
+   5. /var ==> Variable Analysis Report...
+            All system logs
+            /var/log/messages
+            /var/log/sa/sa01,sa02,sa3.........
+   6. /usr
+    UNIX SYSTEM RESOURCES
+        Means libraries and commands/binaries.....
+        /usr/bin ==> normal user binaries/commands
+        /usr/sbin ==> Super user binaries/commands (root user)
+            /usr/sbin/useradd
+            /usr/sbin/usermod
+        ==> all these sbin commands will be executed by ROOT user only by default
+        /usr/lib ==> all system libraries
+        /usr/lib64 ==> all system 64 bit libraries...
+        
+   7. /sbin(/usr/sbin)
+    shortcut dir
+   8. /bin(/usr/bin)
+    shortcut dir
+   9. /lib (/urs/lib), 
+        /lib64 (/usr/lib64)
+   
+   10. /proc ==> All system processing information..
+    ALL CURRENT SYSTEM RUNNING INFO
+    
+    Cpu information     ==> /proc/cpuinfo
+    mêmeory information ==> /proc/meminfo
+    swap information ==> /proc/swaps
+    each process information ==>/proc/PID/.....
+    
+    what is mêmeory?
+        Active pages in the memory is called RAM
+    what is swap mêmeory?
+        Inactive pages in the mêmeory is called swap
+    
+    HDD ==>         RAM ==> CPU
+    5GB ==> SWAP => 2GB ==> CPU
+    
+   11. /dev ==> ALL THE device information
+    /dev/sda
+    /dev/sdb
+    /dev/sdc
+    /dev/terminals....
+    
+   12. /mnt ==> Guest partition..
+   13. /tmp ==-> Temporary directory, we use this file system for backup purpose
+    sai ==> file1 ==> complete access
+    jagadeesh ==> file2 ==> complete access
+
+    whoever keeps the file into the /tmp directory... he will become owner of that file... others will have only read access..
+    This is called Sticky bit permission....
+    
+14. /media => cd/dvd
+15. /opt ==> Optional file system
+    we can install third party softwares....
+----------------------------------------------------------------------------
+
+1. /boot : contains the OS bootable files, these files helps to load your operating system.(eg: kernel files).
+
+
+ clear = to clear the screen (ctl+l)
+
+alt+F2
+
+2. /root : it's a home directory of administrator.who is the administrator in Linux/Unix root user.
+        no other user can enter into root user home directory.
+       
+   window: c:/users/admin
+			Desktop,Downloads, Documents.....
+
+	   c:/users/narasimha
+			Desktop,Downloads,Documents......
+3. /home  :  contains other users home directories. this is the default location for other users.
+
+4. /etc  : it contains configuration files of operating system and third party tools/softwares configuration files.
+5. /var  :  it contains activity report or log(activity report) of system activities.
+   /var/log i deleted everything from /var/log . is operating sytem will come up? yes
+     unfortunatly deleted /boot directory data. is operating system will cme up? no
+6. /usr;  Unix system resources
+      it contains oprerating system binaries(programs) like commands(ls,cd,cp,rm,useradd,userdel)
+
+  ls  command
+  cd  command
+  pwd command
+  rm   command
+                 /usr/bin ( common commands for all users commands)
+                 /usr/sbin (super(root) user commands)
+
+		useraddministration commands : sbin
+    		 useradd,userdel,usermod
+
+		software managment:   sbin
+		install,uninstall,upgrade
+
+		ls,cd,pwd    =  bin
+
+
+
+7.  /bin  : few commands are seperated from /usr/bin to /bin location. these commands will help during OS boot up.
+8.  /sbin : few commands are seperated from /usr/sbin to /sbin directory or location. these commands will help during os boot up.
+9.  /lib  : it contains libraries of operating system. these libraries(programs) are shared between multiple commands or binraries.
+   libraries are important to run your programs or operating system.
+     /boot = important to load operating system
+     /lib  = imp to load operating system
+10. /proc  :  it a temp directory for processor. this directory used by processor(cpu). it stores data of process or task.
+11. /dev  :  It contains logical device names( cd/DVD, hard disk, RAM,).
+12. /mnt   : guest directory . we can store any data here
+13. /tmp  : it contains every user running processes data. 
+
+------------------------------------
+pwd => present workking directory
+mkdir  dir1==> to create directory
+touch file1
+mkdir mydiir{1..5}
+touch file{1..5}
+cd directoryName ==> opening the directory/changing the directory
+cd .. ==> one directory back
+ctrl+l  OR clear ==> to clear the screen
+
+-----------------------------
+HISTORY:
+
+    1  date
+    2  cal
+    3  ls ==>list out the files
+    4  ll ==> long list
+ 
+   18  ll
+   19  pwd
+   20  ls
+   21  ll
+   22  cd Desktop
+   23  pwd
+   24  ls
+   25  ll
+   26  pwd
+   27  cd .
+   28  pwd
+   29  cd .
+   30  pwd
+   31  cd ..
+   32  pwd
+   33  cd ..
+   34  pwd
+   35  cd root/desktop
+   36  cd /root/Desktop/
+   37  mkdir testdir
+   38  ls
+   39  ll
+   40  mkdir 1 2 3 4 5
+   41  ll
+   42  pwd
+   43  cd 1
+   44  pwd
+   45  touch file1
+   46  ll
+   47  touch file2
+   48  ll
+   49  touch f1 f2 f3 f4
+   50  ll
+   51  touch saifile{1..5}
+   52  ll
+   53  mkdir dir{1..5}
+   54  ll
+   55  mkdir dir{1..5}
+   56  cd /
+   57  pwd
+   58  cd /boot
+   59  ll
+   60  cd /
+   61  ls
+   62  ll
+   63  cd boot/
+   64  ll
+   65  cd /root/
+   66  clear
+   67  cd /root
+   68  ls
+   69  ll
+   70  cd /home
+   71  ls
+   72  useradd sai
+   73  ls
+   74  ll
+   75  pwd
+   76  useradd jagadeesh
+   77  ll
+   78  pwd
+   79  cd jagadeesh/
+   80  ls
+   81  ll
+   82  ls
+   83  touch file1
+   84  ll
+   85  cd
+   86  clear
+   87  cd /etc/
+   88  ls
+   89  cat yum.conf 
+   90  ls
+   91  cat /etc/ssh/sshd_config 
+   92  cd /var/
+   93  ls
+   94  cd log/
+   95  ll
+   96  cat messages 
+   97  cd ..
+   98  ll
+   99  cd /usr/bin/
+  100  ls
+  101  ll
+  102  ls
+  103  cd /usr/sbin/
+  104  ls
+  105  ll | wc -l
+  106  cd /usr/bin
+  107  ll | wc -l
+  108  ll | grep passwd
+  109  cd 
+  110  ls
+  111  cd /
+  112  ll
+  113  cd /proc/
+  114  ls
+  115  cd 5452
+  116  ls
+  117  cd ..
+  118  pwd
+  119  cat meminfo 
+  120  cat cpuinfo
+  121  free 
+  122  free -h
+  123  cd /dev
+  124  ls
+  125  lsblk ==> disk information
+ 
+  135  ll
+  136  cd /mnt
+  137  ls
+  138  ll
+  139  cd /tmp
+  140  ls
+  141  su - sai
+  142  whoami
+  143  who am i
+  144  ls
+  145  ll
+  146  lsblk
+  147  mount /dev/sr0 /media/
+  148  cd /media/
+  149  ls
+  150  cd /opt/
+  151  L
+  152  ls
+  153  ll
+  154  cd rh/
+  155  ll
+  156  ls
+  157  top
+  158  history
+--------------------------------------------------
+
+                										   File Management
+												   =================
+			
+	1. Cat (Concatenate)
+	2. VI  (Virtual interface)
+	3. Touch
+
+windows: Notepad and ms word
+
+  files will be in black colour
+  directories will be in blue
+
+      cat > filename
+	ctrl + d
+==> to view the file content
+	
+cat filename 
+==> to view the file content with line numbers
+	cat -n filename
+
+
+==> how to append content to existing file
+	cat >> batch4
+
+the limitation in cat is we can't modify existing data.
+> create and overwrite  if file is not exists then it creates. If file is exists then it overwrites.
+>> append
+
+mkdir -p work/{F1,F2,F3}/{temp1,temp2}
+
+VI virtual interface
+
+1. Command mode(default mode)
+2. Insert mode
+3. Replacement mode
+
+
+dd : to delete the cursor standing line
+5dd : to delete 5 lines from the cursor standing line
+1000dd
+u  : to undo the latest changes
+yy : to copy the cursor standing line . this is for copy only one line
+5yy: to copy 5 lines from the cursor standing line. 
+p  : to past copied data below cursor postion. small p
+shift + p : to past copied data above of cursor postion. capital P.
+cc : to cut the cursor postion line
+10cc : to cut 10 from the cursor position line.
+
+how to switch from command mode to insert mode ==> i
+how to switch back to command mode ==> esc we have presess esc key to come back command mode
+
+:se nu : to set the line numbers for the file content
+:se nonu : to unapear/hide line numbers for the file content.
+gg   : to take cursor to file line of the file.
+Shift + g : to take cursor to last line of the file. shift + g is nothing capital G
+:25 : to take cursor to particular line of file
+:15
+
+i : to switch into the insert mode at the same position of cursor.
+a : switch into the insert mode but next position of cursor standing.
+o : create new below of cursor position line and switch to insert mode.
+shift + O : create new line above of cursor position line and switch into insert mode.
+
+:w : save the changes
+:q : quit from the file without save changes
+:wq : is for save changes and quit from the file.
+$   : to take cursor to end of the line
+0(zero)  : to take cursor to starting of the line
+   
+Shift + i I    : Take cursor to starting of the line and switch into insert mode
+shift + a A    : Take cursor to end of the line and swith into insert mode
+i 
+a
+
+Search options
+/word
+?word
+/narasimha   : search string from cursor position to down 
+		n is for seach string next location or position.
+		N is go back to previous search
+
+?narasimha   : search string froom cursor position to up
+		n is for go back to previous search place
+		N is for search string in the next position
+
+Replace:
+:%s/narasimha/narasimha prasad/g
+:%s/existingword/newword/g
+
+
+x   : is for delete single char from cursor position
+dw  : is for delete one word from the cursor position
+
+r  : is for replace one char from the cursor position.
+Shift + r R  : is for switch from command mode to replacement mode
+esc  is for come back to command mode
+
+< h : is for move cursor to left from cursor standing position.
+> l : is for move cursor to right from cursor standing poistion.
+ k : is for move cursor to up
+ j : is for move cursor to down
+    
+
+   Touch:
+
+it is for update curent date and time of existing file
+ touch is for create empty files this is wrong. the actual functionality is change current timestamp to the existing file.
+
+touch file2 file3 file4 file5 file6 file7
+if file is not exist then touch creates empty file. if file is exist then just update curent date & time to file.
+
+
+how to create 100 file with same format
+
+touch file{1..100}
+
+
+How to create folder/directory
+mkdir testdir
+mkdir <directory nams
+
+   mkdir b22dir
+   mkdir -p /b22dir1/testbarnch/chennai
+
+
+how to know the presently logged in user?
+whoami
+how to switch from one user to another user?
+  su - narasimha
+switch user
+
+how we can logout from user?
+   logout
+   exit
+   ctrl + d
+
+how to copy file or directory from one directory to another directory?
+	cp <source file name> <destination path>
+
+       cp /batch4  /var/
+
+
+
+. current path
+.. previous path
+../.. back to 2 previous paths
+../../../ back to 3 previous paths
+
+
+cd /p/r/a/s/a/d
+cd ..
+pwd
+/p/r/a/s/a
+
+
+
+     cd -
+is for take cursor to previous or old path
+
+cd 
+
+current pwd will change to user home directory. It takes to user home directory.
+
+cd / to take user to / path
+cd /etc to take user to /etc
+but just cd will take user to his home directory.
+cd 
+
+what is the root user home directory?
+/root
+
+what is the narasimha user home directory?
+/home/narasimha
+
+    remove
+     rm <filename>
+     rm -r <directory name>
+  -r recursively
+  -f forcefully delete file or directory without user confirmation
+
+
+        Move/rename
+      mv filename /etc/
+
+
+how to know the operating system version?
+  cat /etc/os-release
+RHEL = redhat enterprise Linux  7.5
+  4,4.1,4.2,
+  major version is 4,5,6,7,8
+  minor versions = 4.1,4.2,4.10; 5.1,5.2,5.3,5.10;  6.1,6.2,6.3,6.10; 7,7.1,7.2,7.3, 7.10; 8
+
+
+how to know the operating system architecture is 64 bit or 32 bit.
+note: till RHEL 6 they used release both 32 and 64 but from RHEL 7 onwards started releasing only 64 bit.
+
+    uname -m
+    arch
+    hostnamectl status
+
+how to print hostname of machine?
+     uname -n
+     hostname
+
+how to change the hostname?
+    hostnamectl set-hostname newname
+
+system configuration:
+RAM
+processors
+HDD
+ethernet card(network)
+   
+ how to get installed memory(RAM) of server?
+	free -m or free -g 
+	cat /proc/meminfo
+
+	m : size is going show in mega bytes
+	g : size is going show in giga bytes
+	k : kilo
+
+  1024 kb is 1 MB
+  1024 MB is 1 GB
+
+
+free -m
+1023 0
+
+
+
+How to get the processor(CPU) information? how many processors and capacity of processor?
+   lscpu
+list cpu info
+   cat /proc/cpuinfo
+
+How to get disks information?
+  lsblk
+  fdisk -l
+  lsscsi
+
+
+how to get network cards information?
+
+   ip a
+   ifconfig -a
+
+
+how to know platform?
+  dmidecode -s system-product-name
+  hostnamectl status
+how to know the serial number of machine?
+   dmidecode -s system-serial-number
+   
+  how to know the date and time of system?
+	date
+
+
+power off commands: h means halt
+  shutdown -h now
+  shutdown -h 5 
+  shutdown -h 5 " message" 
+  shutdown -h 5 "we are going to power off this server as per maintenance . Please close your things before shutdown"
+  poweroff
+  halt
+  init 0
+
+reboot the server: r means reboot
+  shutdown -r now
+  shutdown -r 5 
+  shutdown -r 5 " message" 
+  shutdown -r 5 " we are going to rebooting this server as per maintenance . Please close your things before shutdown" 
+  reboot
+  init 6
+
+  cp /file1 /tmp/
+  cp -r /testdir /tmp/
+
+
+head and tail commands
+head command is for print starting 10 lines of the file
+head <filename>
+head -20 <filename> 
+head -50 <filename>
+
+tail command is for print last 10 lines of the file
+tail <filename>
+tail -5 <filename>
+tail -100 <filename>
+
+head filename | cat -n
+
+| it can store the previous command output and pass it to next command as a input
+
+cmd1 | cmd2 | cmd3 | cmd4 
+
+               wc(word count)
+   
+
+		wc -w filename
+		wc -l filename
+		wc -c filename
+
+   -w count the words in file
+   -l count the line numbers from the file
+   -c count the char in the file
+
+
+   more old method
+  less advanced . It a copy of vi command.
+  are for read file content page by page
+
+cat /batch4
+  more /var/log/messages
+  more /batch4
+  less /batch4
+
+space key for move on to next page
+b is for back to the previous page
+enter key is for move cursor line by line
+above three options will work in both less and more.
+
+q = quit from the more or less command
+
+in less command to move cursor arrow keys will work but in more command arrow keys will not work 
+
+h = is for to get the help on options
+
+ls -l | more
+read the ls -l output page by page.
+
+    ls options
+ls -l : print the data in long list
+
+
+-rw-r--r-- 2   root  root  4096  10 aug  batch4
+drwxr-xr-x 2   root  root  4096   22 june test
+lrwxrwxrwx 2   root  root  12486  2019 june 20 bin
+
+
+
+field 1 : file type
+  - = regular file
+  d = directory
+  l = linked file or shortcut file from different place
+  b = block device files which can understand end user
+  c = chart device files which can understand OS
+  p = Pip (OS purpose)
+  S = Socket( OS purpose)
+
+Field 2: Permissions
+field 3: Hard link counts  
+field 4 : owner
+field 5 : group
+field 6 : size in bytes
+field 7 : creation/modify date and time of the file/directory
+field 8 : name of file/directory
+
+  ls -lt sort output with date and time
+
+latest will go up
+old will show down
+  ls -ltr 
+ -l long list
+ -t sort out output with date and time
+ -r reverse the output
+
+
+
+
+ls -a prints normal and hidden files/directories
+
+
+     touch .file1
+     mkdir .testdir
+    
+
+vi .tfile22
+
+  date +"%F"
+
+how to set or adjust the date and time?
+  date -s "10 aug 2020 07:20:35 AM"
+how to change the timezone?
+
+step 1 : remove softlink of existing zone file from /etc
+    rm -rf /etc/localtime
+step 2 : create link of timezone file
+	ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+
+    																 GREP
+   															      -----
+
+grep is for search string/word from file or files in one depth of directory.
+
+to search file or directory is exist or not there we will use find command not grep.
+
+1. Grep : To search string in file
+2. find : to search file or directory in system.
+
+      grep <word> file name
+      grep <word> *
+      grep -w narasimha batch4
+      grep -wc narasimha batch4
+ 	grep -wn narasimha batch4
+	grep -l narasimha *
+	grep -A 5 narasimha /logfile
+
+w = word search
+c = count how many times it exist file
+n = print the line numbers where and all finds the word
+l = list out the filename where and all string exists. it can look only one depth of directory
+A = print 5 lines after string found ==>grep -A 5 'test' file
+B = print 5 lines before string found
+
+how to search multiple strings
+   grep -w "word1\|word2\|word3\|word4" /filename
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Links (shortcut)
+			   1. Hard link
+		           2. soft link
+
+* explain differences between hard link and soft link?
+	HARD LINK				                          SOFT LINK
+1. Hard links shares the same inode number	         1. Soft link will maintain different inode number for sorce and destion.
+2. Possible to create link only for files	          2. possible to create link for files and directories.
+3. Not possible to create link across the	          3. possible to create link across the partitions. from anywhere to  
+	partitions like /boot file can't 	             anywhere
+   possible to create in / partition.
+4. source and linked files size will be same            4. linked files size will be very less because it calculate path and 
+							                                  decide the size. I mean based on lenth of file name it occupies	
+							                         the linked file size.
+
+
+*  using Hard link file has been linked to other place, now unfortunatly oginal file has been deleted. is linked file can be accessible?
+	ans: Yes still linkd files can be accesible if links are created using hard link. it is almost equal to copy only
+
+
+soft link
+ln -s  source destination
+hard link
+ln source destination
+
+unlink destinationpath
+---------------
+
+      Find
+ 
+to search file or directory.
+
+grep and find
+
+
+grep is for search string in file or files , it can search string only one depth.
+
+
+        -name 
+        -perm
+  -ownername -user
+  -groupname -group
+  -size
+  -modify date & time -mtime & -mmin
+  -access date & time> -atime & -amin
+
+
+
+find /etc -name testfile
+
+find <path> -name <fullfillthe option>
+
+find / -name testfile
+
+find / -iname file22 ==>iname ->Ignore case   ABC, abc, Abc, aBC
+find / -type f -iname file22 -exec rm -rf {} \;
+
+find / -type f -perm 0777
+find / -type f -perm 0777 -exec chmod 0770 {} \;
+
+
+find / -type f -user narasimha 
+find / -type f -user narasimha -exec chown venu {} \;
+
+find /etc -type f -mtime +365 
+  -mtime modify days
+
+
+find /etc -type f -mmin -60
+  -mmin = modify min
+find out file which are modified with in 1 hour in /etc directory.
+
+-mmin +60 
+
+find /etc -type f -atime 
+
+find /path/to/folder -name '*test*'
+
+
+
+* application data is there in /app/log/, /app partition is almost full.
+
+ /app is a partition, easy approach is extend partition space. there is alternative way that is clear the old logs.
+
+        find /app/log -type f -mtime +90 -exec rm -rf {} \;
+  find /app/log -type f -mtime +10 -exec gzip {} \;
+
+
+find out older than 6 months files and list out only greater than 1 GB data files?
+ find /data -type f -size +980M -mtime +150
+
+
+a=`find the older than 6 months data` > /files
+b=`find the greater than 1 GB data files`
+
+if [ $a >= 160 && $b >= 1G ];
+then
+do
+else
+fi
+
+**********************************
+       find /tmp -name core -type f -print | xargs /bin/rm -f
+
+       Find files named core in or below the directory /tmp and delete
+       them.  Note that this will work incorrectly if there are any
+       filenames containing newlines or spaces.
+
+       find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
+
+       Find files named core in or below the directory /tmp and delete
+       them, processing filenames in such a way that file or directory
+       names containing spaces or newlines are correctly handled.
+
+       find /tmp -depth -name core -type f -delete
+
+       Find files named core in or below the directory /tmp and delete
+       them, but more efficiently than in the previous example (because
+       we avoid the need to use fork(2) and exec(2) to launch rm and we
+       don't need the extra xargs process).
+
+       cut -d: -f1 < /etc/passwd | sort | xargs echo
+
+       Generates a compact listing of all the users on the system.
+****************************************
+Compression(zip,tar and gzip)
+
+
+compress
+     zip -r /opt/testdir.zip /etc
+            destination     source
+extract
+    unzip /opt/testdir.zip
+
+how to listout content of zip file
+    unzip -l /opt/testdir.zip
+
+how to append some more files to existing zip
+    zip -u /opt/testdir.zip /var/log/messages
+    zip -u /opt/bkpofetc-12-09-2021.zip /var/log/messages
+    adding: var/log/messages (deflated 86%)
+TO delete files from zip
+    zip -d /opt/bkpofetc-12-09-2021.zip var/log/messages
+
+tar: tape archive
+     tar -cvf /opt/bkpofetc-12-09-2021.tar /etc
+      c = create
+      v = verbose
+      f = force
+tar -xvf /opt/bkpofetc-12-09-2021.tar
+        - x = extract
+to listout contents of the tar file
+    tar -tvf /opt/bkpofetc-12-09-2021.tar
+
+        gunzip
+
+using gunzip we can compress the files.
+    touch /testfile
+compress file using gunzip
+    gzip /testfile
+extract compressed file
+    gunzip testfile.gz
+    
+To zip the tar files
+     tar -cvzf
+     tar -xvzf
+-a = perserves the permissions like source
+-v = verbose
+-z = compress
+-r = recorsively
+
+        Rsync
+      remote sync
+
+instead of cp we can recommend rsync
+instead of scp we can recommend rsync
+ 
+speed: data will get compressed before sending to destination
+   1 gb data transfer and 500 MB data transfer 
+  which one will be fast? 500 MB.
+
+securty : it use the ssh protocol
+bandwith : rsync will occupy less bandwith because data is getting compressed before sending data to destination machine.
+
+
+local:
+rsync -avz /etc /opt
+remote :
+rsync -avz /etc root@192.168.40.100:/bkp/
+
+source /etc 
+we copied /etc directory to destination machine in /bkp directory.
+remote /bkp
+
+only differencial data will copy to destination in case same directory exists in destination.
+-----------------------------------------------
+
+find /tmp -name core -type f -print | xargs /bin/rm -f
+
+Find files named core in or below the directory /tmp and delete
+them.  Note that this will work incorrectly if there are any
+filenames containing newlines or spaces.
+
+find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
+
+Find files named core in or below the directory /tmp and delete
+them, processing filenames in such a way that file or directory
+names containing spaces or newlines are correctly handled.
+
+find /tmp -depth -name core -type f -delete
+
+Find files named core in or below the directory /tmp and delete
+them, but more efficiently than in the previous example (because
+we avoid the need to use fork(2) and exec(2) to launch rm and we
+don't need the extra xargs process).
+
+cut -d: -f1 < /etc/passwd | sort | xargs echo
+
+Generates a compact listing of all the users on the system.
+------------------------------------------------
+grep 
+    https://www.geeksforgeeks.org/regular-expression-grep/
+---------------
+
+=========
+tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
+Heres what those switches actually mean:
+
+-c: Create an archive.
+-z: Compress the archive with gzip.
+-v: Display progress in the terminal while creating the archive, also known as verbose mode. The v is always optional in these commands, but its helpful.
+-f: Allows you to specify the filename of the archive.
+
+
+$ tar cfz bigfile.tgz bigfile
+            ^            ^
+            |            |
+            +- new file  +- file to be compressed
+            
+            
+ zip ./bigfile.zip bigfile
+ 
+ 
+ tar -cvzf
+ tar -xvzf
+ ------------
+
+
+AWK ==>filtering command
+
+Ordinary characters such as space, underscore(_), A-Z, a-z, 0-9.
+(.) ==>    it matches any single character except a newline.
+
+(*)     Zero or more characters [ character(s) ] it matches any one of the characters specified in character(s), one can also use a hyphen (-) to mean a range of characters such as [a-f], [1-5], and so on.
+
+^ (cap) : it matches the beginning of a line in a file.
+
+$ matches the end of line in a file.
+
+\ it is an escape character.
+ 
+ 
+In order to fileter the text we need to use AWK
+
+Syntax:
+    awk 'script' filename
+    
+
+prints all the lines in the file /etc/hosts since no pattern is given.
+
+    awk '//{print}'/etc/hosts
+
+a pattern localhost has been given, so awk will match line having localhost in the /etc/hosts file.
+
+ awk '/localhost/{print}' /etc/hosts 
+
+
+The (.) will match strings containing loc, localhost, localnet in the example below.
+
+That is to say * l some_single_character c *.
+
+# awk '/l.c/{print}' /etc/hosts
+
+
+/a*a/
+
+/abc/ ==>set of characters
+
+/[Bb]n/
+with either B or b followed by n:
+ 
+ awk '/[a-zA-Z0-9$]/{print}' veera
+ 
+[0-9] means a single number
+[a-z] means match a single lower case letter
+[A-Z] means match a single upper case letter
+[a-zA-Z] means match a single letter
+[a-zA-Z0-9] means match a single letter or number
+ 
+^ ==>start
+$ ==>end
+
+to print 1,3,6 columns,  By default either space or tab is the delimiter.
+awk '{ print $1,$3,$6 }' test
+ 
+awk 'BEGIN {sum=0} {sum=sum+$7} END {print sum}' data
+ 
+we can check for the string sai in the 3rd column and if it finds a match then it will print entire line.
+
+awk '{ if($3 == "sai") print $0;}' data
+ 
+awk 'BEGIN { for(i=1;i<=10;i++) print "Multiplied value of", i, "is",i*i; }'
+
+awk 'BEGIN {FS=":"} {print $2}' data
+     ==>$2 it will be right side one
+     ==>$1 it will be left side one
+       
+       OR
+awk -F: '{print $2}' data
+
+
+awk '{print $4,$5}' data
+
+awk 'BEGIN {OFS=":"} {print $4,$5}' data
+
+NF  Number of fields count
+    awk '{print NF}' data
+
+NR  number of records count
+    awk '{print NR}' data
+    
+Print number of records in particular file
+    awk 'END {print NR}' count
+
+
+AWK String functions:
+
+    index(string,search)
+    length(string)
+    split(string,array,separator)
+    substr(string,position)
+    substr(string,position,max)
+    tolower(string)
+    toupper(string)
+
+
+cat advanced.txt
+1 U,N,SAI,000
+2 A,B,narasimha,111
+3 I,M,NARASIMHA,222
+4 C,D,SAI,333
+5 T,I,SAInarasimha,444
+
+ 
+awk '{
+        split($2,arr,",");
+        if(arr[3] == "SAI")
+        print $0
+} ' data
+ 
+ 
+Sometimes the separator in some files is not space nor tab but something else. You can specify it using F option:
+
+$ awk -F: '{print $1}' /etc/passwd
+
+Awk assigns some variables for each data field found:
+
+$0 for the whole line.
+$1 for the first field.
+$2 for the second field.
+$n for the nth field.
+The whitespace character like space or tab is the default separator between fields in awk.
+ 
+awk -F: '{print $1}' /etc/passwd
+
+echo "Hello sai" | awk '{$2="narasimha"; print $0}'
+
+{
+ 
+text = $1 " home at " $6
+ 
+print text  
+ 
+}
+
+awk -F: -f testfile /etc/passwd
+
+
+Built-in Variables:
+
+    We saw the data field variables $1, $2 $3, etc are used to extract data fields, we also deal with the field separator FS.
+
+But these are not the only variables, there are more built-in variables.
+The following list shows some of the built-in variables:
+FIELDWIDTHS Specifies the field width.
+
+RS Specifies the record separator.
+
+FS Specifies the field separator.
+
+OFS Specifies the Output separator.
+
+ORS Specifies the Output separator.
+
+By default, the OFS variable is the space, you can set the OFS variable to specify the separator you need:
+
+It substitute : with -
+    awk 'BEGIN{FS=":"; OFS="-"} {print $1,$6,$7}' /etc/passwd
+
+Suppose we have this content:
+
+1235.96521
+927-8.3652
+36257.8157
+
+    awk 'BEGIN{FIELDWIDTHS="3 4 3"}{print $1,$2,$3}' testfile
+    
+    
+    
+awk fails to process fields properly because the fields are separated by newlines and not spaces.
+
+You need to set the FS to the newline (\n) and the RS to a blank text, so empty lines will be considered separators.
+
+for Ex data:
+    
+    sai
+    123 Street
+    123456789
+
+    narasimha
+    333  Street
+    9999999999
+    
+awk 'BEGIN{FS="\n"; RS=""} {print $1,$3}' addresses
+
+
+
+useradd sai ==>/bin/bash
+/bin/bash ==>/bin/sh 
+=========================================================
+SED ==>Stream Editor 
+
+sed 's/sai/narasimha/' data
+
+sed 's/sai/nani/2' data ==>it replaces second time
+
+sed 's/sai/nani/g' data ==>it replaces all occurances
+
+sed 's/sai/nani/2g' data ==>it replaces all occurances from 2nd occurance
+
+sed 's/^\(sai\)$/#/g' data ==>it replaces all occurances with #### and the line should start and end with sai
+
+Replacing the Slash Delimiter using escape character \:
+    sed 's/http:\/\//www./' data
+ If you don't want to use too many characters:
+sed 's_http://_www._' data
+sed 's|http://|www.|' data
+

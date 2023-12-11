@@ -1,0 +1,694 @@
+Operators
+	1. arthmetic operators
+	2. Relational operators
+	3. Boolean operators
+	4. File test operators
+
+1. Arthmetic operators
+  +
+  -
+  \*
+  %
+
+variablename=`expr $a+$b`
+variablename=$((a+b))
+
+ a=5
+ b=10
+expr $a + $b
+15
+expr $a - $b
+-5
+expr $a \* $b
+50
+
+sequential statements ==> each statement will be execute...
+conditional statement ==> Based on condition we can execute statements..
+	using "if" we can have conditional statements
+
+	1. simple if
+	2. if -else
+	3. nested if
+	4. else-if ladder
+
+2. Relational operators/comparision operators
+
+c=a+b
+
+	==   = -eq
+	!=    = -ne
+	<     = -lt
+         >     = -gt
+	<=   = -le
+	>=   = -ge
+
+conditional statements:
+------------------------
+if conditions
+----------------
+1. simple if
+2. if -else
+3. else-if ladder
+4. nested if
+
+1. Simple if
+
+    if [ condition ] T/F
+    then
+        statement-1
+        statement-2
+        .
+        .
+    fi
+
+2. if-else
+
+    if[ condition ] T/F
+    then
+        statement-1
+        statement-2
+        .
+        .
+    else 
+        statement-1
+        statement-2
+        .
+        .
+    fi
+    
+3. nested if 
+
+    if[ condition ] T/F
+    then
+        statement-1
+        statement-2
+        .
+        .
+        if [ condition ]
+        then
+            statement-1
+            statement-2
+            .
+            .
+        fi
+    else 
+        statement-1
+        statement-2
+        .
+        .
+    fi
+    
+4. else-if ladder
+
+    if [ condition ]
+    then
+        statement-1
+        statement-2
+        .
+        .
+    elif [ condition ]    ==> elif ==>else if
+    then
+        statement-1
+        statement-2
+        .
+        .
+    elif [ condition ]
+    then
+        statement-1
+        statement-2
+        .
+        .
+    .
+    .
+    .
+    .
+    else
+        statement-1
+        statement-2
+        .
+        .
+        .
+    fi
+------------------------------------
+A person is elible for voting or not..
+	age should be greater than or equal to 18
+
+
+#! /bin/bash
+
+read -p "enter your name " NAME
+read -p "Enter your age " AGE
+
+if [ $AGE -ge 18 ]
+then
+	echo " $NAME is elible for voting"
+else
+	echo " $NAME is NOT elible for voting"
+fi
+
+----------------------------
+
+#! /bin/bash
+
+read -p "enter your name " NAME
+read -p "Enter your age " AGE
+
+if [ $AGE -ge 18 ]
+then
+	echo " $NAME is elible for voting"
+else
+	echo " $NAME is NOT elible for voting"
+fi
+
+---------------------------------------------
+#! /bin/bash
+
+read -p "Enter your name " NAME
+read -p "Enter your age " AGE
+
+if [ $AGE -ge 18 ]
+then
+        echo " $NAME is elible for voting"
+else
+        WAITING_AGE=$((18-AGE))
+
+        echo "Hey $NAME, You are NOT elible for voting"
+        echo "You should wait for $WAITING_AGE years"
+
+fi
+
+----------------------------------------
+Arjun, Gangulaiah, Azher ==> 3 friends
+
+who is bigger?
+
+else - if ladder
+
+#! /bin/bash
+
+echo "Enter 3 friends names and their Ages: HINT: privde name followed by Age"
+read NAME1
+read AGE1
+read NAME2
+read AGE2
+read NAME3
+read AGE3
+
+if [ $AGE1 -gt $AGE2 ]
+then
+        if [ $AGE1 -gt $AGE3 ]
+        then
+                echo "$NAME1 is big"
+        fi
+elif [ $AGE2 -gt $AGE1 ]
+then
+        if [ $AGE2 -gt $AGE3 ]
+        then
+                echo "$NAME2 is big"
+        else
+                echo "$NAME3 is big"
+        fi
+else
+        echo "ALL ARE IN EQUAL AGE"
+fi
+
+
+----------------------------------------
+Arithmetic operators 
+comparision operators
+	conditional statements if
+boolean or logical operators
+	-a AND ==> if all conditions are true then returns true otherwise, false
+	-o OR => if all conditions are false then returns false otherwise, true
+
+cond1	cond2 AND	OR
+T	T	T	T
+T	F	F	T
+F	T	F	T
+F	F	F	F
+-------------------------------------
+get the student details
+total marks
+percentage
+Result => pass or fail
+Grade => distintion, first, second, third, fail
+
+#! /bin/bash
+
+read -p "Enter hall ticket number: " HTNO
+read -p "Enter your good name: " NAME
+echo "Enter your 6 subject marks "
+read -p " Telugu: " TEL
+read -p " Hindi: " HIN
+read -p " English: " ENG
+read -p " Maths: " MAT
+read -p " Science: " SCI
+read -p " Social: " SOC
+
+TOTAL_MARKS=$((TEL+HIN+ENG+MAT+SCI+SOC))
+PERCENTAGE=$((TOTAL_MARKS/6))
+
+echo "TOTAL MARKS: " $TOTAL_MARKS
+echo "PERCENTAGE : " $PERCENTAGE
+
+# PASS OR FAIL
+# If each subject marks greater than or equal to 35 then PASS
+
+#if [ $TEL -ge 35 -a $HIN -ge 35 -a $ENG -ge 35 -a $MAT -ge 35 -a $SCI -ge 35 -a $SOC -ge 35 ]
+#then
+#	echo "YOU ARE PASSED, Brathikipoyav po.."
+#else
+#	echo "BAD LUCK, YOU ARE FAILED, MALLI RASUKO..."
+#fi
+
+# If any one subject less than 35 then FAIL
+
+if [ $TEL -lt 35 -o $HIN -lt 18 -o $ENG -lt 35 -o $MAT -lt 35 -o $SCI -lt 35 -o $SOC -lt 35 ]
+then
+	echo "BAD LUCK, YOU ARE FAILED, MALLI RASUKO..."
+else
+	echo "YOU ARE PASSED, Brathikipoyav po.."
+	if [ $PERCENTAGE -ge 75 ]
+	then
+		echo "DISTINCTION, party ledha pushpa.."
+	elif [ $PERCENTAGE -ge 60 ]
+	then
+		echo "FIRST CLASS, great, try for distinction nextime."
+	elif [ $PERCENTAGE -ge 50 ]
+	then
+		echo "SECOND CLASS, try for good marks nextime.."
+	else
+		echo "THIRD CLASS, elagola brathikipoyav.." 
+	fi
+fi
+
+-------------------------------------------
+Arjun(26), Gangulaiah(25), Azher(22) ==> 3 friends
+
+who is bigger?
+
+
+#! /bin/bash
+
+echo "Enter 3 person names and ages"
+read NAME1
+read AGE1
+read NAME2
+read AGE2
+read NAME3
+read AGE3
+
+
+if [ $AGE1 -gt $AGE2 -a $AGE1 -gt $AGE3 ]
+then
+	echo " $NAME1 is big"
+elif [ $AGE2 -gt $AGE3 ]
+then
+	echo " $NAME2 is big"
+else
+	echo " $NAME3 is big"
+fi
+
+--------------------------------------------
+Write a shell script to calculate whether a year is leap year or not by taking YEAR as input?
+	HINT: if you divide a year with 4, the remainder should be zero(0), then that is leap year..
+
+Write a shell script to know whether given number is odd or even number by taking NUMBER as input?
+	HINT: if you divide any number with 2, the remainder should be zero(0), then that is even number otherwise, odd numbeer..
+
+Write a shell script to know whether a package is installed in the system or not?
+
+Write a shell script to know whether user exists in the system or not?
+
+Write a shell script to get result as:
+	number of cpus : number
+	total memeory: memeory
+	used memeory: used memory
+	highest CPU utilization process ID:
+	highest memory utilization process ID:
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+while, for , do-while..
+Write a shell script for reverse of a given number
+	123 ==> 321
+	267 ==> 762
+
+result=0
+
+	10)123(12
+	   120
+  	--------
+	     3
+
+	   10)12(1
+	      10
+	--------------
+		2
+		10)1(0
+		   0
+		------
+		   1
+
+
+#! /bin/bash
+
+echo "Enter a number"
+read number
+
+------------------------------------
+
+---------------------------------------
+
+I want to get memory utilization 
+	if memory utilization is greater than 75% then print "Critical memeory with the exact memeory utilization"
+	if if memory utilization is less than 75% then print " memeory utilization is normal with the exact memeory utilization"
+
+used memeory
+--------------- X 100 = -----
+total memeory
+
+438 ==> 600
+
+  438/600*100
+
+
+free
+
+#! /bin/bash
+
+echo "Enter your good name: "
+read NAME1
+
+echo "Enter Age: "
+read AGE1
+
+echo "Etner your friend name:"
+read NAME2
+
+echo "Enter Your friend Age:"
+read AGE2
+
+#simple if
+#if [ $AGE1 -gt $AGE2 ]
+#then
+#	echo "$NAME1 is elter than $NAME2"
+#fi
+
+#if -else
+#if [ $AGE1 -gt $AGE2 ]
+#then
+#	echo "$NAME1 is elder than $NAME2"
+#else	
+#	echo "$NAME2 is elder than $NAME1"
+#fi
+
+
+#NESTED IF
+if [ $AGE1 -eq $AGE2 ]
+then
+	echo "$NAME1 and  $NAME2 are in same age"
+else
+	if [ $AGE1 -gt $AGE2 ]
+	then
+		echo "$NAME1 is elder than $NAME2"
+	else
+		echo "$NAME2 is elder than $NAME1"
+	fi
+fi
+
+
+
+
+
+
+
+
+
+
+
+============
+#! /bin/bash
+#elif ladder
+read -p "Enter your letter in a,b,c" CHOICE
+
+if [ $CHOICE = 'a' ]
+then
+	echo "Apple"
+elif [ $CHOICE = 'b' ]
+then
+	echo "Ball"
+elif [ $CHOICE = 'c' ]
+then
+	echo "Cat"
+else
+	echo " You fool, chose only a or b or c"
+fi
+===========
+#! /bin/bash
+
+# THIS IS JUST A DEMO PUSPOSE
+cal
+date
+uname -r
+uname -v
+df -hT
+pvs
+vgs
+lvs
+===========
+#! /bin/bash
+
+# THIS IS JUST A DEMO PUSPOSE
+cal
+date
+uname -r
+uname -v
+df -hT
+pvs
+vgs
+lvs
+-==================; cat if.sh; echo =============== cat memeoryCritial1.sh cat s1.sh ; echo ============; cat s2.sh ; echo ===========; cat script1.sh ; echo ===========; cat script1.sh ; echo -==================
+#! /bin/bash
+
+if (( 100 ));
+then
+	echo "test"
+else
+	echo "test123"
+fi
+===============
+#! /bin/bash
+
+set -x
+memory=$(free | awk '/Mem/{printf("%.2f"), $3/$2*100}')
+if (( $(echo "$memory < 80" |bc -l) )); 
+then
+  echo "WARNING: memory usage is normal $memory%"
+else
+  echo "Memory usage is CRITICAL: $memory%"
+fi
+set +x
+
+#memory usage is normal 44.31%
+#set -x and set +x ==> for using step by step 
+# if [ -gt -lt -ge -le ]
+#if (( > < >= ))
+#0 ==> false
+#127 ==> true
+# Any non-zero value returns true
+==============================================================================
+for variablename in {1..10}/ `cat filename`
+do
+    statement-1
+    statement-2
+    .
+    .
+    .
+done
+----------------------------------------------------------------------------------------------------------------------------------
+while [ condition ]
+do
+    statements..
+done
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+#! /bin/bash
+
+for xyz in {1..10}
+do
+	echo "I am really sorry"
+done
+#! /bin/bash
+
+for i in {1..10}
+do
+	echo $i
+done
+===========================================================================================
+#! /bin/bash
+echo "###################################"
+echo "hello, I am here I am shell script1"
+echo "###################################"
+===============================================================================================
+#! /bin/bash
+
+echo "Enter emp number"
+read EMPNUMBER
+
+echo "Enter emp name"
+read EMPNAME
+
+echo "Enter emp salary"
+read SALARY
+
+echo "################"
+echo "EMPLOYEE DETAIlS"
+echo "################"
+
+echo "EMPLOYEE NUMBER: "$EMPNUMBER
+echo "EMPLOYEE NAME:   "$EMPNAME
+echo "EMPLOYEE SALARY: "$SALARY
+====================================================================
+#! /bin/bash
+
+
+
+echo $HOSTNAME
+HOSTNAME="myhost"
+echo $HOSTNAME
+
+#! /bin/bash
+# arithmetic operations
+
+NUM1=10
+NUM2=20
+
+ADD=$((NUM1+NUM2))
+SUBS=$((NUM1-NUM2))
+MUL=$((NUM1*NUM2))
+DIV=$((NUM1/NUM2))
+
+echo "Addition of $NUM1 and $NUM2 is "$ADD
+echo "Substraction of $NUM1 and $NUM2 is "$SUBS
+echo "Multiplication of $NUM1 and $NUM2 is "$MUL
+echo "Division of $NUM1 and $NUM2 is "$DIV
+==============================================================================
+#! /bin/bash
+
+read -p "Enter your Hallticket number: " htno
+read -p "Enter your good name: " name
+read -p "Enter your DOB" dob
+
+read -p "Enter telugu marks " tel
+read -p "Enter hindi marks " hin
+read -p "Enter english marks " eng
+read -p "Enter maths marks " mat
+read -p "Enter science marks " sci
+read -p "Enter social marks " soc
+
+total=$((tel+hin+eng+mat+sci+soc))
+avg=$((total/6))
+
+# -gt, -lt, -ge, -le, -eq, -ne
+# -a ==> AND, -o ==> OR
+#	AND	OR
+#T T 	T	T
+#T F	F	T
+#F T	F	T
+#F F	F	F
+# >=
+
+#if [ $tel -ge 35 -a $hin -ge 18 -a $eng -ge 35 -a $mat -ge 35 -a $sci -ge 35 -a $soc -ge 35 ]
+#then
+#	echo " You passed "
+#else
+#	echo " You are failed"
+#fi
+
+#>=75 Distinction
+#>=60 First class
+#>=50 second class
+#>=35 third class
+
+if [ $tel -lt 35 -o $hin -lt 18 -o $eng -lt 35 -o $mat -lt 35 -o $sci -lt 35 -o $soc -lt 35 ]
+then
+	echo " FAILED, malli rasukopo "
+else
+	echo " Brathipoyav You are passed"
+	echo "your total marks = " $total
+	echo "your average marks =  $avg%"
+	
+	if [ $avg -ge 75 ] # we have written this one in another if so it is called NESTED-IF, and also if-else-ladder because we written all elif conditions..
+	then
+		echo "DISTINCTION"
+	elif [ $avg -ge 60 ]
+	then
+		echo "FIRST CLASS"
+	elif [ $avg -ge 50 ]
+	then
+		echo "SECOND CLASS"
+	else
+		echo "THIRD CLASS"
+	fi
+fi
+
+=================================================================================================================
+#! /bin/bash
+n=7
+while [ $n -ne 0 ]
+do
+        echo "I Love You"
+	n=$((n-1))
+done
+echo "Oppuko inkentha sepu cheppali"
+
+===========================================================
+if [ $# -ne 1 ]
+then
+        echo "you need to run as syn: scriptname yourage"
+else
+        if [ $1 -ge 18 ]
+        then
+                echo "You are eligible for voting"
+        else
+                waiting_age=$((18-$1))
+                if [ $waiting_age -le 4 ]
+                then
+                        echo " You can wait for $waiting_age year to vote"
+                else
+                        echo "nuvvu pillodivi aadukopo"
+                fi
+        fi
+fi
+====================================================================SET========================================
+# Check disk usage
+set -x
+disk=$(df -h | grep -w "/"| awk '{print $5}' | sed 's/%//')
+if (( $disk > 80 )); then
+  echo "WARNING: Disk usage is high: $disk%"
+else
+  echo "Disk usage is normal: $disk%"
+set +x
+fi
+-------------------------------------------------output----------------------------------------
++++ df -h
++++ grep -w /
++++ awk '{print $5}'
++++ sed s/%//
+++ disk=66
+++ ((  66 > 80  ))
+++ echo 'Disk usage is normal: 66%'
+Disk usage is normal: 66%
+++ set +x
+========================================================================================================================
+

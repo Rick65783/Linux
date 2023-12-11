@@ -1,0 +1,301 @@
+					           LVM (Logical Volume Manager)
+                                                    ============================
+
+Linux: all linux flav (LVM)
+AIX  : LVM
+HP-ux : LVM
+Solaris : SVM (solaris volume manager)
+	
+ 	LVM volume management( disk management)
+	1. create partition
+	2. extend partition space
+	3. reduce partition space
+	4. snapshot for partition
+
+2 ways :-
+	P P P E
+		==> LV LV LV...................
+
+500GB 
+500GB
+500GB
+  ==> 1300GB partition LVM
+   500+500+500 = 1500GB =1300GB LV
+                   =200GB+600GB =2300GB  = 1800GB LV
+
+pvcreate
+vgcreate
+lvcreate
+mkfs
+vgextend
+lvextend
+xfs_growfs (xfs), resize2fs(ext3,ext4) ==> to extend the file system
+
+pvs
+pvdisplay
+vgs
+vgdisplay
+lvs
+lvdisplay
+
+pvremove
+vgremove
+lvremove
+
+mount
+umount ==> to unmount the file system
+
+lvreduce
+e2fsck
+
+-----------------------------------
+
+1.pvcreate
+2.vgcreate
+3.lvcreate
+
+pvs(physical volume system)
+vgs(volume group system)
+lvs(logical volume system)
+
+pvdisplay
+vgdisplay
+lvdisplay
+
+for extand disk (commands):-
+vgextend
+lvextend
+
+for mouting and unmounting LVM:- 
+mount
+umount
+
+for remove LVM:-
+pvremove
+vgremove
+lvremove
+
+mkfs.xfs, ext4,ext3,ext2
+
+
+resize2fs
+lvreduce
+
+
+extending the partition is online activity (without downtime)
+reducing the parition is offline activity (downtime required)
+we can reduce ext4 file system partition but we CAN NOT REDUCE XFS file system partition
+
+----------------LV CREATION STEPS FROM STRATCH---------------------------------
+lv partition creation :-
+1. get the disk and scan the disk
+	echo "- - -" >>/sys/class/scsi_host/host0/scan
+	echo "- - -" >>/sys/class/scsi_host/host1/scan
+	echo "- - -" >>/sys/class/scsi_host/host2/scan
+	echo "- - -" >>/sys/class/scsi_host/host3/scan
+	lsblk
+2. pvcreate /dev/sdd (whatever the disk that you just added)
+3. vgcreate vgname /dev/sdd
+4. lvcreate -L +100G -n lvname vgname
+		OR
+	lvcreate -l +50%FREE -n lvname vgname (it will pick 50% free space available in VG)
+
+5. mkfs.xfs /dev/vgname/lvname or mkfs.ext4 /dev/vgname/lvname
+6. add an entry in the fstab that is /etc/fstab
+7. validate fstab entries 
+	mount -a (to refresh or validate /etc/fstab entries)
+8. verify the file system created..
+	mount
+	lsblk
+	df -hT
+---------------------- IF SPACE IS AVAIALBE IN VG---------------------------
+Lv parition space extend if the space is available in the VG :-
+
+1. first we need to check which LV that we need to extend and from which VG that is created..
+	lvs
+	vgs
+2. if required space is avaiable in the VG, then extend lv
+	lvextend -L +100G lvpath(/dev/vgname/lvname)  ==> this will extend partition space
+	xfs_growfs /dev/vgname/lvname ==> this will extend file system..
+		OR
+	lvextend -L +100G /dev/vgname/lvname -r
+		here -r means extending the file system too
+		OR
+		lvextend -l +50%FREE /dev/vgname/lvname -r
+
+3. mount -a
+	df -hT
+	lsblk
+----------------- IF SPACE IS NOT AVAILABLE NOT AVAILABLE IN VG----------------------------
+Lv parition space extend if the space is NOT available in the VG :-
+1. get the new disk, scan the disk and create pv, extend vg and extend lv
+2. pvcreate /dev/sde
+3. vgextend vgname /dev/sde
+4. lvextend -L +200G /dev/vgname/lvname -r
+	(OR)
+     lvextend -l +50%FREE /dev/vgname/lvname
+5. mount -a
+---------------------------------------------------------------------------------------------
+lv partition space reduce:-
+note : reduce can possible only for ext3 and ext4 file system not possible for xfs.
+	It's a offline activity. downtime is required to reduce space.
+		offline/downtime means unmount the partition
+step 1	: get approval from partition owner and unmount the partition
+			umount /db1
+		how much space we decided to remove ? 1 GB
+		what is total size of lv? 3 gB
+step 2	: arrange the sectors properly to one side using e2fsck command
+			e2fsck -f /dev/oravg/lv_db1
+step 3  : fix the lvsize or resizing lv size how much you want to keep for the lv.
+			resize2fs /dev/oravg/lv_db1 2G
+			scenario the lv size is 1 TB and in that we decided reduce to 400gB
+			resize2fs /dev/oravg/lv_db2 400G
+step 4	: reduce the partition space from the lv or release space to vg
+			lvreduce -L -1000m /dev/oravg/lv_db1
+			lvreduce -L -623g  /dev/oravg/lv_db2
+		the released space will go to vg.
+step 5  :  mount back the partition
+			mount -a
+
+
+Linux File Systems: Ext2 vs Ext3 vs Ext4 vs XFS
+------------------------------------------------
+ext2, ext3, ext4 and xfs are all filesystems created for Linux. This article explains the following:-
+    High level difference between these filesystems.
+    How to create these filesystems.
+    How to convert from one filesystem type to another.
+
+Ext2
+    Ext2 stands for second extended file system.
+    It was introduced in 1993. Developed by Rémy Card.
+    This was developed to overcome the limitation of the original ext file system.
+    Ext2 does not have journaling feature.
+    On flash drives, usb drives, ext2 is recommended, as it doesn’t need to do the over head of journaling.
+    Maximum individual file size can be from 16 GB to 2 TB
+    Overall ext2 file system size can be from 2 TB to 32 TB
+
+Ext3
+    Ext3 stands for third extended file system.
+    It was introduced in 2001. Developed by Stephen Tweedie.
+    Starting from Linux Kernel 2.4.15 ext3 was available.
+    The main benefit of ext3 is that it allows journaling.
+    Journaling has a dedicated area in the file system, where all the changes are tracked. When the system crashes, the possibility of file system corruption is less because of journaling.
+    Maximum individual file size can be from 16 GB to 2 TB
+    Overall ext3 file system size can be from 2 TB to 32 TB
+    There are three types of journaling available in ext3 file system.
+    Journal – Metadata and content are saved in the journal.
+    Ordered – Only metadata is saved in the journal. Metadata are journaled only after writing the content to disk. This is the default.
+    Writeback – Only metadata is saved in the journal. Metadata might be journaled either before or after the content is written to the disk.
+    You can convert a ext2 file system to ext3 file system directly (without backup/restore).
+
+Ext4
+    Ext4 stands for fourth extended file system.
+    It was introduced in 2008.
+    Starting from Linux Kernel 2.6.19 ext4 was available.
+    Supports huge individual file size and overall file system size.
+    Maximum individual file size can be from 16 GB to 16 TB
+    Overall maximum ext4 file system size is 1 EB (exabyte). 1 EB = 1024 PB (petabyte). 1 PB = 1024 TB (terabyte).
+    Directory can contain a maximum of 64,000 subdirectories (as opposed to 32,000 in ext3)
+    You can also mount an existing ext3 fs as ext4 fs (without having to upgrade it).
+    Several other new features are introduced in ext4: multiblock allocation, delayed allocation, journal checksum. fast fsck, etc. All you need to know is that these new features have improved the performance and reliability of the filesystem when compared to ext3.
+    In ext4, you also have the option of turning the journaling feature “off”.
+
+XFS File System
+-----------------
+    The XFS file system is an extension of the extent file system.
+    The XFS is a high-performance 64-bit journaling file system.
+    The support of the XFS was merged into Linux kernel in around 2002 and In 2009 Red Hat Enterprise Linux version 5.4 usage of the XFS file system.
+    XFS supports maximum file system size of 8 exbibytes for the 64-bit file system.
+    There is some comparison of XFS file system is XFS file system can’t be shrunk and poor performance with deletions of the large numbers of files.
+    Now, the RHEL 7.0 uses XFS as the default filesystem.
+    
+--------------------------------------------
+ 995  lsblk
+  996  clear
+  997  lsblk
+  998  echo "- - -" >>/sys/class/scsi_host/host0/scan 
+  999  echo "- - -" >>/sys/class/scsi_host/host1/scan 
+ 1000  echo "- - -" >>/sys/class/scsi_host/host2/scan 
+ 1001  echo "- - -" >>/sys/class/scsi_host/host3/scan 
+ 1002  lsblk
+ 1003  pvcreate /dev/sdd
+ 1004  vgcreate logsVG /dev/sdd
+ 1005  pvs
+ 1006  vgs
+ 1007  lvcreate -L +5G -n applogs logsVG 
+ 1008  lvs
+ 1009  pvdisplay
+ 1010  lvdisplay 
+ 1011* vgdisplay s
+ 1012  clear
+ 1013  pvs
+ 1014  vgs
+ 1015  lvs
+ 1016  mkfs.xfs /dev/logVG/applogs
+ 1017  mkfs.xfs /dev/logsVG/applogs 
+ 1018  vim /etc/fstab 
+ 1019  mount -a
+ 1020  mkdir /applogs
+ 1021  clear
+ 1022  mount -a
+ 1023  mount
+ 1024  df -hT
+ 1025  lsblk
+ 1026  df -hT
+ 1027  vgs
+ 1028  cat /etc/fstab
+ 1029  lvextend -L +5G /dev/logsVG/applogs -r
+ 1030  mount -a
+ 1031  mount
+ 1032  df -hT
+ 1033  
+ 1034  vgs
+ 1035  lvextend -l +50%FREE /dev/logsVG/applogs
+ 1036  xfs_growfs /dev/logsVG/applogs 
+ 1037  df -hT
+ 1038  mount -a
+ 1039  lsblk
+ 1040  vgs
+ 1041  lsblk
+ 1042  echo "- - -" >>/sys/class/scsi_host/host0/scan 
+ 1043  echo "- - -" >>/sys/class/scsi_host/host1/scan 
+ 1044  echo "- - -" >>/sys/class/scsi_host/host2/scan 
+ 1045  echo "- - -" >>/sys/class/scsi_host/host3/scan 
+ 1046  lsblk
+ 1047  pvcreate /dev/sde
+ 1048  vgextend logsVG /dev/sde
+ 1049  vgs
+ 1050  lvextend -L +10G /dev/logsVG/applogs -r
+ 1051  mount --a
+ 1052  mount -a
+ 1053  mount
+ 1054  df -hT
+ 1055  vgs
+ 1056  lsblk
+ 1057  echo "- - -" >>/sys/class/scsi_host/host0/scan 
+ 1058  echo "- - -" >>/sys/class/scsi_host/host1/scan 
+ 1059  echo "- - -" >>/sys/class/scsi_host/host2/scan 
+ 1060  echo "- - -" >>/sys/class/scsi_host/host3/scan 
+ 1061  lsblk
+ 1062  pvcreate /dev/sdf
+ 1063  vgcreate testVG /dev/sdf
+ 1064  lvcreate -L +6G -n testLV testVG 
+ 1065  mkfs.ext4 /dev/testVG/testLV 
+ 1066  mkdir /test
+ 1067  vim /etc/fstab 
+ 1068  mount -a
+ 1069  mount
+ 1070  lsblk
+ 1071  umount /test 
+ 1072  lsblk
+ 1073  mount -a
+ 1074  lsblk
+ 1075  umount /test 
+ 1076  e2fsck -f /dev/testVG/testLV 
+ 1077  resize2fs /dev/testVG/testLV 3G
+ 1078  lvreduce -L -3G /dev/testVG/testLV 
+ 1079  mount -a
+ 1080  df -hT
+ 1081  vgs
+ 1082  history
+

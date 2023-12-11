@@ -1,0 +1,132 @@
+VI virtual interface
+
+1. Command mode(default mode) ==> vi filename ==> it will be in the command mode ==> press "ESC" to go back to command mode.
+2. Insert mode  ==> press "i" in the keyboard to goto insert mode where you can enter the new text or modify existing text
+3. Replacement mode ==> R
+
+
+dd : to delete the cursor standing line
+5dd : to delete 5 lines from the cursor standing line
+1000dd
+u  : to undo the latest changes
+yy : to copy the cursor standing line . this is for copy only one line
+5yy: to copy 5 lines from the cursor standing line. 
+p  : to past copied data below cursor postion. small p
+shift + p : to past copied data above of cursor postion. capital P.
+cc : to cut the cursor postion line
+10cc : to cut 10 from the cursor position line.
+
+how to switch from command mode to insert mode ==> i
+how to switch back to command mode ==> esc we have presess esc key to come back command mode
+
+:se nu : to set the line numbers for the file content
+:se nonu : to unapear/hide line numbers for the file content.
+gg   : to take cursor to file line of the file.
+Shift + g : to take cursor to last line of the file. shift + g is nothing capital G
+:25 : to take cursor to particular line of file
+:15
+
+i : to switch into the insert mode at the same position of cursor.
+a : switch into the insert mode but next position of cursor standing.
+o : create new below of cursor position line and switch to insert mode.
+shift + O : create new line above of cursor position line and switch into insert mode.
+
+:w : save the changes
+:q : quit from the file without save changes
+:wq : is for save changes and quit from the file.
+$   : to take cursor to end of the line
+0(zero)  : to take cursor to starting of the line
+   
+Shift + i I    : Take cursor to starting of the line and switch into insert mode
+shift + a A    : Take cursor to end of the line and swith into insert mode
+i 
+a
+
+Search options
+/word
+?word
+/narasimha   : search string from cursor position to down 
+		n is for seach string next location or position.
+		N is go back to previous search
+
+?narasimha   : search string froom cursor position to up
+		n is for go back to previous search place
+		N is for search string in the next position
+
+Replace:
+:%s/narasimha/narasimha prasad/g
+:%s/existingword/newword/g
+
+
+x   : is for delete single char from cursor position
+dw  : is for delete one word from the cursor position
+
+r  : is for replace one char from the cursor position.
+Shift + r R  : is for switch from command mode to replacement mode
+esc  is for come back to command mode
+
+=======================================================
+
+   Touch:
+
+it is for update curent date and time of existing file
+ touch is for create empty files this is wrong. the actual functionality is change current timestamp to the existing file.
+
+touch file2 file3 file4 file5 file6 file7
+if file is not exist then touch creates empty file. if file is exist then just update curent date & time to file.
+
+
+how to create 100 file with same format
+
+touch file{1..100}
+
+===================================================
+
+steps to get ip address and connect through the putty
+   step 1 : open below file and modify onboot=yes
+  ip a
+  here you can find ethernet card name
+   in my system i can see ens33 is my ethernet card name
+ command:- vim /etc/sysconfig/network-scripts/ifcfg-ens33
+    onboot=yes
+step 2: restart the network service
+command:-  systemctl restart network
+
+now you could able to see the IP address
+	  ip a
+	hostname -I
+	ip addr
+	ifconfig
+	ifconfig -a
+	ifconfig ens33
+==================================
+suppose we got the following ticket:
+I want to know the timezone in the following system, please get me......
+192.168.92.129
+batch22system
+
+ if you want login into any system we need a few SSH TOOLS
+
+	command promt(windows)/ terminal(mac,linux)
+	putty,winscp
+	mobaxterm
+	nremotemg
+	
+
+	command promt(windows)/ terminal(mac,linux)
+		ssh username@IPADDRESS/HOSTNAME
+		ssh -l username IP/HOSTNAME
+
+	putty
+		==> dowload from the link and install
+				 https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.78-installer.msi
+
+,winscp
+	mobaxterm
+	nremotemg
+
+how to logout from system?
+	exit
+	logout
+	ctrl+d
+========================================================

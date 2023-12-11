@@ -1,0 +1,123 @@
+suppose we got the following ticket:
+I want to know the timezone in the following system, please get me......
+192.168.92.129
+batch22system
+
+ if you want login into any system we need a few SSH TOOLS
+
+	command promt(windows)/ terminal(mac,linux)
+	putty,winscp
+	mobaxterm
+	nremotemg
+	
+
+	command promt(windows)/ terminal(mac,linux)
+		ssh username@IPADDRESS/HOSTNAME
+		ssh -l username IP/HOSTNAME
+
+	putty
+		==> dowload from the link and install
+				 https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.78-installer.msi
+
+	,winscp ==>https://cdn.winscp.net/files/WinSCP-5.21.6-Setup.exe?secure=E0FVAPbu3z76DApoyCZw0Q==,1673246813
+	you can copy the files from windows to linux and linux to windows...
+
+	filezilla... SCP
+
+	mobaxterm
+		https://download.mobatek.net/2232022120824733/MobaXterm_Installer_v22.3.zip
+
+	nremotemg
+
+how to logout from system?
+	exit
+	logout
+	ctrl+d
+
+
+========================================================
+How to create folder/directory
+mkdir testdir
+mkdir <directory nams
+
+ mkdir -p jagadeesh/azher/ghouse/gangulaiah/shameer/sai
+
+mkdir -p ROOT/{bin,dev,home/{Desktop,Documents,Downloads,Picture},mnt,root,tmp,var,boot,etc,lib,proc,sbin,usr/{bin,sbin,lib}}
+
+
+   mkdir b22dir
+   mkdir -p /b22dir1/testbarnch/chennai
+mkdir -p work/{F1,F2,F3}/{temp1,temp2}
+---------------------------------------------------------------------
+how to know the presently logged in user?
+whoami
+how to switch from one user to another user?
+  su - narasimha
+switch user
+
+how we can logout from user?
+   logout
+   exit
+   ctrl + d
+----------------------------------
+
+YOu know how to login using SSH TOOLS
+you know how to logout 
+you know how to switch from one user to another...
+
+
+--------------------------------------------------------
+
+
+
+
+. current path
+.. previous path
+../.. back to 2 previous paths
+../../../ back to 3 previous paths
+
+
+cd /p/r/a/s/a/d
+cd ..
+pwd
+/p/r/a/s/a
+
+
+
+     cd -
+is for take cursor to previous or old path
+
+cd 
+
+current pwd will change to user home directory. It takes to user home directory.
+
+cd / to take user to / path
+cd /etc to take user to /etc
+but just cd will take user to his home directory.
+cd 
+
+-----------------
+
+
+
+
+what is the root user home directory?
+/root
+
+what is the narasimha user home directory?
+/home/narasimha
+
+    remove
+	rmdir directoryname ==> this is just to remove empty directory..
+     rm <filename>
+     rm -r <directory name>
+  -r recursively
+  -f forcefully delete file or directory without user confirmation
+ -v ==>verbose
+
+        Move/rename
+      mv filename /etc/
+
+
+
+------------------------------------

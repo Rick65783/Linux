@@ -1,0 +1,366 @@
+Linux Architecture
+Basic Commands
+File Management 
+User Management
+
+---------------------------
+Disk Management
+
+/oradata => 200GB
+/mysqldata ==> 500GB
+
+sda, sdb, sdc, ..............
+ 
+sda
+ sda1, sda2,sad3............
+
+------------------
+
+
+		Disk Architecture
+
+	Disk management methods
+	1. Basic Method ==> normal/primary partitions
+	2. LVM Method (Logical Volume management)
+	3. Raid(MDADM)
+
+ 
+01011001 = 8 Bits
+8 Bits  	= 1 Byte
+1024 Bytes 	= 1 KB (Kilobyte)
+1024 KB		= 1 MB (Megabyte)
+1024 MB		= 1 GB (gigabyte)
+1024 GB		= 1 TB (Terabyte)
+1024 TB		= 1 PB (Petabyte)
+1024 PB		= 1 EB (Exa byte)
+-------------------------------------------------------------
+1 sector = 512 Bytes
+2 sectors = 1 KB
+
+1 sector/block  = 512 Bytes
+2 sectors = 1 KB
+2*1024 = 2048 sectors = 1 MB
+
+-----------------------
+windows ==>
+   NTFS
+
+Pendrive ==> FAT32
+file system:
+ ext2, ext3,ext4,xfs
+
+
+
+/
+..............
+.............
+................
+................
+
+Block storage ==> hard disk
+
+1000MB = 1 GB
+1024 MB = 1 GB
+
+ HDD(IDE method) = Integrated Device electronics (16 partitions) /dev/hda
+
+ scsi = small computer system interface (64 Partitions)   /dev/sda  
+		scsi disk or sata disk
+
+		/dev/sda
+			a is first disk
+			b is second disk
+		/dev/sdb
+		/dev/sdc
+		/dev/sdd1 (1 partition)roo
+		/dev/sdd2 (2nd partition)
+		/dev/sdd3 (3rd partition)
+		/dev/sdd4 (4th partition)
+
+                /dev/sdd64
+
+sda, sdb,sdc,sdd,.............
+
+=======
+
+
+300GB Primary Partition ==> 500GB Primary partition extend ==> 700GB
+
+      
+  	there are 2 types of partitions
+	1. Primary partition 
+	2. Logical partition
+
+Primary Partitions
+---------------------------
+1. bootable (/boot primary partitions)
+2. we can not directly extend the partition space
+3. we can not reduce also
+4. We can create only 4 Primary partitions per disk it means only 3 primary partitions and one extended partition
+	1 TBdisk		P	P	P	E
+				200 200 200 400GB
+							in this extended partition  you can create multiiple LVM partitions
+
+Logical Partitions
+---------------------------
+1. not bootable
+2. WE can extend the partition space directly without downtime(without unmounting the file system)
+3. We can reduce but with downtime
+4. we can create upto 65535 partitions 
+
+512 bytes = 1 sector
+1 KB = 2 sectors
+
+primary supports to store bootable files.Like opearting system realated files
+logical is for store general data.
+*  in each scsi disk we can create max 4 primary partitions.
+	/boot is a primary partition
+	/, /var and any other partitions are logical partitions
+
+how to scan for new disk
+  echo " - - - " >> /sys/class/scsi_host/host0/scan
+  echo " - - - " >> /sys/class/scsi_host/host1/scan
+  echo " - - - " >> /sys/class/scsi_host/host2/scan
+
+Create partition using normal method.
+step 1: Create the partition ( enter inside disk and create partition) fdisk /dev/sdb  n ==> p ==> partition number 1 ==> starting sector default just enter ==> ending sectory +2G and enter
+	p : print the partition table information
+	n : create new partition
+	d : delete partition
+	m : help
+	t : change partition system id ( 83 linux, 82 swap , 8e lvm)
+
+
+			/dev/sdb
+			/dv/sdb1    p
+			/dev/sdb2   extended
+			/dev/sdb3   logical
+			/dev/sdb4   logical
+			/dev/sdb5   logical
+
+step 2:  update disk changes to kernel using partprobe command : partprobe /dev/sdb
+step 3:  keep partition in any of the file system type (ext2,ext3,ext4,xfs)   mkfs.xfs /dev/sdb1
+										mkfs.ext4 /dev/sdb2
+		ext2 : RHEL 4
+		ext3 : RHEL 5
+		ext4 : RHEL 6
+		xfs  : RHEL 7 & 8
+
+* explain difference between ext4 and xfs 
+* what is journaling?
+	journaling is nothing but data about data is nothing but meta data. 
+
+		journaling will mantain data about data like how many sectors are allocated for one file and sectors 
+			numbers will be written in meta data.
+
+    benifit: faster repair/recovery in case file system corrupted.
+
+
+step 4:Create one directory and mount the partition to that directory . mkdir /data  mount /dev/sdb1 /data
+step 5: add new file system details in /etc/fstab file to make permanent mount.
+
+   there are 7 Fields in /etc/fstab
+
+
+/dev/sdb1     /data      xfs    defaults  0  1
+/dev/sdc1     /test      xfs    defaults,noauto  0  2
+/dev/sdc5     /oracle      xfs    defaults,noauto  0  2
+
+command :-
+                        vim /etc/fstab
+
+Devicename	Mountpoint	Filesystem-type	Permissions 	Backup-partition	Filesystem-checkup-during-bootup
+1		  2		     3	          4		             5			          6	
+/dev /sdb1	/rishi	    xfs            defaults                0				    0
+
+backup 0 = No meta data backup
+       1 = Backup meta data
+for OS partitions we can recommend 1.
+
+/     = OS
+/boot = OS
+/test = other partition
+/oradata = Other partitions
+file system checkup
+  	0 No file system checkup during boot up.  no repair on file system during server coming up.
+	1 : serial file system checkup and first priority file systems.
+	2 : parlel or second priority
+
+* explain about fstab fields
+  6 fields
+----------------------------------------------------------------------
+storage team work for lun creation and map to server.
+		
+	Task 1 : create lun in group
+	task 2 : format that lun, they will get one Logical number as soon as they format the lun.
+	task 3 : login to san switches and map lun to respective HBA card with help of wwn.
+
+server is for what purpose? 
+	to run the application,to store data, to process data, to provide interactive application to end user.
+	
+	requirements : create new partition or partitions
+			extend the partition space.
+
+Scenario 1:  How to get disk for physical server?
+ 
+   		partititions : 1. /appd01 100 GB
+			       2. /appd02 100 GB
+			       3. /oradata 1 TB
+			       4./oralogs  1 TB
+
+
+OS administrator got the ticket with above requirements.
+
+Task 1 : OS team will ack ticket and mention comment like.  working on request and update you once partitions are ready.
+
+
+Task 2 : OS team will open new Service request ( SR ) with Storage team.
+  In ticket we have to mention below details.
+
+	details we will fill in storage request form.
+		1. Server name
+		2. DC name
+		3. WWN of all HBA cards
+		4. required size
+		5. type ( Perm/temp) 
+		6. justification or comment
+
+
+Task 3 : attach this storage request form to ticket which we opened with storage team.
+
+Storage team
+Task 4 : Storage team will create lun and map Lun to HBA cards.
+Task 5 : OS administrator will refresh the channels at OS level using echo command.
+		echo " - - - " >> /sys/class/scsi_host/host0/scan
+		echo " - - - " >> /sys/class/scsi_host/host1/scan
+
+- - - 
+c t l
+	C = channel					host0 is nothing but HBA card 1
+	t = target					host1 means HBA card 2
+	l = Lun id
+we are refreshing channel,target,Lun to get newly attached LUNS for HBA cards.
+
+Task 6 : Now disk will apear at server level, but there will 2 disks 
+	how we can see newly connected disks
+		lsblk
+		or
+		tail -100 /var/log/dmesg
+		or
+		cd /dev/ 
+		ls -ltr
+
+storage team created 1 lun with 1 TB and mapped this 1 TB lun to 2 HBA cards.
+
+   How many HBA cards we will referesh? 2 HBA cards. Here we will 2 disks with  1 TB. we shouldn't confuse here with 2 TB.
+		if we have 4 HBA cards, then how many disks will appear in OS side
+			4 disks  = 4 * 1 = 4 TB
+			storage side we got only 1 TB but virtually it appears like 4 disks.
+		/dev/sde
+		/dev/sdf   create common name for four disks = /dev/mpath1
+		/dev/sdg
+		/dev/sdh
+
+		/dev/sdi
+		/dev/sdj	common name = /dev/narasimhadisk
+		/dev/sdk
+		/dev/sdl
+
+		fdisk /dev/narasimhadisk
+			n
+			1
+			P
+			starting sec
+			end sec
+			w
+				/dev/narasimhadisk1
+		
+
+* what is meaning of 3 - - -?
+	channel
+	target
+	lun
+
+===========================================================
+  631  ip a
+  632  id sai
+  633  userdel sai
+  634  cd /home/
+  635  ll
+  636  su - sai
+  637  ll
+  638  userdel -r gangulaiah
+  639  ll
+  640  lsblk
+  641  fdisk -l
+  642  lsscsi
+  643  lsblkk
+  644  lsblk
+  645  cd
+  646  clear
+  647  lsblk
+  648  echo "- - -" >>/sys/class/scsi_host/host0/scan
+  649  lsblk
+  650  echo "- - -" >>/sys/class/scsi_host/host1/scan
+  651  lsblk
+  652  echo "- - -" >>/sys/class/scsi_host/host2/scan
+  653  lsblk
+  654  echo "- - -" >>/sys/class/scsi_host/host3/scan
+  655  lsblk
+  656  echo "- - -" >>/sys/class/scsi_host/host4/scan
+  657  lsblk
+  658  echo "- - -" >>/sys/class/scsi_host/host5/scan
+  659  lsblk
+  660  clear
+  661  lsblk
+  662  echo "- - -" >>/sys/class/scsi_host/host6/scan
+  663  lsblk
+  664  clear
+  665  lsblk
+  666  echo "- - -">> /sys/class/scsi_host/host0/scan
+  667  echo "- - -">> /sys/class/scsi_host/host1/scan
+  668  echo "- - -">> /sys/class/scsi_host/host2/scan
+  669  lsblk
+  670  echo "- - -" >>/sys/class/scsi_host/host0/scan
+  671  echo "- - -" >>/sys/class/scsi_host/host1/scan
+  672  echo "- - -" >>/sys/class/scsi_host/host2/scan
+  673  echo "- - -" >>/sys/class/scsi_host/host3/scan
+  674  lsblk
+  675  reboot
+  676  lsblk
+  677  echo "- - -" >>/sys/class/scsi_host/host0/scan
+  678  echo "- - -" >>/sys/class/scsi_host/host1/scan
+  679  echo "- - -" >>/sys/class/scsi_host/host2/scan
+  680  echo "- - -" >>/sys/class/scsi_host/host3/scan
+  681  lsblk
+  682  clear
+  683  lsblk
+  684  fdisk /dev/sdb
+  685  lsblk
+  686  mkfs.xfs /dev/sdb1
+  687  lsblk
+  688  mkdir /azherdata
+  689  vim /etc/fstab
+  690  mount -a
+  691  lsblk
+  692  df -hT
+  693  mkfs.xfs /dev/sdb2
+  694  vim /etc/fstab
+  695  mount -a
+  696  mkdir /jagadeeshdata
+  697  mount -a
+  698  lsblk
+  699  df -hT
+  700  lbslk
+  701  lsblk
+  702  mkfs.xfs /dev/sdc
+  703  vim /etc/fstab
+  704  mount -a
+  705  mkdir /gangulaiah
+  706  mount -a
+  707  mkdir /gangulaiah
+  708  rm -rf /gangulaiah
+  709  mkdir /gangulaiah
+  710  mount -a
+  711  lsblk
+  712  history

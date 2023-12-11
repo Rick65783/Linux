@@ -1,0 +1,294 @@
+pwd => present workking directory
+mkdir  dir1==> to create directory
+touch file1
+mkdir mydiir{1..5}
+touch file{1..5}
+cd directoryName ==> opening the directory/changing the directory
+cd .. ==> one directory back
+ctrl+l  OR clear ==> to clear the screen
+____________________________________________________________________
+/
+
+/ is a parent directory
+ inside this parent directory we will have 13 default important directories.
+
+Windows 
+    C: ==> windows, programs files, program files(X86), ....
+    
+   1. /boot ==> All bootable files 
+    booting ==> start ====>login prompt
+   2. /root ==> Root user home directory 
+    root user itself an administrator user
+        windows ==> Administrator user
+   3. /home ==> ALl normal user home directories by default
+        jagadeesh ==> /home/jagadeesh
+        ghouse    ==> /home/ghouse
+        gangulaiah ==> /home/gangulaiah
+        aparna     ==> /home/aparna
+        mohit       ==> /home/mohit
+        
+   4. /etc   ==> All system configuration files
+        /etc/passwd ==> all users information
+        /etc/shadow => all users password information..
+        /etc/group  ==> all user groups information...
+   5. /var ==> Variable Analysis Report...
+            All system logs
+            /var/log/messages
+            /var/log/sa/sa01,sa02,sa3.........
+   6. /usr
+    UNIX SYSTEM RESOURCES
+        Means libraries and commands/binaries.....
+        /usr/bin ==> normal user binaries/commands
+        /usr/sbin ==> Super user binaries/commands (root user)
+            /usr/sbin/useradd
+            /usr/sbin/usermod
+        ==> all these sbin commands will be executed by ROOT user only by default
+        /usr/lib ==> all system libraries
+        /usr/lib64 ==> all system 64 bit libraries...
+        
+   7. /sbin(/usr/sbin)
+    shortcut dir
+   8. /bin(/usr/bin)
+    shortcut dir
+   9. /lib (/urs/lib), 
+        /lib64 (/usr/lib64)
+   
+   10. /proc ==> All system processing information..
+    ALL CURRENT SYSTEM RUNNING INFO
+    
+    Cpu information     ==> /proc/cpuinfo
+    mêmeory information ==> /proc/meminfo
+    swap information ==> /proc/swaps
+    each process information ==>/proc/PID/.....
+    
+    what is mêmeory?
+        Active pages in the memory is called RAM
+    what is swap mêmeory?
+        Inactive pages in the mêmeory is called swap
+    
+    HDD ==>         RAM ==> CPU
+    5GB ==> SWAP => 2GB ==> CPU
+    
+   11. /dev ==> ALL THE device information
+    /dev/sda
+    /dev/sdb
+    /dev/sdc
+    /dev/terminals....
+    
+   12. /mnt ==> Guest partition..
+   13. /tmp ==-> Temporary directory, we use this file system for backup purpose
+    sai ==> file1 ==> complete access
+    jagadeesh ==> file2 ==> complete access
+
+    whoever keeps the file into the /tmp directory... he will become owner of that file... others will have only read access..
+    This is called Sticky bit permission....
+    
+14. /media => cd/dvd
+15. /opt ==> Optional file system
+    we can install third party softwares....
+----------------------------------------------------------------------------
+
+1. /boot : contains the OS bootable files, these files helps to load your operating system.(eg: kernel files).
+
+
+ clear = to clear the screen (ctl+l)
+
+alt+F2
+
+2. /root : it's a home directory of administrator.who is the administrator in Linux/Unix root user.
+        no other user can enter into root user home directory.
+       
+   window: c:/users/admin
+			Desktop,Downloads, Documents.....
+
+	   c:/users/narasimha
+			Desktop,Downloads,Documents......
+3. /home  :  contains other users home directories. this is the default location for other users.
+
+4. /etc  : it contains configuration files of operating system and third party tools/softwares configuration files.
+5. /var  :  it contains activity report or log(activity report) of system activities.
+   /var/log i deleted everything from /var/log . is operating sytem will come up? yes
+     unfortunatly deleted /boot directory data. is operating system will cme up? no
+6. /usr;  Unix system resources
+      it contains oprerating system binaries(programs) like commands(ls,cd,cp,rm,useradd,userdel)
+
+  ls  command
+  cd  command
+  pwd command
+  rm   command
+                 /usr/bin ( common commands for all users commands)
+                 /usr/sbin (super(root) user commands)
+
+		useraddministration commands : sbin
+    		 useradd,userdel,usermod
+
+		software managment:   sbin
+		install,uninstall,upgrade
+
+		ls,cd,pwd    =  bin
+
+
+
+7.  /bin  : few commands are seperated from /usr/bin to /bin location. these commands will help during OS boot up.
+8.  /sbin : few commands are seperated from /usr/sbin to /sbin directory or location. these commands will help during os boot up.
+9.  /lib  : it contains libraries of operating system. these libraries(programs) are shared between multiple commands or binraries.
+   libraries are important to run your programs or operating system.
+     /boot = important to load operating system
+     /lib  = imp to load operating system
+10. /proc  :  it a temp directory for processor. this directory used by processor(cpu). it stores data of process or task.
+11. /dev  :  It contains logical device names( cd/DVD, hard disk, RAM,).
+12. /mnt   : guest directory . we can store any data here
+13. /tmp  : it contains every user running processes data. 
+
+------------------------------------
+pwd => present workking directory
+mkdir  dir1==> to create directory
+touch file1
+mkdir mydiir{1..5}
+touch file{1..5}
+cd directoryName ==> opening the directory/changing the directory
+cd .. ==> one directory back
+ctrl+l  OR clear ==> to clear the screen
+
+-----------------------------
+HISTORY:
+
+    1  date
+    2  cal
+    3  ls ==>list out the files
+    4  ll ==> long list
+ 
+   18  ll
+   19  pwd
+   20  ls
+   21  ll
+   22  cd Desktop
+   23  pwd
+   24  ls
+   25  ll
+   26  pwd
+   27  cd .
+   28  pwd
+   29  cd .
+   30  pwd
+   31  cd ..
+   32  pwd
+   33  cd ..
+   34  pwd
+   35  cd root/desktop
+   36  cd /root/Desktop/
+   37  mkdir testdir
+   38  ls
+   39  ll
+   40  mkdir 1 2 3 4 5
+   41  ll
+   42  pwd
+   43  cd 1
+   44  pwd
+   45  touch file1
+   46  ll
+   47  touch file2
+   48  ll
+   49  touch f1 f2 f3 f4
+   50  ll
+   51  touch saifile{1..5}
+   52  ll
+   53  mkdir dir{1..5}
+   54  ll
+   55  mkdir dir{1..5}
+   56  cd /
+   57  pwd
+   58  cd /boot
+   59  ll
+   60  cd /
+   61  ls
+   62  ll
+   63  cd boot/
+   64  ll
+   65  cd /root/
+   66  clear
+   67  cd /root
+   68  ls
+   69  ll
+   70  cd /home
+   71  ls
+   72  useradd sai
+   73  ls
+   74  ll
+   75  pwd
+   76  useradd jagadeesh
+   77  ll
+   78  pwd
+   79  cd jagadeesh/
+   80  ls
+   81  ll
+   82  ls
+   83  touch file1
+   84  ll
+   85  cd
+   86  clear
+   87  cd /etc/
+   88  ls
+   89  cat yum.conf 
+   90  ls
+   91  cat /etc/ssh/sshd_config 
+   92  cd /var/
+   93  ls
+   94  cd log/
+   95  ll
+   96  cat messages 
+   97  cd ..
+   98  ll
+   99  cd /usr/bin/
+  100  ls
+  101  ll
+  102  ls
+  103  cd /usr/sbin/
+  104  ls
+  105  ll | wc -l
+  106  cd /usr/bin
+  107  ll | wc -l
+  108  ll | grep passwd
+  109  cd 
+  110  ls
+  111  cd /
+  112  ll
+  113  cd /proc/
+  114  ls
+  115  cd 5452
+  116  ls
+  117  cd ..
+  118  pwd
+  119  cat meminfo 
+  120  cat cpuinfo
+  121  free 
+  122  free -h
+  123  cd /dev
+  124  ls
+  125  lsblk ==> disk information
+ 
+  135  ll
+  136  cd /mnt
+  137  ls
+  138  ll
+  139  cd /tmp
+  140  ls
+  141  su - sai
+  142  whoami
+  143  who am i
+  144  ls
+  145  ll
+  146  lsblk
+  147  mount /dev/sr0 /media/
+  148  cd /media/
+  149  ls
+  150  cd /opt/
+  151  L
+  152  ls
+  153  ll
+  154  cd rh/
+  155  ll
+  156  ls
+  157  top
+  158  history
+--------------------------------------------------

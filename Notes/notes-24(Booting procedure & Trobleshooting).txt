@@ -1,0 +1,286 @@
+100% interview question
+		Booting procedure
+
+  RHEL 4,5,6
+  	1. BIOS (BASIC INPUT/OUTPUT system)
+  	2. MBR (Master boot recorder)
+  	3. GRUB (Grand unified boot loader)
+  	4. Kernel 
+  	5. Init (initilizing particular runlevel)
+  	6. Runlevel 
+  RHEL 7 & 8
+  	1. BIOS
+  	2. MBR
+  	3. GRUB
+  	4. Kernel
+  	5. Systemd
+	6. Targets
+
+    BIOS :
+  	sub task 1: post(power on self test)
+  			post is a program which integrated in one of chip. it does health checkup of all the
+  			components which are connected to the mother board.
+  	sub task 2: cmos(complementory metal oxide semiconductor)
+  			cmos will capture and store the critical information before server goes down.
+  			the same information will be pass back to main memory while server coming up.
+  			critical informaiton : date and time, ram,processor info, startup program.
+  			
+  	sub task 3: find OS in devices and pass control to next stage
+  			ROM or bios
+  			read only memory
+  			ram random access memory
+  			
+  			dvd
+  			USB
+  			disk
+  			floppy
+  		as soon as bios finds the operating system in any of the componenent then bios pass control to 	MBR.
+
+  if not found operating system in any of the device then stages will not move further. it stops at BIOS stage.
+  		error : OS not found
+
+Stage 2 : MBR (Master boot recorder)
+  		
+  	MBR is a very small program, it stores in first sector of the operating system device.
+  	1 sec = 512 bytes
+  	446 bytes = primary boot loader information is nothing but next stage information. what is the next stage information that is grub.
+  	64 bytes = partition table information
+  	2  bytes = validator program.
+  if grub is in good condition then pass control to grub stage
+  if grub is not in good condition then mbr gives error like grub error.
+
+  stage 3: Grub (grand unfied boot loader) 
+  	RHEL 5,6  Grub
+  	RHEL 7,8  grub2
+
+  	grub is a just boot loader to boot default kernel or end user will have choice to boot required kernel.
+  	grub is a mediator to choose which kenel has to bootup at this time.
+
+  	if not select by default it boots with default kernel which we specified
+  	5 kernels
+  	end user can choose which kernel has to boot up. end user will have option to select kernel to boot up.
+
+  	rhel
+  	solari
+  	suse
+  	window
+  		7.0 3
+  		yum update
+  		7.5 2
+  		SuSE default
+  		grub2-set-default 3
+  		to boot with 7.0 operating system.
+stage 4: kenel
+  	task1 : Load the drivers and modules
+  *		/boot/initramfs  .   it's a temp / file system. It contains configuration files to load drivers. it's equal to /.
+
+  		/boot/initrd
+
+  	task2 : Mount the / file system in read only mode
+  * in kernel stage / will be in which mode?
+  	read only th mode. 
+  *	if / is in read only mode then how next /sbin/init( or /usr/lib/systemd/systemd programs will execute.
+  	read and execution is enough to execute pogram. write permissions doen't required to execute the program.
+  	task3 : trigger the following program /sbin/init(rhel5,6) /usr/lib/systemd/systemd(rhel7 & 8).
+  		/sbin/init rhel5 & 6. 
+  		/usr/lib/systemd/systemd rhel 7 & 8.
+  * the feature of systemd is it can load the startup programs parlely.
+  	pgr1 pgr2 pgr3
+  	
+  /sbin/init the startup programs will load in sequence order. one by one .
+
+  adv : reduced bootup time.
+
+  * what is the process id of /sbin/init or /usr/lib/systemd/systemd?
+  	1 is the process id of /sbin/init 
+  	1 is the process id of /usr/lib/systemd/systemd
+  * what is the first process of your operating system?
+  	/sbin/init if os is rhel 5 & 6
+  	/usr/lib/systemd/systemd if os is rhel 7 & 8.
+
+  ps -ef | grep systemd
+
+  		systemd
+
+  rhel 6 : init
+  	how many runlevels are in rhel 6 ?
+  	7 run leves
+  	
+       run level 0 shutdown
+       run level 1 single user mode
+       run level 2 command mode without nfs
+       run level 3 command mode with nfs
+       run level 4 R & D 
+       run level 5 GUI( graphical user interface)
+       run level 6 reboot
+
+  	init 6 reboot
+  	init 0 power off
+  	init 1 initilizing runlevel 1. switching one runlevel to other runlevel.
+
+how many runlevels are in rhel 7 ?
+  from rhel 7 onwards they introduced targets. instead of runlevels they given targets.
+	target 1:poweroff.target
+	target 2:rescue.target ( single user mode) it's for repair os related things.
+	target 3:multi-user.target (runlevel 3)
+	target 4: graphical.target( runlevel 5)
+	target 5: reboot.target (runlevel 6)
+
+
+stage 5: init (/etc/inittab) in line 26 here we will specify default runlevel.
+	
+	how to get present loaded runlevel
+	rhel 6 : runlevel
+		 who -r
+	rhel 7 : systemctl get-default
+		 runlevel
+		 who -r
+	/etc/inittab 26 line rhel 7 /etc/systemd/system/default.target
+
+
+stage 6 : runlevels/ targets
+	
+	rc : run controller
+	rc 0: runlevel 0
+	rc0.d
+	rc1.d
+	rc2.d
+	rc3.d
+	rc4.d
+	rc5.d
+	rc6.d
+	s startup program
+	k kill program
+	s80
+	80 starting sequence number while booting up.
+
+
+rhel 7 :  systemctl enable vsftpd   ==> vsftpd service should start in next boot
+rhel 6 :  chkconfig vsftpd on
+	  chkconfig --levle 35 vsftpd off
+
+	  systemctl is-enabled vsftpd   ==> to get vsftpd service status in next boot
+	  systemctl disable vsftpd      ==> disable vsftpd service in next boot. 
+
+	imediately stop/start services
+		systemctl start vsftpd   service vsftpd start
+		systemctl stop vsftpd    service vsftpd stop
+		systemctl restart vsftpd service vsftpd restart
+		systemctl reload vsftpd  service vsftpd reload
+
+login prompt.
+--------------------------------------------------
+==============================================Troubleshooting=========================
+
+-----------------------------------------------Forgot Root Password------------------------------------------------
+
+1. Restart machine
+2. Press e to go into emergency mode
+3. Goto Line 16 And replace "rhgd quiet" with "rd.break"
+5. "Ctrl+x" to save
+6. mount -o remount,rw /sysroot
+7. chroot /sysroot
+8. passwd
+9. Set New password
+10. touch /.autorelabel
+11. exit
+12. exit
+13. Restart
+
+-------------------------------------------------------------------Grub Error---------------------------------------------------
+
+If grub2 directory missing or if /boot/Grub2/grub.cfg  reboot ,missing, you will get the Grub error
+
+1. cd /dvd - select os and connect
+2. Restart machine
+3. Then open Power on to firmware
+4. set boot priority to CD- ROM drive
+5. then save and exit
+6. select troubleshooting
+7. then select rescue mode
+8. enter 1
+9. chroot /mnt/sysimage/
+10. grub2-install /dev/sda
+11. Grub2-mkconfig -o /boot/grub2/grub.cfg
+12. exit
+13.exit
+14. power off
+15. change boot priority to HDD
+16.  exit and save
+
+-----------------------------------------------------------------Kernel Panic Error---------------------------------------------------
+1. Cd /boot/
+2. ll
+3. Check the version
+4. Delete initramfs
+5. Init 6 / reboot
+
+
+1. select os and connect
+2. Restart machine
+3. Then open Power on to firmware
+4. set boot priority CD- ROM drive
+5. then save and exit
+6. select troubleshooting
+7. then select rescue mode
+8. enter 1
+9. chroot /mnt/sysimage
+10. mount -o remount,rw /
+12. Check boot version - cd / boot then - ls checkin
+13. dracut -f /boot/initfamfs-3.10.0-957.el7.x86_64.img 3.10.0-957.el7x86_64
+14. exit,exit
+15.  power off
+16. change boot priority back to HDD
+17. exit and save
+
+===========================================================================
+RHEL NFS Client: slow NFS performance with `noac` NFS mount option
+	https://access.redhat.com/solutions/83723
+
+System slow to respond, all applications are affected, SSH times out
+	https://access.redhat.com/solutions/2854081
+
+---------------------------------Rescue a EC2 INSTANCE Redhat Linux System in AWS..------------------------
+
+    PROBLEM:
+        1/2 checks passed ==> Actions >> "get System log" OR "get instance screenshot"
+    Instance reachability check failed
+
+First check the instance logs and instance screenshot to see the logs and instance screenshot for the grub or kernel panic error..
+
+SOLUTION:
+    https://aws.amazon.com/premiumsupport/knowledge-center/revert-stable-kernel-ec2-reboot/
+
+GRUB ERROR:
+---------------------------
+RHEL 7 ==> EC2 instance Grub error:
+    1. Stop the instance
+    2. create new instance in same zone
+    3. connect to the new instance 
+    4. Detach the /dev/sda1 volume
+    5. Attach the same to the newly created instance...
+    6. lablk
+    7. mount -o nouuid /dev/xvdf2 /mnt
+    8. for m in dev proc run sys; do mount -o bind {,/mnt}/$m; done
+    9. chroot /mnt
+    10. sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT=saved/g' /etc/default/grub
+    11. grub2-mkconfig -o /boot/grub2/grub.cfg
+    12. grub2-set-default 1
+    13. Unmount volumes, detach the root volume from the rescue instance, and then attach the volume to the impaired instance
+                exit
+                umount /mnt/{dev,proc,run,sys,}
+    14. attach the volume back to original instance (/dev/sda1) by detaching from new instance and start
+    
+
+
+---------------------------------------------------KERNEL PANIC ERROR IN AWS:--------------------------------------------
+
+    https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-kernel-panic-unable-mount/
+    
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Emergency mode: 
+	whenever you press e in the grub stage that will be entered into emergency mode.
+Rescue mode
+Maintainance mode:
+	If there are any wrong entries in the /etc/fstab file, it will be entered into maintanance mode while starting up the system.

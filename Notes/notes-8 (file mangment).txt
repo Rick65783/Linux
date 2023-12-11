@@ -1,0 +1,90 @@
+node/hostname/system/machine/server/instance/host.............
+
+how to get the IP address?/ network cards information?
+ip a
+ip addr
+ifconfig
+ifconfig -a
+hostname -I
+ifconfig eth0
+
+
+how to print hostname of machine?
+     uname -n
+     hostname
+    hostnamectl status 
+
+how to change the hostname?
+    hostnamectl set-hostname newname
+
+system configuration:
+RAM
+processors
+HDD
+ethernet card(network)
+   
+ how to get installed memory(RAM) of server?
+	free -m or free -g 
+	cat /proc/meminfo
+
+	m : size is going show in mega bytes
+	g : size is going show in giga bytes
+	k : kilo
+
+  1024 kb is 1 MB
+  1024 MB is 1 GB
+
+
+free -m
+1023 0
+
+-------------------------------------
+
+How to get the processor(CPU) information? how many processors and capacity of processor?
+   lscpu
+list cpu info
+   cat /proc/cpuinfo
+
+--------------------------------
+/proc/cpuinfo
+/proc/meminfo
+/proc/swaps
+
+--------------------------------
+
+How to get disks information?
+  lsblk
+  fdisk -l
+  lsscsi
+
+----------------------------------------------------------------
+
+how to know platform?
+  dmidecode -s system-product-name
+  hostnamectl status
+
+how to know the serial number of machine?
+   dmidecode -s system-serial-number
+   
+  how to know the date and time of system?
+	date
+
+
+power off commands: h means halt
+  shutdown -h now
+  shutdown -h 5 
+  shutdown -h 5 " message" 
+  shutdown -h 5 "we are going to power off this server as per maintenance . Please close your things before shutdown"
+  poweroff
+  halt
+  init 0
+
+reboot the server: r means reboot
+  shutdown -r now
+  shutdown -r 5 
+  shutdown -r 5 " message" 
+  shutdown -r 5 " we are going to rebooting this server as per maintenance . Please close your things before shutdown" 
+  reboot
+  init 6
+
+----------------------------------------------------------------------

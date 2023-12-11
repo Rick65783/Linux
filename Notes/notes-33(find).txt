@@ -1,0 +1,285 @@
+Grep ==> GLobal Regular Expression 
+Awk ==> splitting the data 
+scripting ==> sed
+scripting ==> awk
+
+rwxrwxr-x
+421
+rwx ==> owner  
+rwx ==> group  
+r-x ==> others 
+
+r = read = 4
+w = write =2
+x = execute = 1
+
+UGO ==> 777
+			666
+			755
+
+
+
+====================================
+file123 ==> 100 DAYS
+
+Find
+ 
+to search file or directory.
+
+grep and find
+
+
+grep is for search string in file or files , it can search string only one depth.
+
+.. ==> previous directory (one directory back)
+.  ==> Current directory
+
+        -name 
+			-iname
+			-type f/d/l/b/c/p
+        -perm
+  -ownername -user
+  -groupname -group
+  -size
+  -modify date & time -mtime & -mmin
+  -access date & time> -atime & -amin
+
+
+find /etc -name testfile
+
+find /etc -name 'testfile*' -type f
+
+find <path> -name <fullfillthe option>
+
+find / -name testfile
+
+find / -iname file22 ==>iname ->Ignore case   ABC, abc, Abc, aBC
+find / -type f -iname file22 -exec rm -rf {} \;
+
+find / -type f -perm 0777
+
+to change the permission :-
+-------------------------
+find / -type f -perm 0777 -exec chmod 0770 {} \;
+find . -name file1 -type f -exec chmod 777 {} \;
+ 							(OR)
+find /root -name file1 -type f -exec chmod 700 {} \;
+
+
+
+
+find / -type f -user narasimha 
+find / -type f -user narasimha -exec chown venu {} \;
+
+find /etc -type f -mtime +365 
+  -mtime modify days
+
+
+find /etc -type f -mtime +45 
+find /etc -type f -atime +45 
+----------------------------------------------------------------
+ -mmin = modify min
+find out file which are modified with in 1 hour in /etc directory.
+
+	find /etc -type f -mtime -45 
+	find /etc -type f -atime -45 
+
+
+find /etc -type f -mtime +7 
+find /etc -type f -atime -7 
+
+create             change
+				1 2 3 4 5 6 7 8 9 10
+
+
+
+-mmin +60 
+
+find /etc -type f -atime 
+
+find /path/to/folder -name 'test
+
+
+**********************************************************************************************************
+
+
+Compression(zip,tar and gzip)
+	==> we use to take back up..
+==> you have 90 days old logs, you don't want to delete them... but you want free up some space 
+==> you want apache tomcat webserver (you can download(.tar.gz) it from google and install)
+
+.zip
+.tar
+.tar.gz
+.gz
+
+compress
+     zip -r /opt/testdir.zip /etc
+            destination     source
+extract
+    unzip /opt/testdir.zip
+
+how to listout content of zip file
+    unzip -l /opt/testdir.zip
+
+how to append some more files to existing zip
+    zip -u /opt/testdir.zip /var/log/messages
+    zip -u /opt/bkpofetc-12-09-2021.zip /var/log/messages
+    adding: var/log/messages (deflated 86%)
+TO delete files from zip
+    zip -d /opt/bkpofetc-12-09-2021.zip var/log/messages
+==============================
+tar: tape archive
+     tar -cvf /opt/bkpofetc-12-09-2021.tar /etc
+tar -xvf /opt/bkpofetc-12-09-2021.tar
+to listout contents of the tar file
+    tar -tvf /opt/bkpofetc-12-09-2021.tar
+
+
+tar -cvf
+tar -xvf
+tar -tvf
+	c = compress
+	x = extract
+	t = listing the files
+	v =verbose
+	f = forcefully
+
+
+
+---------------------------------------------------------------
+        gunzip
+
+using gunzip we can compress the files.
+    touch /testfile
+compress file using gunzip
+    gzip /testfile
+extract compressed file
+    gunzip testfile.gz
+   ----------------------------
+
+* application data is there in /app/log/, /app partition is almost full.
+
+ /app is a partition, easy approach is extend partition space. there is alternative way that is clear the old logs.
+
+TO remove 90 days old logs:
+        find /app/log -type f -mtime +90 -exec rm -rf {} \;
+ 
+TO compress 10 days old logs
+		find /app/log -type f -mtime +10 -exec gzip {} \;
+
+
+find out older than 6 months files and list out only greater than 1 GB data files?
+ find /data -type f -size +980M -mtime +180
+
+
+a=`find the older than 6 months data` > /files
+b=`find the greater than 1 GB data files`
+
+if [ $a >= 160 && $b >= 1G ];
+then
+do
+else
+fi
+----------------------------------------------------------------------------
+
+
+tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
+Heres what those switches actually mean:
+
+-c: Create an archive.
+-z: Compress the archive with gzip.
+-v: Display progress in the terminal while creating the archive, also known as Verbose mode. The v is always optional in these commands, but its helpful.
+-f: Allows you to specify the filename of the archive.
+
+
+$ tar cfz bigfile.tgz bigfile
+            ^            ^
+            |            |
+            +- new file  +- file to be compressed
+            
+            
+ zip ./bigfile.zip bigfile
+ 
+ 
+ tar -cvzf
+ tar -xvzf
+ ------------
+
+ .tar.gz
+To zip the tar files
+     tar -cvzf
+     tar -xvzf
+-a = perserves the permissions like source
+-v = verbose
+-z = compress
+-r = recorsively
+
+tar -cvzf /tmp/etc.tar.gz /etc
+tar -xvzf /tmp/etc.tar.gz 
+
+-------------------------------
+
+/opt/app1/config/
+	app1.xml
+	a.html
+	b.css
+	c.config
+	d.json
+	d.json_09032023
+	
+cp d.json d.json_09032023
+
+
+/opt/app1/webapps/
+	.war ==> web servers(apache, apache tomcat )
+	.ear ==> application servers (Jboss, websphere, weblogic, glassfish, jetty...)
+	
+	you can take back up for the big files in the /tmp...
+
+
+dbf ==> MSSQL
+
+-----------------------------------------------
+scp ==> secure copy to copy the data from system to anthoer system..
+	
+	scp -r source destination
+
+	
+
+rsync ==> to copy the data from one system to another system
+Basion host / management node / public IP instance   ===>private instance
+	
+private instance:	scp -r root@IP:/path /tmp
+basion host: 		scp -r /tmp/testfile root@IP:/path
+
+what is the difference between SCP and RSYNC? and why? which one you recommened?
+	rsync.. becuase it will comprese the file in the source system before copying it into the destination..
+
+---------------------------------
+        Rsync
+      remote sync
+
+instead of cp we can recommend rsync
+instead of scp we can recommend rsync
+ 
+speed: data will get compressed before sending to destination
+   1 gb data transfer and 500 MB data transfer 
+  which one will be fast? 500 MB.
+
+securty : it use the ssh protocol
+bandwith : rsync will occupy less bandwith because data is getting compressed before sending data to destination machine.
+
+
+local:
+rsync -avz /etc /opt
+remote :
+rsync -avz /etc root@192.168.40.100:/bkp/
+
+source /etc 
+we copied /etc directory to destination machine in /bkp directory.
+remote /bkp
+
+only differencial data will copy to destination in case same directory exists in destination.
+-----------------------------------------------
+=========

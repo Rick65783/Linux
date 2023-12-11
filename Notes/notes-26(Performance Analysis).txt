@@ -1,0 +1,471 @@
+Performance Analysis:
+--------------------------------
+date
+--------------------------------
+top command
+free
+swap ==> top command and free command
+cat /proc/cpuinfo
+cat /proc/meminfo
+cat /proc/swaps
+.
+.
+.
+
+1 cpu ==> 1.00 ==> 100% CPU
+1 cpu ==> 0.50 ==> 50% CPU
+2 cpu ==> 1.00 ==> 50% CPU
+2 cpu ==> 0.50 ==> 25% CPU
+
+1 CPU ==> 1 GHz ==> 1 process 
+      ==> 2GHz ==> 2 process
+
+PR ==> 20==>low -19==> high
+
+	p1 ==> g ==> 10
+	p2 ==> v ==> 0
+	p3 ==> m ==> -19
+
+		renice
+
+
+how to get cpu utilization core wise? or each CPU utilization separately..?
+
+
+
+What is load average?
+how to know from when the system is running?
+	uptime
+what are process states / task types?
+	running, sleeping, stopped, zombie
+		zombie: 
+			whenever you kill the parent process, it will send the signal to the child processes, and wait for reponse from child processes, but if the child process not sending any signal back to parent process whether those are killed or not, then parent process will become as Zombie..
+ZOmbie processes will occupy CPU but not memory..
+what is the solution in this case ?
+	you can restart the machine that is the only solution.. we can not kill the zombie process directly...
+
+what you do if there is high cpu alert?
+what you do if there is high memory alert?
+----------------
+
+ps 
+top
+storage 
+	tail -f logname
+service restart 
+ss/netstat 
+firewall
+database resources(CPU,memeory,swap)
+
+ping 
+telnet
+
+
+launch 
+
+uptime 
+
+reboot system not just service
+-----------------
+ 
+what you can see in the top command?
+	uptime, load average, all process information, how many zombie process, CPU information, memeory infomation, swap information..
+
+In top command, press following 
+	u: user related process to see
+	k: to kill the proccess
+	M: to see memeory in decending order
+	P: to see CPU utilization in decending order
+	
+
+
+
+
+		Performance analyzing and tunning
+============================================
+===> application not responding/slow ==>(40GB system, 30GB )
+		==>could be an application issue 
+				=>we can forward the request to the application team..
+		==> network issue(client side or server side)	
+			==> we can forward the request to the network team
+		==> could be network issue between application server and database server
+\			==>  we can forward the request to the network team
+		==> could be OS side issue(memeory(RAM),cpu, swap, ....)
+			==> we need to check as a linux admin
+		==> for example there is 80GB ram in the Linux system but only 30GB allocated to the application server...
+			==> We allocate more memeory to the applicaiton
+		==> Disk issue(storage side issue)
+				/app/log ==>30GB
+
+
+	network
+	os side
+	app side
+	database side
+	storage side
+
+
+--------------------------------------------
+
+===> linux system performance has been degraded..
+===> database connection is slow..
+==> high CPU 90% utilization
+===> High memeory
+===>high swap
+
+			1. CPU  ==> he is the real worker
+			2. Memory(RAM) ==> meadiator between end user and processor
+			3. HDD ==> storage area
+			4. Network  ==> 
+
+Solar winds
+Opsgiene
+Appdynamics
+.
+.
+
+
+ cpu : > 80 %
+ memory : > 80 %
+
+top
+
+		top using top command we can analyze cpu,memory and swap components usage in live.
+
+how to identify how many processors are connected?
+lscpu
+or
+cat /proc/cpuinfo
+
+how to list the configured memory?
+ free -m
+or
+cat /proc/meminfo
+
+we are going to understand top command result.
+  first row : current time , server uptime, currenlty login users, Load average
+
+     actual worker is processor
+
+  load average: 0.00, 0.05, 0.12
+                           1       5       15
+
+first field: current min load average on cpu's
+send field: last 5 min load average on cpu's
+third field: last 15 min load average on cpu's
+
+	processor can accept at a time 2 proccesses(tasks).
+the load average calculate based on =   processors + capacity + tasks = Load average
+1 + 1 GHz + tasks
+2 + 2 ghz + tasks
+
+1 = 100  tasks per min = 1.00 the load average is 1.00
+2 = 100  tasks per min = 0.50 the load average is 0.50
+cp 10 gb to one location to other location
+ls
+cd 
+ls
+cat 
+
+per min 1000 tasks completed but still i can 1.00 may light tasks like cat,ls,cd
+per min 10 tasks completed but load average is 2.00
+
+
+narasimha = ==> worker 1  4 GHz
+venu =  ==> worker 2   1 GHZ
+
+
+2 servers with 2 cpus
+server 1 cpus 2  = speed of the cpu 4 GHz = 400 Tasks per min
+server 2 cpus 2  = speed of the cpu 1 GHz  = 50 Tasks per min
+
+
+load average = first 1 min 1.00
+                          after 5 min 6.00
+
+cat /file1   1 hr  ==> kill the process
+cp 10         1 day
+
+
+
+1  cpu   1.00  100% cpu is utilized
+1 cpu   0.50   50 % is utilized
+1 cpu  2.50   250 % what is the extra load 150 %.
+
+==========================
+
+2 cpus 1.00  50%  cpu is used
+2 cpus 0.50  25% cpu is used
+2 cpus 2.00 100 % is utilized
+2 cpus 4.00 per each cpu 200 % work is assigned.
+=====================================
+4 cpus 1.00 25 % cpu is used
+
+
+to decide cpus performance first i have to check how many cpus are there and load average.
+
+	
+stopped : in between purposefully we have paused or stopped running proceess.
+
+& = is for send job to back ground
+eg: command &
+  sleep 10000 &
+  cp /testfile /tmp &
+
+How to inturpt and stop the process
+   kill -SIGSTOP pid
+  kill -SIGSTOP 2658  or ctrl +z
+how to list out back ground running jobs?
+jobs
+
+
+===============================================================
+[root@batch4 ~]# jobs
+[1]   Stopped                 sleep 10000
+[2]   Stopped                 sleep 20000
+[3]   Stopped                 sleep 300000
+[4]-  Stopped                 sleep 400000
+[5]+  Stopped                 sleep 500000
+[root@batch4 ~]# kill -SIGCONT %5
+[root@batch4 ~]# jobs
+[1]   Stopped                 sleep 10000
+[2]   Stopped                 sleep 20000
+[3]   Stopped                 sleep 300000
+[4]-  Stopped                 sleep 400000
+[5]+  Running                 sleep 500000 &
+[root@batch4 ~]#
+
+=====================================================================
+how to get job to foreground?
+fg %4
+fg %jobid
+how to continue stopped job?
+kill -SIGCONT %5   or kill -SIGCONT pid
+
+zombie:
+* what is zombie process and explain about it?
+it's dead process or defuction process.
+* how zombie processes created?
+:why this dead processes are there in process table?
+  as soon we kill process, process should not be in process table. why still this process is there
+
+PPID will pass kill signal to child processes and PPID will wait for response from child processes. if child process couldn't able to pass signal to PPID that child pid will become zombie process.
+
+PPID= parent process id
+PID = child process id
+
+* is zombie process will consume memory?
+   NO, because it's dead process or defunction process.
+* is zombie process consume the cpu space?
+     YES, becuase cpu has allocate process table space for dead process. it's a dead process but still it will be in process table. 
+processor will maintain the table for processes.
+* is zombie processes impact to server performance?
+	less chances because it's a dead process. it wont occupy memory or cpu speed but it just will be in process table.
+
+how to identify zombie processes?
+	ps -aux | grep Z
+end user : like kill, systemctl stop sshd , shutdown -h now
+* how many process states are there?
+	R  = Running process
+	S = Sleep process
+	D = uninterruptible process
+	T = Stopped process
+	Z = Zombie process
+
+* Orphan: 
+it'a running process which is consuming mem,cpu,.... it consumes the resources but doen't have parent.
+which is first process in RHEL 6: /sbin/init
+which is first process in RHEL 7 : /usr/lib/systemd/systemd
+
+for this orphan process 1 process id will become parent.
+* is there any way to kill the orphan processes?
+  no because his parent is main process
+* is there any way to kill zombie?
+ no , we can't kill zombie becuase it's dead process. 
+then how we can clear zombie processes from process table?
+	reboot the server
+
+
+us = user processes how much cpu they are consuming
+sy = system processes how much cpu they are consuming
+* if sy value is showing >20 or any value 70 %
+all OS related processes will start during bootup and will go into sleep mode in this case system processes should not consume the cpu . in case sy value is more then how to handle?
+Solution 1 : reboot server and observe the sy value if still value is more then 
+solution 2 : it's may bug in OS so we have to open vendor case with OS owner(rhel,HP-ux,suse).
+
+
+ni nice or priority:
+we will fix the priority for processes. 
+  0 is default priority
+-20 is high priority
++19 is least priority
+priority jobs cpu consumtion.
+
+
+id = idle %
+100 %
+ 97.2
+====
+ .2.8 % usage
+
+       100 %
+idle     0 %
+       ====
+       100 % used
+
+
+How to list out child processes of parent process?
+pstree -p PID
+or
+cd /proc/2/task/2/
+cat children
+
+processor
+RAM
+
+-20 to +19
+which highst priority value -20
+
+
+How to set nice value to particular process?
+top ==> r ==> PID ==> NICE value (-20) ==> enter
+ 
+cache : cache is one of component of main memory(RAM).   it captures recently executed processes information and store in cache memory for better performance if job repeats.
+buffer:buffer also part of your main memory(RAM). processes which are waiting some other process to complete or waiting for that.
+
+
+How to list out top 10 High cpu usage processes?
+  top ==> n ==> 10
+  P
+How to list out top 10 high memory usage processes?
+ top ==> n ==> 10
+  M
+
+how to list out particular user processes?
+  top ==> u ==> username
+how to kill particular process?
+top ==> k==> PID ==> signal
+		9 inturpt and kill
+		15 gracefully
+
+kill pid
+kill -9 pid
+pkill -9 top
+process namekill : pkill is nothing we can kill the process using process name also
+kill pid
+pkill pname
+
+kill pid pid pid pid pid
+--------
+      statistic report
+
+      top and sar
+
+---------------------------------------------------
+SAR = system ativity report
+
+top: we were able to analyze CPU and memory performance. here we will get only live data.
+
+maximux we can last 15 min load average in top.
+
+the advantage of SAR is we can analyze live and historical data of CPU,MEMORY,Disk, network, nfs.
+
+by default last one month data we can find in sar.
+
+    pkg : sysstat
+   service : sysstat
+   daemon : sysstatd
+ Path of statistic report = /var/log/sa
+
+sar captures only statistics report of resources.  the statistic report will store in /var/log/sa
+  there are 3 modules are working to capture these data
+	1. sadc = system activity data collector
+                  2. sa1 = it collects system statistics for every 10 min by default. the data will be cumulate and stores in /var/log/sa/sa20201202
+	3. sa2 = creates daily summary of the collected statistics. creates overall summary report at 11:53 PM and create fresh file for next day.
+
+these three modules will be there in /usr/lib64/sa/
+with help of job scheduler (cron) sa1 and sa2 will execute. sa1 and sa2 modules are scheduled in /etc/cron.d/sysstat
+live:
+how to get CPU usage by sar command?
+It’ll display server resources two times with one second interval.
+
+sar -u 1 2
+  u= all cpus data  
+  1 = interval
+  2 = repeat
+sar -u 5 2
+5 = interval
+2 = repeat
+individual cpu usage : sar -P 0 1 2
+how to get memory usage by sar?
+sar -r 1 2
+
+how to get disk performance data by sar?
+sar -p -d 1 1
+
+tps 100
+await = 100
+await = 0
+await = 200
+300 400 500 600 700 = some issue disk. open case with hardware (hdd) vendor for replace part.
+300 200 100 400 good condition
+await = average waiting transactions for read/write on disk
+how to get swap usage by sar?
+sar -S 1 5
+historical:
+how to get cpu usage in fast.
+sar -u -f /var/log/sa/sa01
+sar -r -f /var/log/sa/sa01
+sar -S -f /var/log/sa/sa01
+sar -d -f /var/log/sa/sa01
+
+
+*** 3 + candidate quostion
+Noticed high memory and high CPU usage every day at 10 PM?
+9 PM 40 %
+9:30  40 %
+9:50 40 %
+10:00 99 %
+we are observing this statistics every day
+how to identify the root cause for this high utilization?
+solution 1 : login to server at 10 PM and verify running processes list and usage. here take screenshot of running processes and escalate to owner of the processes are these expected processes at 10 PM.
+solution 2 :  identify how many jobs are scheduled at 10 PM? 
+		crontab -l
+	if noticed multiple jobs are scheduled at 10 PM then suggest them to give some interval between jobs
+	00 22 * * * sh /task1.sh
+	00 22 * * * sh /task2.sh
+	00 22 * * *  sh /task3.sh
+	suggested
+	00 22 * * * sh /task1.sh
+	30 22 * * * sh /task2.sh
+	50 22 * * * sh /task3.sh
+ solution 3 : not more than 1 job scheduled at 10 PM and only expected processes are running at 10 PM but still we are getting HIGH CPU and HIGH memory usage alert.  in this situation we can 
+		extend resources(cpu/memory) with following approval process.
+		there was 2 GB RAM extend it to 3 or more than
+		there were 2 cores extend it to 4 cores
+
+***
+Linux Server is not responding to commands/even not able to login.
+solution : inform sitution to server owner and get approval for reboot the server
+	find server owner email id in inventory management tool and send out mail to them with sitution.
+	reboot the server once we receive approval for reboot.
+once server is up we will request server owner to check application functionality. is everything working fine.
+parlely we will open case with OS vendor(RHEL) along with sos report.
+  memory and cpu usage before server hung using sar command.   
+
+
+sosreport it collects following information and create archive file system configuration, memory information,cpu information,logs,modules, kernel information, current running processes information. 
+
+we will implement solution which is offered by  redhat or OS vendor.
+
+System Analysis Report
+-----------------------
+sar -u -f /var/log/sa/sa01 ==> CPU
+sar -r -f /var/log/sa/sa01 ==>memory
+sar -S -f /var/log/sa/sa01 ==> SWAP
+sar -d -f /var/log/sa/sa01 ==> disk
+
+
+
+
+

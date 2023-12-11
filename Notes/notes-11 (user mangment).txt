@@ -1,0 +1,227 @@
+-----------------------------------------GREP------------------------------------------
+    
+
+grep is for search string/word from file or files in one depth of directory.
+
+to search file or directory is exist or not there we will use find command not grep.
+
+1. Grep : To search string in file
+2. find : to search file or directory in system.
+
+      grep <word> file name
+      grep <word> *
+      grep -w narasimha batch4
+      grep -wc narasimha batch4
+ 	grep -wn narasimha batch4
+	grep -l narasimha *
+	grep -A 5 narasimha /logfile
+
+w = word search
+c = count how many times it exist file
+n = print the line numbers where and all finds the word
+l = list out the filename where and all string exists. it can look only one depth of directory
+A = print 5 lines after string found ==>grep -A 5 'test' file
+B = print 5 lines before string found
+
+how to search multiple strings
+   grep -w "word1\|word2\|word3\|word4" /filename
+-------------------------------------------
+1 more session for basic commands 
+User management ==> 1 day
+Disk management ==> 1 day (2 days)
+software management ==> 2 days
+permissions ==> 1 day
+Booting procedure & Troubleshooting ==>1 day
+Services ==> 3 days
+Performance Analysis ==> 1 day
+Shell scripting & Crontab  ==> 4 days
+AWS ==> 3 days
+ITIL  ==> 1 day
+---------------
+ 236  grep -w file1
+  237  cat > data
+  238  clear
+  239  cat data
+  240  grep "test" data
+  241  grep "after" data
+  242  cat data
+  243  grep "narasimha" data
+  244  grep -v "narasimha" data
+  245  cat >> data
+  246  cat data
+  247  grep "narasimha" data
+  248  grep -w "narasimha" data
+  249  cat >> data
+  250  grep -w "narasimha" data
+  251  grep -wi "narasimha" data
+  252  grep -i "narasimha" data
+  253  grep -i -w "narasimha" data
+  254  grep -iw "narasimha" data
+  255  grep -iwc "narasimha" data
+  256  cat >> data
+  257  grep -iwc "narasimha" data
+  258  grep -iw "narasimha" data
+  259  cp data data1
+  260  clear
+  261  cp data1 data2
+  262  cp data1 gangulaiah
+  263  cp data1 azher
+  264  clear
+  265  grep -l "narasimha" *
+  266  pwd
+  267  grep -lR "narasimha" *
+  268  grep -l "ERROR" *
+  269  cat >> data
+  270  grep -l "ERROR" *
+  271  cat > app.log
+  272  grep "connection timed out" app.log
+  273  grep -i "connection timed out" app.log
+  274  grep -A 3 "Connection timed out" app.log
+  275  grep -B 3 "Connection timed out" app.log
+  276  grep "createSocket\|java.net.ConnectException\|sun.reflect.DelegatingMethodAccessorImpl.invoke" app.log
+  277  grep -c "createSocket\|java.net.ConnectException\|sun.reflect.DelegatingMethodAccessorImpl.invoke" app.log
+  278  cat > employeedetails
+  279  cat employeedetails
+  280  vim employeedetails
+  281  cat > employeedetails
+  282  clear
+  283  cat employeedetails
+  284  awk '{print $1}' employeedetails
+  285  awk '{print $2}' employeedetails
+  286  awk '{print $3}' employeedetails
+  287  awk '{print $7}' employeedetails
+  288  cat /etc/passwd
+  289  useradd jagadeesh
+  290  cat /etc/passwd
+  291  awk -F: '{print $1}' /etc/jpasswd
+  292  awk -F: '{print $1}' /etc/passwd
+  293  awk -F: '{print $7}' /etc/passwd
+  294  awk -F: '{print $6}' /etc/passwd
+  295  nslookup google.com
+  296  nslookup google.com
+  297  nslookup google.com | grep "Address"'
+  298  nslookup google.com | grep "Address"
+  299  nslookup google.com | grep "Address" | grep -v "Address"
+  300  nslookup google.com | grep "Address" | grep -v "#"
+  301  nslookup google.com | grep "Address" | grep -v "#" | awk '{print $2}'
+  302  nslookup google.com | grep "Address" | grep -v "#" | awk -F: '{print $2}'
+  303  nslookup google.com
+  304  ifconfig -a
+  305  ifconfig -a | grep "ens33"
+  306  ifconfig -a | grep -A 1 "ens33"
+  307  ifconfig -a | grep -A 1 "ens33" | grep "inet"
+  308  ifconfig -a | grep -A 1 "ens33" | grep "inet" | awk '{print $2}'
+  309  hostnamectl status
+  310  hostnamectl status | grep "Kernel"
+  311  hostnamectl status | grep "Kernel" | awk '{print $3}'
+  312  history
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+in both hard and soft link, if you update the data in source file it will update in the destination and vice-versa
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+hard link :-
+-------------
+1. ln sourcefile linkfile
+2. inode numbers are same
+3. we can identity hard links count using 2nd field of ls -l command
+4. sizes are same
+5. we can create only for files
+6. we can not create accross partitions
+7. if you delete the source file destination file will be still valid
+
+soft link :-
+------------
+1. ln -s sourcefile linkfile
+2. inodes number are different
+3. we can identity first field "l" in the ls -l command
+4. sizes are different
+5. we can create for both files and directories
+6. we can create links accross partitions
+7. if you delete the source, destination file will be INVALID..
+-----------------------------------------
+
+Links (shortcut)
+			   1. Hard link
+		           2. soft link
+
+* explain  differences between hard link and soft link?
+	HARD LINK				                          SOFT LINK
+1. Hard links shares the same inode number	         1. Soft link will maintain different inode number for sorce and destion.
+2. Possible to create link only for files	          2. possible to create link for files and directories.
+3. Not possible to create link across the	          3. possible to create link across the partitions. from anywhere to  
+	partitions like /boot file can't 	             anywhere
+   possible to create in / partition.
+4. source and linked files size will be same            4. linked files size will be very less because it calculate path and 
+							                                  decide the size. I mean based on lenth of file name it occupies	
+							                         the linked file size.
+
+
+*  using Hard link file has been linked to other place, now unfortunatly oginal file has been deleted. is linked file can be accessible?
+	ans: Yes still linkd files can be accesible if links are created using hard link. it is almost equal to copy only
+
+
+soft link
+ln -s  source destination
+hard link
+ln source destination
+
+unlink destinationpath
+
+-------------------------------------------------------------
+
+how to set or adjust the date and time?
+  date -s "10 aug 2020 07:20:35 AM"
+how to change the timezone?
+
+step 1 : remove softlink of existing zone file from /etc
+    rm -rf /etc/localtime
+step 2 : create link of timezone file
+	ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+
+America
+EST
+CST
+PST
+MST
+
+IST
+CET = 2-11 shift
+
+------------------------------------
+ 313  ll
+  314  ln data datalinkfile
+  315  ll
+  316  ls -li
+  317  ln -s data1 softlinkfile
+  318  ll
+  319  ls -li
+  320  cat >> data
+  321  cat data
+  322  cat datalinkfile
+  323  cat >> datalinkfile
+  324  cat datalinkfile
+  325  cat data
+  326  rm -rf data
+  327  ll
+  328  cat datalinkfile
+  329  rm -rf data1
+  330  ll
+  331  cat softlinkfile
+  332  date
+  333  date -s "Thu Jan 26 11:41:16 IST 2023"
+  334  date -s "Thu Jan 26 11:40:16 IST 2023"
+  335  date
+  336  rm -rf /etc/localtime
+  337  date
+  338  ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
+  339  date
+  340  rm -rf /etc/localtime
+  341  date
+  342  ln -s /usr/share/zoneinfo/Singapore /etc/localtime
+  343  date
+  344  rm -rf /etc/localtime
+  345  ln -s /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
+  346  ll
+  347  date
+
+------------------------------------

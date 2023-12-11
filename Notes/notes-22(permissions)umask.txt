@@ -1,0 +1,180 @@
+--------------------------
+HOW TO GET THE UMASK VALUE?
+	umask
+HOW TO CHANGE THE UMASK VALUE?
+	umask umaskvalue
+HOW TO CHANGE THE UMASK VALUE FOR THE USER AT THE TIME OF LOGIN?
+	you need to provide an entry in the .bash_profile OR .bashrc
+
+
+umask value:
+	ROOT=> 0022
+	NORMAL USER UMASK VALUE => 0002
+ROOT USER
+DIR ==> 777-UMASK = 0777-0022 = 755 
+FILE==> 666-UMASK = 0666-0022 = 644
+
+drwxr-xr-x. 2 root root    6 Feb 12 11:57 dir123
+-rw-r--r--. 1 root root    0 Feb 12 11:56 file123
+
+NORMAL USER
+DIR ==> 777-UMASK = 0777-0002 = 775 
+FILE==> 666-UMASK = 0666-0002 = 664
+
+drwxrwxr-x. 2 sai sai 6 Feb 12 12:03 dir123
+-rw-rw-r--. 1 sai sai 0 Feb 12 12:02 file123
+
+umask 0222
+DIR ==> 777-UMASK = 0777-0222 = 555
+FILE==> 666-UMASK = 0666-0222 = 444
+
+dr-xr-xr-x. 2 sai sai 6 Feb 12 12:05 d1
+-r--r--r--. 1 sai sai 0 Feb 12 12:05 f1
+
+---------------------------
+* what is umask? could you please explain about umask?
+		     
+ umask is a controller in default permissions. 
+	eg: per one user or for all the users if you want to apply default permissions then we can modify the umask number.
+
+root user umask is 	: 022
+other users umask is 	: 002
+
+
+
+			dir 777
+			file 666
+
+				777	666
+	root			022	022
+				---	---
+				755	644
+
+------------------------------------------------------
+
+				777	666	
+				002	002	
+	Others			---	---	
+				775	664
+
+
+     
+
+
+				777	666
+				000	000
+				---	---		
+				777	666
+
+				777	666
+				077	066
+				---	---
+				700	600
+	
+how to get current umask value?
+	umask
+	umask 000
+
+
+
+what is default umask for root and system users : 022
+what is default umask for other users  		: 002
+=====
+chmod is for change permissions on file/directory, this command can be execute by any of the user.
+chown is for change owner ship on file /directory, this command will work only for root user.
+
+    file owner narasimha he can change permissions but not ownership.
+
+chmod is which catogory command bin/sbin? bin
+chown is which catogory command bin/sbin? sbin
+
+
+chown venu /file22
+chown venu:groupname /file22
+chgrp groupname /file22
+
+chown -R venu /dir
+
+it change the ownership from /dir to n number depths inside /dir to venu
+
+/dir/testdir
+
+  testdir owner was narasimha
+
+after executing below command it change the ownership to venu
+	chown -R venu /dir
+
+
+
+* what is inode?
+  the inode is a data structure for file and directory.
+
+    owner,permissions, file creation date and time, sectors, file size in blocks, file access time, links
+
+========
+Special Permissions 
+				1. ACL (access control list)
+                    Think of a scenario in which a particular user is not a member of group created by you but still you want to give some read or write access, how can you do it without making user a member of group, here comes in picture Access Control Lists, ACL helps us to do this trick.
+				2. Sticky Bit
+           3. SetUID
+                    This bit is present for files which have executable permissions. The setuid bit simply indicates that when running the executable, it will set its permissions to that of the user who created it (owner), instead of setting it to the user who launched it. Similarly, there is a setgid bit which does the same for the gid.
+           4. SetGID
+	               
+ACL:
+---------
+group
+user
+
+
+-r--r--r--. 1 sai linuxgroup 0 Feb 12 12:05 f1
+
+	chown gangulaiah f1
+
+
+		normal permission
+		chmod and chown
+		
+ls -ld file1
+	-rwxrwxr-x 2 narasimha   narasimha  4096  oct 10 file1
+
+	owner  : narasimha
+	group  : narasimha
+	others : other than narasimha and narasimha group members comes under others category.
+
+	raja ==> secondary group is narasimha
+	sree ==> secondary group is unix
+	venkat ===> secondary group is narasimha
+
+teja for we want to provide full permissions,how we can fullfill this requirement?
+	chmod 777 file1
+		u= owner
+		g= group
+		o=others
+		there is not individual username option
+	we can provide permissions to individual users.
+
+	setfacl -R -m u:gangulaiah:rwx /HRdata/finance
+		setfacl -R -m u:sai:rwx /HRdata/finance
+
+	mkdir -p /HRdata/finance
+	chmoe 700 /HRdata/finance
+	useradd rahul
+	groupadd hrteam
+	chown -R rahul:hrteam /HRdata/finance
+	useradd sree
+	useradd narasimha
+	gpasswd -M narasimha,sree unix
+how to provide read and execution permissions to unix group.
+	setfacl -R -m g:unix:r-x /HRdata/finance
+how to list out acl permissions
+	getfacl /HRdata/finance
+how to provide full access to raja
+	setfacl -R -m u:raja:rwx /HRdata/finance
+How to exclude permissions to one paticular user?
+	setfacl -R -x u:teja /HRdata/finance
+how to remove all acl permissions?
+	setfacl -b /HRdata/finance
+
+
+how to grant rwx permissions to ramu and provide r-x permissions to hr group
+	setfacl -R -m u:ramu:rwx,g:hr:r-x /HRdata/finance
