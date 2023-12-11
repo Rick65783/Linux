@@ -1,0 +1,883 @@
+27/11/2023
+---------------------------------------------------
+
+Laptop
+
+Ayyappa ==> Lap ==>offline
+    place: Kadapa
+    Degree: Btech (EEE), 2022 (1.5 years)
+Mani  ==> Lap ==> online
+    place: Rayachoti
+    Degree: Bcom, Computers, 2017 => 6 years (3-4-5)
+    
+Venkat (siva) ==> Lap
+    place: Kalasapadu
+    Degree: BTech (Mecanical), 2019  (4 years 2,3,4)
+    online
+
+8GB RAM => 4GB RAM
+
+Linux admin 
+  50-70 commands 
+  
+  useradd username
+  userdel username
+ SQL
+
+3 days couse ==> jobs 
+    9 PM -1 AM 
+
+
+  50-70 commands 
+  Shell Scripting 
+  AWS -> Add-on
+  SQL
+
+
+Online / offline
+
+
+VMWARE:    https://www.vmware.com/in/products/workstation-pro/workstation-pro-evaluation.html
+    700MB
+
+RHEL 7.6 OS: (4.2 GB)
+    https://archive.org/download/rhel-server-7.6-x86_64-dvd/rhel-server-7.6-x86_64-dvd.iso 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+28/11/2023
+
+
+
+
+VMWARE:    
+
+https://www.vmware.com/in/products/workstation-pro/workstation-pro-evaluation.html
+    700MB
+
+RHEL 7.6 OS: (4.2 GB)
+    https://archive.org/download/rhel-server-7.6-x86_64-dvd/rhel-server-7.6-x86_64-dvd.iso
+    
+    
+VMware ==> Virtualization..
+
+Base OS ==> we can create multiple Systems with different Operating Systems..
+
+
+    Linux ==> 1000GB RAM, 200 CPU
+        Vmware 
+            ==> System1/Machine1/Instance1/Server1 
+        
+            Machine1 ==> 32GB RAM, 7 CPU
+            Machine2 ==> 300GB RAM, 64 CPU
+            Machine3 ==> 150GB RAM, 32 CPU
+            .
+            .
+            .
+            .
+            
+
+16GB RAM, I7 ==> 4GB RAM, 2 CPU
+             ==> 2GB RAM, 1 CPU
+             ==> 512 MB RAM, 1 CPU
+             ==> 1GB RAM, 1 CPU
+             
+        4GB,8GB 
+
+Windows Family:
+    => MS-DOS, WIndows XP, windows server 2003,2016,2022, windows 7, windows 8, windows 10, windows 11
+    
+Linux Flavours 
+    Unix => CLI
+    Linux => CLI + GUI
+    
+    Redhat, CentOS, Fedora, Debain, Ubuntu, Kali Linux, Linux Mint, Qimo, Solaris, SuSE Linux, etc..
+    
+Android:
+    Android 5, lolypop, Oxygen....
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+29/11/2023
+
+
+
+vmware , ISO image
+VMWARE:    
+
+https://www.vmware.com/in/products/workstation-pro/workstation-pro-evaluation.html
+    700MB
+
+RHEL 7.6 OS: (4.2 GB)
+    https://archive.org/download/rhel-server-7.6-x86_64-dvd/rhel-server-7.6-x86_64-dvd.iso
+
+Windows
+ Administrator ==> Admin user
+ Sai ==> normal user
+ 
+Linux
+ root ==> Admin user
+ sai ==> normal user
+ ayyappa => normal user
+ pavani => normal user
+ venkatesh => normal user
+ 
+Why linux?
+what is virtualization?
+installation of Vmware
+installation of Redhat
+linux flavours
+
+Linux Architecture
+-------------------
+Hardware => input devices, processing devices, output devices, storage devices
+
+Kernel ==> all the drivers and modules will be here.. It's a base OS
+
+Shell   ==> shell is a place where we can run the commands
+
+Applications ==> where we run the applications
+
+
+what is kernel?
+what is shell?
+
+
+Linux File System
+--------------------
+50% linux
+
+15-16 folders/directories
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+30/11/2023
+
+
+File System => to store the files
+Database System ==> to store the data
+
+windows
+------
+C: D: E:
+
+root => admin user
+Sai =>normal user
+
+passwd
+
+folder/directory 
+
+
+cd => open directory
+cal => calendar
+pwd => present working directory
+ls => listing the files
+ctrl +l  (OR) clear => clear the screen
+
+
+
+
+
+Linux File System
+------------------
+/
+
+   1. /boot ==> All system bootable files which are used to start up the system
+   
+   booting ==> start --------------------------------> login prompt
+   
+   2. /root ==> root user home directory
+   root = admin user 
+   
+   3. /home ==> normal users home directories
+    /home/sai => sai's home directory
+    /home/venkat
+    /home/padma
+    /home/pavani
+    /home/ayyappa
+    /home/ramanjaneyulu
+   
+   4. /etc ==> All System configuration files, used to configure based business requirement....
+   
+   /etc/passwd ==> all users
+   /etc/shadow => users password information
+   /etc/ssh/sshd_config 
+   .
+   .
+   ..
+   
+
+   5. /var ==> All system logs (Variable Analysis Report)
+     /var/log/messages
+     flipkart-app-server(linux)===> 
+                jboss(app server) ==> 
+                    flipkart application 
+                    => yesterday 10 AM - 10:30 AM application was not usable 
+                        /var/log/sa/sa01, sa02.......................
+                    
+   6. /usr ==> Unix System Resources
+    resource / binary / command / software / program
+   
+    /usr/bin ==> All normal User binaries/commands
+    /usr/sbin==> Super user(root) commands can be run by only root user by default 
+    /usr/lib ==> libraries
+    /usr/lib64 ==> 64 bit libraries
+    
+   7. /sbin(/usr/sbin) =>short cuts (symbolic link/ soft link)
+   8. /bin(/usr/bin) ==> short cuts
+   
+   9. /lib =>/usr/lib => libraries
+   
+   10. /proc ==> All current system processing information
+    /proc/meminfo
+    /proc/cpuinfo
+    /proc/swaps
+    .
+    .
+    .
+    
+   11. /dev => all devices information
+     terminals
+     disk
+     paritions 
+    
+   12. /mnt &  => guest partition
+   13. /media
+    guest partitions
+   
+   14. /tmp ==> Temporary directory used to backup the files
+    /tmp/flipkart.war_11302023 => sai
+    /tmp/flipkart_internal_dev_app.war_112032023 ==> Arjun
+    
+   
+   15. /opt ==> third party installations
+       bigdata applications
+       informatica applications
+       open source tools (jenkins)
+       apache tomcat
+       jboss
+       websphere
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+01/12/2023
+
+
+
+
+open terminal
+-------------
+
+[root@localhost ~]# 
+
+root => username
+    localhost => hostname / IP address
+    ~ ==> place/directory
+    # ==> hash prompt for only root user
+
+ctrl+l (OR) clear ==> to clear the screen
+su - username ==> to switch to a user/ login to a user
+
+[sai@localhost ~]$ 
+    sai ==> normal username
+    localhost == hostname / IP Address
+    ~ ==> directory name
+    $ ==> dollar prompt only for all normal users
+    
+how to logout from a user account?
+    exit
+    logout
+    ctrl+d
+    
+pwd ==> print working directory / present working directory
+
+cd /home ==> change directory
+mkdir dirname => to create directory
+ls => listing files
+mkdir padma pavani ayyappa arjun sai prasad => creating multiple directories
+mkdir abcd{1..10}  ==> it creates 10 directories at a time..
+ll ==> long list (listing files including metadata)
+
+cat => Concatenation
+    cat => to create the files
+           to concatenate more than one file
+           to see contents of the file..
+           
+create file using cat command?
+    [root@localhost sai]# cat > filename 
+    linux is opensource
+    we are learning linux admin for now
+    we will be learning AWS and shell script too
+    I hope you all will be settles in next 2-3 months 
+    to save the data you need press ctrl+d or ctrl+c
+
+how to see the contents of the files?
+    cat fileame
+    
+how to see multiple files data at a time?
+    cat file1 file2 file3 ...........
+    cat readingData.py /root/anaconda-ks.cfg /etc/passwd /proc/meminfo    
+    
+---------------------------------------
+touch command
+    if the file doesn't exits, it will create a new file with 0 byte file size or it will create empty file
+    
+    if the file is already exits, it will update modification date and time of that file
+    
+    
+/var is getting full
+  decided to delete 90 days old logs
+  touch /var/.......
+  touch /.autorelabel
+  
+---------------------------------------
+create file
+to see contents of the file
+to see multiple files data at a time
+how to append/add new data ?
+ cat >> exitingfilename
+ 
+-----------------------------------
+>     ===> overwrite 
+>>    ===> append/add
+<     ===> to see the contents (optional)
+
+----------------------------------
+cat file1 file file3 ... > mainfile.txt
+cat file1 file2 file3....>> mainfile.txt 
+
+date => to get current system date and time
+cal => to get calendar
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+04/12/2023
+
+
+
+
+Basic Commands
+------------------------
+cd
+ls
+date
+cal
+whoami
+clear => to clear the screen
+ctrl + l => to clear the screen
+su - username => to switch to a different user 
+exit => to logout
+--------------------------------------------
+man ANYcommand ======> it will show you all the options of the command
+ANYCommand --help ==> it will show you notes for the command..
+
+
+honda-app-server.honda.com ==> FQDN
+
+-------------------------------
+$logname ---- It is used to display user name who logged first time.
+$whoami ===> it will show you currently logged in user..
+$pwd  ---- It is used to display the present working directory.
+$date  ---- It is used to display the system updated time.
+$date  +%d  ----- It is used to display only date.
+$date  +%m  ---- It is used to display month number.
+$date  +%h ----- It is used to diplay month name(only in three characters).
+$date  +%A  ----  It is used to display full day name.
+$date  +%H  ----  It is used to display only hour.
+$date  +%M  ----  It is used to display minutes.
+$date  +%S  ----  It is used to display seconds.
+$cal   ---- It is used to display the calender.
+$cal  month   year ---- It is used to display the particular month calender of that year.
+$cal year  ---- It is used to display the total particular year calender.
+-----------------------
+$tty  ---- It is used to display the terminal name.
+--------
+$uname  ---- It is used to display the present s/w name.
+$uname  -r  ---- It is used to display the version of s/w using.
+$uname -a
+
+system/machine/server/node/host/instance
+
+hostnamectl set-hostname oneplus-app-server
+
+---------
+$hostname   ---- It is used to display the server name.
+$hostname  -i  ---- It is used to display the server ip address.
+----------
+$who   ---- It is used to display the who are currently connected to the server.
+$who am i  ---- It is used to display the current user details.
+$whoami  ---- It is used to display the current user name.
+$w ==> to know all the logged in users information 
+----------------------
+$echo $USER  ----- It is also used to display the current user name.
+-----------------
+$clear   ---- It is used to display the clear the screen/page.
+$exit    ---- It is used to exit.
+$history  ---- It is used to see the previous history what commands we are used.
+$history  -c  -----  Used to clear current session commands temporarily
+
+$env  ---- It is used to display the environment variables.
+$echo $0  ---- to see current shell.
+---------------------
+GUI
+CLI
+-------------------
+1. how to know the kernel version?
+    uname -r
+2. how to know when the current kernel released?
+    uname -v
+3. how to know the hostname of the system?
+    hostname
+    uname -n
+    echo $HOSTNAME
+4. how to know the IP address of the system?
+    ip a
+    ip addr
+    ifconfig
+    hostname -I
+5. How to logout from a user?
+    exit
+    logout
+    ctrl+d
+6. How to know the current loggin shell?
+    echo $0
+    echo $SHELL
+    
+-------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+05/12/2023
+
+
+
+
+--------------------------
+VI  (Virtual interface) / VIM (Visually Improved)
+
+1. Command mode(default mode) => Esc
+2. Insert mode ==> press "i"
+3. Replacement mode ==>press "R"
+
+:w ==> to write
+:q ==> to quit (no changes made to the file)
+:wq ==> write and quit
+:wq! ==> write and force quit
+:q! => quit without saving changes
+
+
+i : to switch into the insert mode at the same position of cursor.
+a : switch into the insert mode but next position of cursor standing.
+o : create new below of cursor position line and switch to insert mode.
+shift + O : create new line above of cursor position line and switch into insert mode.
+
+x   : is for delete single char from cursor position
+dw  : is for delete one word from the cursor position
+dd : to delete the cursor standing line
+5dd : to delete 5 lines from the cursor standing line
+
+u  : to undo the latest changes
+
+yy : to copy the cursor standing line . this is for copy only one line
+5yy: to copy 5 lines from the cursor standing line. 
+
+p  : to past copied data below cursor postion. small p
+shift + p : to past copied data above of cursor postion. capital P.
+
+cc : to cut the cursor postion line
+10cc : to cut 10 from the cursor position line.
+
+:se nu : to set the line numbers for the file content
+:se nonu : to unapear/hide line numbers for the file content.
+
+:25 : to take cursor to particular line of file
+:15
+
+gg   : Jump to starting of the file
+Shift + g (Caps G): Jump to end of the file
+
+$   : to take cursor to end of the line
+0(zero)  : to take cursor to starting of the line
+   
+Search options
+/word
+?word
+/narasimha   : search string from cursor position to down 
+		n is for NEXT
+		N is go back to previous search
+
+?narasimha   : search string froom cursor position to up
+        N is for NEXT
+		n is go back to previous search
+        
+Replace:
+:%s/narasimha/narasimha prasad/g
+:%s/existingword/newword/g
+----------------------------------
+Linux Architecture
+LInux installation (building the server)
+Basic commands
+    how to create/append/overwrite the file
+    how to edit the file
+    how to create empty file
+    how to modify date and time of file..
+
+----------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+06/12/2023
+
+
+
+
+----------------------------------------
+mkdir testdir
+mkdir dir1 dir2 dir3
+mkdir dir{1..10}
+
+mkdir -p test/{world/{asia,africa,europe,northamerica, southamerica,antarctica,australia}}
+
+mkdir -p apache/{bin,common,conf,logs,server,work,temp,webapps/{balancer,ROOT,tomcatdocs,webdav}}
+
+------------------------
+mkdir dir{1..10} ==> to create directories (dir1, dir2...)
+touch file{1..10} ==> to create files (file1, file2.....)
+
+-----------------------------
+goto settings of the machine >> select CD/DVD >> check the "connected" option
+
+    rpm -ivh /run/media/root/RHEL-7.6\ Server.x86_64/Packages/tree-1.6.0-10.el7.x86_64.rpm 
+
+        you can run the "tree" command
+-------------------------------------------------------
+CHANGE DIRECTORY(cd)
+    cd Path
+    cd .
+    cd ..
+    cd ../../.. =>3 directories back
+    cd ~
+    cd - =>previous path 
+    cd   => to jump to home directory of currently logged in user
+    
+------------------------------
+If you are using "TAB" key in keyboard
+    cat ==> to detect files in a path including directories
+    cd ==> to detect directories
+-------------------------------
+            In some Linux network configuration files, you might come across the parameter ONBOOT=yes. This parameter is typically used in the context of setting up a static IP address for a network interface when the system boots up.
+
+                When ONBOOT=yes is specified in the configuration file for a network interface, it indicates that the interface should be brought up (activated) automatically when the system starts or reboots.
+
+                Here's how it works in different Linux distributions:
+
+                1. **CentOS/RHEL-based systems (using ifcfg-ethX files)**:
+                   In CentOS and Red Hat Enterprise Linux (RHEL), network interfaces are configured using individual files located in the /etc/sysconfig/network-scripts/ directory. For example, the primary Ethernet interface is often represented as ifcfg-eth0.
+
+                   When ONBOOT=yes is set in the ifcfg-ethX file, it means that the network interface (e.g., eth0) will be automatically brought up during system boot.
+
+                   Example content of ifcfg-eth0:
+                   
+                   TYPE=Ethernet
+                   BOOTPROTO=none
+                   DEFROUTE=yes
+                   IPV4_FAILURE_FATAL=no
+                   IPV6INIT=yes
+                   IPV6_AUTOCONF=yes
+                   IPV6_DEFROUTE=yes
+                   IPV6_FAILURE_FATAL=no
+                   NAME=eth0
+                   UUID=abcdef01-2345-6789-abcd-ef0123456789
+                   DEVICE=eth0
+                   ONBOOT=yes
+                   IPADDR=192.168.1.100
+                   NETMASK=255.255.255.0
+                   GATEWAY=192.168.1.1
+                   DNS1=8.8.8.8
+                   
+RHEL = redhat enterprise Linux  7.9
+  4,4.1,4.2,
+  major version is 4,5,6,7,8
+  minor versions = 4.1,4.2,4.10; 5.1,5.2,5.3,5.10;  6.1,6.2,6.3,6.10; 7,7.1,7.2,7.3, 7.10; 8; 9
+---------------------------------------------------
+How to get the IP address of the system?
+1. vi /etc/sysconfig/network-scripts/ifcfg-ens33
+2. replace "ONBOOT=no" with "ONBOOT=yes"
+3. save the change "Esc :wq"
+4. restart network service (systemctl restart network)
+
+    ifconfig
+    ip a
+    ip addr
+    ifconfig -a
+    ifconfig ens33
+    hostname -I
+--------------------------------------------------
+how to know the operating system version?
+  cat /etc/os-release
+    OR
+  cat /etc/*release 
+---------------------
+how to know the operating system architecture is 64 bit or 32 bit.
+    uname -m
+    arch
+    hostnamectl status
+
+how to print hostname of machine?
+    system/machine/server/host/node/instance
+     
+     uname -n
+     hostnamectl status
+     hostname
+
+how to change the hostname?
+    hostnamectl set-hostname newname
+
+how to know the kernel version?
+    hostnamectl status
+    uname -r
+
+--------------------------------
+memory ==> active pages will be stored in the RAM 
+SWAP  => Inactive pages will be stored in the SWAP space,It is shadow of a RAM
+
+2GB RAM ==> 4GB (Movie)HDD
+
+                 SWAP
+3GB file HDD ============> 2GB RAM =====================> CPU
+
+CPU  
+    lscpu => list of CPU
+    cat /proc/cpuinfo
+    top
+    vmstat
+
+memeory
+    free -h (OR) free -m
+    cat /proc/meminfo
+    top
+    vmstat
+    
+disk 
+    lsblk
+    fdisk -l
+    df -hT
+    vmstat
+    iostat
+    
+swap
+    free -h
+    top
+    cat /proc/swaps
+    vmstat
+--------------------
+in the top command, press ctrl+c (or) press q to quit.
+-------------------
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+07/12/2023
+
+
+
+Platform:
+    1. Physical servers
+    2. Vmware servers
+    3. Cloud servers
+        AWS(amazon), GCP(google), Azure(Microsoft), Data Ocean, .....
+
+    HDFC Bank
+        40000+ servers
+            20000+ servers in GCP
+            10000+ servers in AWS
+            5000+server in Azure
+            2000+ servers in Vmware
+            3000+ physical servers
+        
+application server => 10.5.10.1 => system is getting slow 
+                solution:  increase CPU & memory 
+
+Honda cars
+    Master Card
+    Lenovo
+    .
+    .
+    .
+-----------------------------
+how to know platform?
+  dmidecode -s system-product-name
+  hostnamectl status
+  
+how to know the serial number of machine?
+   dmidecode -s system-serial-number
+-----------------------
+
+power off commands: h means halt
+  shutdown -h now
+  shutdown -h 5 "Going to power off server as per maintenance . Please close your work before shutdown"
+  poweroff
+  halt
+  init 0
+
+reboot the server: r means reboot
+  shutdown -r now
+  shutdown -r 5 "Going to power off server as per maintenance . Please close your work before shutdown"
+  reboot
+  init 6
+
+--------------------------------------------------------------
+Copy files
+file => file
+file(s) => dir
+dir => dir
+
+==>copy data from one file another
+==>copy files from one dir to another
+==>copy directory from one dir to another
+
+copy command
+	cp <source file name> <destination path>
+
+cp file1 file2 => to copy data from file1 to file2, if the file2 exists, then it will overwrites the data, if not, it will create file2
+
+cp file1 dir => copies the file1 into dir
+cp file1 file2 file3 dir/ ==> it will copy file1 file2 and file3 into dir
+
+cp dir dir => to copy the data from one directory to another directory
+    cp -rv source destination 
+    cp -rv /data/* /saidata
+    
+        r = recursive
+        v = verbose
+    
+? => single character
+* => zero or many character
+
+cp data? directory => single character
+cp data??? directory => 3 chars
+cp data* directory => zero or many characters
+------------------------------
+rmdir ==> Remove directory
+    you can delete only empty directories 
+    
+rm -rf <directory name>/filename 
+  -r recursively
+  -f forcefully delete file or directory without user confirmation
+  -v verbose 
+  
+* => zero or many chars
+? => single char
+
+rm -rf * ==> it will remove everything in the current directory 
+rm -rfv /data/* ==> it will remove everything in the /data directory 
+-------------------------------
+
+
+Today's commands
+------------------
+451  dmidecode -s system-product-name
+  452  dmidecode -s system-serial-number
+  453  hostnamectl status
+  454  ll
+  455  cat file123 
+  456  ll
+  457  cp file123 ViEditorNotes.txt
+  458  ll
+  459  cat ViEditorNotes.txt 
+  460  ll
+  461  cat > data
+  462  cat data
+  463  cp data ViEditorNotes.txt 
+  464  cat ViEditorNotes.txt 
+  465  cp data ViEditorNotes.txt 
+  466  cat ViEditorNotes.txt 
+  467  alias
+  468  date
+  469  alias naakudatekavali='date'
+  470  naakudatekavali 
+  471  ll
+  472  ls dir1
+  473  cp file123 dir1
+  474  ls dir1
+  475  ll
+  476  cp ViEditorNotes.txt dir1
+  477  ls dir1
+  478  cp ViEditorNotes.txt file123 data dir2
+  479  ls dir2
+  480  cp dir2 dir3
+  481  ls dir3
+  482  ls dir2
+  483  ls dir3
+  484  cd dir2
+  485  ls
+  486  mkdir test
+  487  cd test
+  488  touch file{1..5}
+  489  cd .
+  490  cd ..
+  491  clear
+  492  tree dir2
+  493  cp -rv dir2 dir3
+  494  ls dir3
+  495  ls dir2
+  496  ls --help
+  497  ls -R dir2
+  498  ls dir3
+  499  cp -rv dir2/* dir3
+  500  cp -rv dir/* dir4
+  501  cp -rv dir2/* dir4
+  502  ls dir4
+  503  ls -R dir4
+  504  ls
+  505  touch file{1..5}
+  506  ll
+  507  ls
+  508  cp file* dir10/
+  509  ls dir10/
+  510  cp file? dir9
+  511  ls dir9
+  512  cp file??? dir8
+  513  ls dir8
+  514  ls
+  515  ls dir7
+  516  rmdir dir7
+  517  ls
+  518  ls dir9
+  519  rmdir dir9
+  520  rm dir9
+  521  ls
+  522  rm file1
+  523  rm file2
+  524  rm file3
+  525  ls
+  526  file file123 file4 file5
+  527  rm file123 file4 file5
+  528  ls
+  529  rm -rf data
+  530  ls -R dir2
+  531  rm -rfv dir2
+  532  ls
+  533  ls -R dir3
+  534  rm -rfv dir3/*
+  535  ls
+  536  ls dir3
+  537  touch file{1..10}
+  538  ls
+  539  rm -rf file*
+  540  ls
+  541  touch file{1..20}
+  542  ls
+  543  rm -rf file?
+  544  ls
+  545  history
+
+
+
